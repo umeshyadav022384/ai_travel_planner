@@ -15,20 +15,22 @@
     border-radius: 10px;
     background-color: rgb(251, 253, 255);
     box-shadow: rgba(233, 8, 215, 0.45) 0px 25px 20px -20px;
-
-    // Optional Alternative Shadow
-    // box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
   }
 
   .dest {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px; /* Creates uniform spacing between items */
-    align-items: center;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+    gap: 20px;
+    width: 100%; /* Take full width */
+    max-width: 1200px; /* Optional: limit maximum width */
+    margin: 0 auto; /* Center the grid */
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr); /* 2 columns on tablet */
+    }
 
     @media (max-width: 768px) {
-      flex-direction: column;
+      grid-template-columns: 1fr; /* 1 column on mobile */
       gap: 15px;
     }
   }
