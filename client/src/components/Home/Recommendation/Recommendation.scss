@@ -1,0 +1,35 @@
+.recommendation {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  h4 {
+    font-weight: 800;
+    margin: 20px 30px 50px;
+    padding: 20px 30px;
+    text-align: center;
+    font-size: 2rem;
+    color: #4a4a4a;
+    border-radius: 10px;
+    background-color: rgb(251, 253, 255);
+    box-shadow: rgba(233, 8, 215, 0.45) 0px 25px 20px -20px;
+
+    // Optional Alternative Shadow
+    // box-shadow: rgba(0, 0, 0, 0.1) -4px 9px 25px -6px;
+  }
+
+  .dest {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Creates uniform spacing between items */
+    align-items: center;
+    justify-content: center;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }
+}
