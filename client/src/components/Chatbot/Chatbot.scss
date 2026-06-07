@@ -1,0 +1,143 @@
+// --- Theme Variables ---
+$primary-color: #6a1b9a; // A rich purple
+$user-bubble-bg: $primary-color;
+$bot-bubble-bg: #f1f0f0;
+$container-bg: #ffffff;
+$font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+// --- NEW: Main Page Container ---
+.chatbot-page-container {
+  display: flex;
+  align-items: center; // Vertically center the items
+  justify-content: center; // Horizontally center the items
+  gap: 2rem; // Space between the chatbot and the info panel
+  padding: 2rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+// --- NEW: Info Panel (Right Side) ---
+.info-panel {
+  width: 350px;
+  padding: 2rem;
+  color: #333;
+  
+  h3 {
+    font-size: 1.8rem;
+    color: $primary-color;
+    margin-top: 0;
+  }
+  
+  p {
+    line-height: 1.6;
+  }
+
+  ul {
+    list-style-type: '✈️ ';
+    padding-left: 1.5rem;
+    margin-top: 1rem;
+    
+    li {
+      margin-bottom: 0.5rem;
+      color: #555;
+    }
+  }
+}
+
+// --- Chatbot Container (Left Side) ---
+.chatbot-container {
+  width: 400px;
+  height: 350px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: $font-family;
+  background-color: $container-bg;
+}
+
+// --- The rest of your styles remain the same ---
+.chatbot-header {
+  background: $primary-color;
+  color: white;
+  padding: 0.8rem;
+  text-align: center;
+  
+  h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+}
+
+.chatbot-messages {
+  flex-grow: 1;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.message-wrapper {
+  display: flex;
+  &.bot { justify-content: flex-start; }
+  &.user { justify-content: flex-end; }
+}
+
+.message-content {
+  max-width: 80%;
+  padding: 0.7rem 1rem;
+  border-radius: 18px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+}
+
+.message-wrapper.bot .message-content {
+  background: $bot-bubble-bg;
+  color: #333;
+  border-top-left-radius: 4px;
+}
+
+.message-wrapper.user .message-content {
+  background: $user-bubble-bg;
+  color: white;
+  border-top-right-radius: 4px;
+}
+
+.chatbot-input-form {
+  display: flex;
+  padding: 0.75rem;
+  border-top: 1px solid #eeeeee;
+}
+
+.chatbot-input-form input {
+  flex-grow: 1;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  &:focus {
+    outline: none;
+    border-color: $primary-color;
+  }
+}
+
+.chatbot-input-form button {
+  background-color: $primary-color;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 44px;
+  height: 44px;
+  margin-left: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s;
+  &:hover {
+    background-color: darken($primary-color, 10%);
+  }
+}
