@@ -1,18 +1,29 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getUser, reset, userLogout } from "../../features/userSlice";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../../assets/ai_logo.png";
 import "./Navbar.scss";
-import logo from "../../assets/logo.png";
+import { clear } from "../../features/placeSlice";
+
 const Navbar = () => {
-  //const navigate =useNavigate();
-  //const dispatch= useDispatch();
-  //const { user } = useSelector(getUser);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector(getUser);
+
+  const handleLogout = () => {
+    dispatch(clear());
+    dispatch(userLogout());
+    dispatch(reset());
+    navigate("/");
+  };
 
   return (
-    <nav className=" navbar navbar-expand-lg">
-      <div className="container-fluid ">
+    <nav className="navbar navbar-expand-lg ">
+      <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <div className="d-flex">
-            <img src={logo} alt="logo" height="50px" />
+            <img src={logo} alt="logo" height="50px" width="70px" />
             <span>
               <p>Travel</p>
               <p>Planner</p>
@@ -41,21 +52,51 @@ const Navbar = () => {
             <Link to="/place" className="nav-item nav-link text-uppercase mx-1">
               Places
             </Link>
-            <Link
-              to="/generate"className="nav-item nav-link text-uppercase mx-1">
+            <Link to="/generate" className="nav-item nav-link text-uppercase mx-1">
               Generate
             </Link>
-            <Link
-              to="/chatbot"
-              className="nav-item nav-link text-uppercase mx-1"
-            >
+            <Link to="/chatbot" className="nav-item nav-link text-uppercase mx-1">
               Chatbot
             </Link>
-           
+            {user && (
+              <Link
+                to="/profile"
+                className="nav-item nav-link text-uppercase mx-1"
+              >
+                PROFILE
+              </Link>
+            )}
+          </div>
+          <div className="navbar-nav">
+            {!user ? (
+              <>
+                <Link
+                  to="/login"
+                  className="nav-item nav-link text-uppercase mx-1"
+                >
+                  LOGIN
+                </Link>
+                <Link
+                  to="/register"
+                  className="nav-item nav-link text-uppercase mx-1"
+                >
+                  REGISTER
+                </Link>
+              </>
+            ) : (
+              <Link
+                to="/"
+                className="nav-item nav-link text-uppercase mx-1"
+                onClick={handleLogout}
+              >
+                LOGOUT
+              </Link>
+            )}
           </div>
         </div>
       </div>
     </nav>
   );
 };
+
 export default Navbar;

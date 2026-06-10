@@ -1,0 +1,385 @@
+// Variables
+$primary: #667eea;
+$primary-dark: #5a67d8;
+$secondary: #764ba2;
+$text-dark: #2d3748;
+$text-light: #718096;
+$white: #ffffff;
+$error: #f56565;
+$success: #48bb78;
+$gray-bg: #f7fafc;
+
+.register-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  padding: 20px;
+}
+
+.register-card {
+  display: flex;
+  max-width: 1200px;
+  width: 100%;
+  background: $white;
+  border-radius: 32px;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: slideUp 0.6s ease-out;
+
+  @keyframes slideUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// Brand Section (Left Side)
+.brand-section {
+  flex: 1;
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  padding: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    animation: rotate 20s linear infinite;
+  }
+
+  @keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+}
+
+.brand-content {
+  position: relative;
+  z-index: 1;
+  color: $white;
+  text-align: center;
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+
+    .logo-icon {
+      font-size: 36px;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+    }
+
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      margin: 0;
+    }
+  }
+
+  h1 {
+    font-size: 42px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+
+  p {
+    font-size: 16px;
+    opacity: 0.9;
+    margin-bottom: 32px;
+    line-height: 1.5;
+  }
+}
+
+.features {
+  text-align: left;
+  display: inline-block;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  font-size: 14px;
+
+  .feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    font-size: 12px;
+  }
+}
+
+// Form Section (Right Side)
+.form-section {
+  flex: 1;
+  padding: 48px;
+  background: $white;
+}
+
+.form-header {
+  text-align: center;
+  margin-bottom: 36px;
+
+  h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: $text-dark;
+    margin-bottom: 8px;
+  }
+
+  p {
+    color: $text-light;
+    font-size: 14px;
+  }
+}
+
+// Input Groups
+.input-group {
+  margin-bottom: 24px;
+  display: flex;
+  gap: 12px;
+
+  .input-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: $gray-bg;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+
+    .icon {
+      width: 20px;
+      height: 20px;
+      color: $text-light;
+    }
+  }
+
+  .input-field {
+    flex: 1;
+  }
+
+  &:focus-within .input-icon {
+    background: rgba(102, 126, 234, 0.1);
+    
+    .icon {
+      color: $primary;
+    }
+  }
+}
+
+// Input Field Styles - Fixed Version
+.input-field {
+  position: relative;
+  
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: $text-dark;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 16px;
+    line-height: 1.5;
+    transition: all 0.3s;
+    background: $white;
+    font-family: inherit;
+
+    &:focus {
+      outline: none;
+      border-color: $primary;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    &.error {
+      border-color: $error;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  .error-msg {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: $error;
+  }
+
+  .password-toggle {
+    position: absolute;
+    right: 16px;
+    bottom: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
+    color: $text-light;
+    
+    &:hover {
+      color: $text-dark;
+    }
+  }
+}
+
+// Submit Button
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  color: $white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  margin-top: 8px;
+
+  &:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.4);
+  }
+
+  &:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+
+  .btn-spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: $white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+}
+
+// Form Footer
+.form-footer {
+  text-align: center;
+  margin-top: 24px;
+
+  p {
+    color: $text-light;
+    font-size: 14px;
+  }
+
+  a {
+    color: $primary;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $primary-dark;
+      text-decoration: underline;
+    }
+  }
+}
+
+// Loading Screen
+.loading-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, $primary 0%, $secondary 100%);
+  color: $white;
+
+  .spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255,255,255,0.3);
+    border-top-color: $white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin-bottom: 16px;
+  }
+}
+
+// Animations
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Responsive Design
+@media (max-width: 968px) {
+  .register-card {
+    flex-direction: column;
+    max-width: 550px;
+  }
+
+  .brand-section {
+    padding: 32px;
+    
+    h1 {
+      font-size: 28px;
+    }
+  }
+
+  .form-section {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .form-section {
+    padding: 24px;
+  }
+
+  .input-group {
+    flex-direction: column;
+    
+    .input-icon {
+      display: none;
+    }
+  }
+
+  .form-header h2 {
+    font-size: 24px;
+  }
+  
+  .brand-section {
+    display: none; // Hide brand section on very small screens
+  }
+}

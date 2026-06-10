@@ -10,14 +10,14 @@ import "./Place.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { createBucketList } from "../../features/bucketListSlice";
 import { getPlace } from "../../features/placeSlice";
-//import { getUser } from "../../features/userSlice";
+import { getUser } from "../../features/userSlice";
 import { useNavigate } from "react-router-dom";
 
 const URL = "https://travel-advisor.p.rapidapi.com/restaurants/list-by-latlng";
 const URLCoord = "https://trueway-geocoding.p.rapidapi.com/Geocode";
 
 const Place = () => {
- // const { user } = useSelector(getUser);
+  const { user } = useSelector(getUser);
   const { place } = useSelector(getPlace);
   const [hotel, setHotel] = useState([]);
   const dispatch = useDispatch();
@@ -25,12 +25,12 @@ const Place = () => {
   const [lat, setLat] = useState(0);
   const [lng, setLng] = useState(0);
 
- // useEffect(() => {
-  //  if (!user) {
-    //  toast.warn("Please Login");
-   //   navigate("/login");
-  //  }
- // }, [user, navigate]);
+ useEffect(() => {
+    if (!user) {
+     toast.warn("Please Login");
+      navigate("/login");
+    }
+ }, [user, navigate]);
 
   useEffect(() => {
     const options = {
