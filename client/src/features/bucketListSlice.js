@@ -15,7 +15,7 @@ export const createBucketList = createAsyncThunk(
     try {
       const token = thunkAPI.getState().user.user.token;
       const response = await axios.post(
-        "/api/bucketList",
+        "/api/bucketlist",  // ← lowercase 'l'
         { place },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -37,7 +37,7 @@ export const getBucketList = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().user.user.token;
-      const response = await axios.get("/api/bucketList", {
+      const response = await axios.get("/api/bucketlist", {  // ← lowercase 'l'
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -59,7 +59,7 @@ export const deleteBucketList = createAsyncThunk(
   async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().user.user.token;
-      const response = await axios.delete(`/api/bucketList/${id}`, {
+      const response = await axios.delete(`/api/bucketlist/${id}`, {  // ← lowercase 'l'
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -89,7 +89,8 @@ const bucketListSlice = createSlice({
       .addCase(createBucketList.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.bucketList = action.payload;
+        // ✅ FIX: Add new item to existing list
+        state.bucketList = [...state.bucketList, action.payload];
       })
       .addCase(createBucketList.rejected, (state, action) => {
         state.isLoading = false;
@@ -116,7 +117,7 @@ const bucketListSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.bucketList = state.bucketList.filter(
-          (bucketList) => bucketList._id !== action.payload.id
+          (item) => item._id !== action.payload.id
         );
       })
       .addCase(deleteBucketList.rejected, (state, action) => {

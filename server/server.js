@@ -2,20 +2,25 @@ const express = require("express");
 const path = require("path");
 const cors = require("cors");
 //const { spawn } = require("child_process");
-
+require("dotenv").config();
 const authRoutes = require("./routes/auth");
-const userRoutes = require("./routes/user");
 const bucketListRoutes = require("./routes/bucketList");
-const dotenv=require('dotenv');
-const connectDB=require('./config/db')
-dotenv.config();
+const itineraryRoutes=require("./routes/itineraryRoutes")
+
+const connectDB = require("./config/db");
+
 connectDB();
-const app=express();
-const PORT=process.env.PORT || 5001;
+
+const app = express();
+const PORT = process.env.PORT || 5000;
+
 app.use(cors());
 app.use(express.json());
+
 app.use("/api/auth", authRoutes);
 app.use("/api/bucketList", bucketListRoutes);
+
+app.use('/api/itineraries', itineraryRoutes);
 
 app.get('/api/health',(req,res)=>{
     res.json({status:"ok"})
