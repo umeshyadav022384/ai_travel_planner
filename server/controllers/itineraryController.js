@@ -21,7 +21,7 @@ const getWeather = async (destination, startDate, endDate) => {
 };
 
 // 2. Generate daily activities (your ML/algorithm logic)
-const generateDailyActivities = async (destination, preferences, weatherData, days) => {
+const generateDailyActivities = async (destination, preferences, weatherData, days, startDate, endDate) => {
   // This is where your KNN, K-Means, Knapsack, TSP logic goes
   // For now, returns a simple structure
   
@@ -92,7 +92,7 @@ const getPackingList = async (weatherData, destination, activities, preferences)
     return response.data;
     
   } catch (error) {
-    console.error("❌ Packing ML server error:", error.message);
+    console.error("Packing ML server error:", error.message);
     // Fallback packing list if Python server is not running
     return {
       packingList: {
@@ -123,7 +123,7 @@ const generateItinerary = async (req, res) => {
     }
     
     // Calculate number of days
-    const startDate = new Date(startDate);
+    const start = new Date(startDate);
     const end = new Date(endDate);
     const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
     
@@ -136,7 +136,7 @@ const generateItinerary = async (req, res) => {
     
     // 2. Generate daily activities
     const dailyActivities = await generateDailyActivities(
-      destination, preferences, weatherData, days
+      destination, preferences, weatherData, days, startDate, endDate
     );
     
     // 3. Get packing list from Python ML server
