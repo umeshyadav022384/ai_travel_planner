@@ -16,91 +16,31 @@ const getWeather = async (destination, startDate, endDate) => {
     return response.data;
   } catch (error) {
     console.error('Weather API error:', error.message);
-    return null;  // Don't crash, use default values
+    return null;
   }
 };
 
-// 2. Generate daily activities (your ML/algorithm logic)
-const generateDailyActivities = async (destination, preferences, weatherData, days) => {
-  // This is where your KNN, K-Means, Knapsack, TSP logic goes
-  // For now, returns a simple structure
-  
-  const activities = [];
-  const weatherDays = weatherData?.days || [];
-  
-  for (let i = 0; i < days; i++) {
-    const dayWeather = weatherDays[i] || { conditions: 'Unknown', tempmax: 25 };
-    const isRainy = dayWeather.conditions?.toLowerCase().includes('rain');
-    
-    activities.push({
-      day: i + 1,
-      date: new Date(new Date(startDate).setDate(new Date(startDate).getDate() + i)),
-      weather: {
-        condition: dayWeather.conditions || 'Unknown',
-        tempMax: dayWeather.tempmax || 25,
-        tempMin: dayWeather.tempmin || 15
-      },
-      activities: [
-        {
-          time: "09:00 AM",
-          title: isRainy ? "Indoor Activity" : "Morning Exploration",
-          description: isRainy 
-            ? "Visit museums and indoor attractions" 
-            : "Explore top outdoor attractions",
-          location: destination,
-          cost: 0,
-          duration: 2
-        },
-        {
-          time: "12:00 PM",
-          title: "Local Lunch Experience",
-          description: "Try local cuisine at recommended restaurants",
-          location: destination,
-          cost: 15,
-          duration: 1.5
-        },
-        {
-          time: "03:00 PM",
-          title: isRainy ? "Cultural Experience" : "Afternoon Adventure",
-          description: isRainy 
-            ? "Visit temples, museums, or galleries" 
-            : "Outdoor activities and sightseeing",
-          location: destination,
-          cost: 20,
-          duration: 3
-        }
-      ]
-    });
-  }
-  
-  return activities;
-};
-
-// 3. Get packing list from Python ML server
+// 2. Get packing list from Python ML server
 const getPackingList = async (weatherData, destination, activities, preferences) => {
   try {
     console.log("📦 Calling Python packing algorithm...");
-    
     const response = await axios.post(`${ML_SERVER_URL}/api/ml/packing`, {
       weatherData: weatherData || { days: [] },
       destination,
       activities: activities || [],
       preferences: preferences || {}
     });
-    
     console.log("✅ Packing list received from Python");
     return response.data;
-    
   } catch (error) {
     console.error("❌ Packing ML server error:", error.message);
-    // Fallback packing list if Python server is not running
     return {
       packingList: {
         essentials: ["📱 Phone", "💳 ID/Cards", "🧴 Toiletries"],
         weather_based: ["☔ Umbrella"],
         recommended: ["👟 Comfortable shoes"],
         optional: [],
-        alerts: ["Python server not running - using fallback packing list"],
+        alerts: [],
         tips: ["Check weather before packing"]
       },
       weatherSummary: { hasRain: false, maxTemp: 25, minTemp: 15 }
@@ -112,10 +52,17 @@ const getPackingList = async (weatherData, destination, activities, preferences)
 // MAIN CONTROLLER FUNCTIONS
 // ============================================
 
-// 1. GENERATE ITINERARY (without saving to DB)
 const generateItinerary = async (req, res) => {
   try {
     const { destination, startDate, endDate, preferences, budget, travelers } = req.body;
+    
+    console.log("=" .repeat(50));
+    console.log("🎯 GENERATE ITINERARY CALLED");
+    console.log("Destination:", destination);
+    console.log("Start Date:", startDate);
+    console.log("End Date:", endDate);
+    console.log("Preferences:", preferences);
+    console.log("=" .repeat(50));
     
     // Validate required fields
     if (!destination || !startDate || !endDate) {
@@ -134,23 +81,58 @@ const generateItinerary = async (req, res) => {
     // 1. Fetch weather data
     const weatherData = await getWeather(destination, startDate, endDate);
     
-    // 2. Generate daily activities
-    const dailyActivities = await generateDailyActivities(
-      destination, preferences, weatherData, days
-    );
+    // 2. CALL PYTHON ML SERVER FOR ATTRACTIONS
+    let dailyActivities = [];
+    let mlSuccess = false;
     
-    // 3. Get packing list from Python ML server
-    const packingResult = await getPackingList(
-      weatherData, destination, dailyActivities, preferences
-    );
+    try {
+      console.log("📊 Calling Python ML for attractions at:", `${ML_SERVER_URL}/api/ml/generate`);
+      
+      const mlResponse = await axios.post(`${ML_SERVER_URL}/api/ml/generate`, {
+        destination,
+        preferences,
+        days,
+        budget: budget || 500
+      });
+      
+      console.log("📊 ML Response Status:", mlResponse.status);
+      console.log("📊 ML Response Data:", JSON.stringify(mlResponse.data, null, 2));
+      
+      if (mlResponse.data && mlResponse.data.dailyActivities && mlResponse.data.dailyActivities.length > 0) {
+        dailyActivities = mlResponse.data.dailyActivities;
+        mlSuccess = true;
+        console.log(`✅ SUCCESS: Using ML attractions: ${dailyActivities.length} days`);
+      } else {
+        console.log("⚠️ ML returned empty, using fallback");
+        dailyActivities = createFallbackActivities(destination, weatherData, days, startDate);
+      }
+    } catch (mlError) {
+      console.error("❌ ML server error:", mlError.message);
+      if (mlError.code === 'ECONNREFUSED') {
+        console.error("❌ Python server is NOT running on port 5000!");
+      }
+      dailyActivities = createFallbackActivities(destination, weatherData, days, startDate);
+    }
+    
+    // Add weather info to each day
+    const weatherDays = weatherData?.days || [];
+    for (let i = 0; i < dailyActivities.length && i < weatherDays.length; i++) {
+      dailyActivities[i].weather = {
+        condition: weatherDays[i]?.conditions || 'Unknown',
+        tempMax: weatherDays[i]?.tempmax || 25,
+        tempMin: weatherDays[i]?.tempmin || 15
+      };
+    }
+    
+    // 3. Get packing list
+    const packingResult = await getPackingList(weatherData, destination, dailyActivities, preferences);
     
     // Calculate total cost
     const totalCost = dailyActivities.reduce((sum, day) => {
-      const dayCost = day.activities.reduce((s, act) => s + (act.cost || 0), 0);
+      const dayCost = day.activities?.reduce((s, act) => s + (act.cost || 0), 0) || 0;
       return sum + dayCost;
     }, 0);
     
-    // Return combined response
     res.status(200).json({
       success: true,
       destination,
@@ -163,13 +145,56 @@ const generateItinerary = async (req, res) => {
       dailyActivities,
       packingList: packingResult.packingList,
       weatherSummary: packingResult.weatherSummary,
-      generatedAt: new Date()
+      generatedAt: new Date(),
+      mlUsed: mlSuccess
     });
     
   } catch (error) {
     console.error('Generate itinerary error:', error);
     res.status(500).json({ message: error.message });
   }
+};
+
+// Fallback function (only used if ML server fails)
+const createFallbackActivities = (destination, weatherData, days, startDate) => {
+  console.log("📝 Creating fallback activities for", destination);
+  const baseDate = new Date(startDate);
+  const activities = [];
+  for (let i = 0; i < days; i++) {
+    const currentDate = new Date(baseDate);
+    currentDate.setDate(baseDate.getDate() + i);
+    activities.push({
+      day: i + 1,
+      date: currentDate,
+      activities: [
+        {
+          time: "09:00 AM",
+          title: `Explore ${destination}`,
+          description: `Discover the beauty of ${destination}`,
+          location: destination,
+          cost: 0,
+          duration: 2
+        },
+        {
+          time: "12:00 PM",
+          title: "Local Lunch",
+          description: "Enjoy local cuisine",
+          location: destination,
+          cost: 15,
+          duration: 1.5
+        },
+        {
+          time: "03:00 PM",
+          title: "Sightseeing",
+          description: `Continue exploring ${destination}`,
+          location: destination,
+          cost: 20,
+          duration: 3
+        }
+      ]
+    });
+  }
+  return activities;
 };
 
 // 2. SAVE ITINERARY to database
@@ -200,7 +225,6 @@ const saveItinerary = async (req, res) => {
     });
     
     res.status(201).json(itinerary);
-    
   } catch (error) {
     console.error('Save itinerary error:', error);
     res.status(500).json({ message: error.message });
@@ -228,7 +252,6 @@ const getItineraryById = async (req, res) => {
       return res.status(404).json({ message: "Itinerary not found" });
     }
     
-    // Verify ownership
     if (itinerary.user.toString() !== req.user.id) {
       return res.status(401).json({ message: "Not authorized" });
     }

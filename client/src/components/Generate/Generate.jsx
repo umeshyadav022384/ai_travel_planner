@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { generateItinerary, clearGeneratedItinerary } from "../../features/itinerarySlice";
-import PackingList from '../PackingList/PackingList';  // ← IMPORT PackingList
+import PackingList from '../PackingList/PackingList';  
 import "./Generate.scss";
 
 const Generate = () => {
@@ -157,7 +157,7 @@ const Generate = () => {
               />
             </div>
             <div className="input-group">
-              <label>💰 Budget (per day in USD)</label>
+              <label>💰 Budget </label>
               <input
                 type="number"
                 name="budget"
@@ -230,7 +230,7 @@ const Generate = () => {
             <div className="itinerary-stats">
               <span>📅 {Math.ceil((new Date(formData.endDate) - new Date(formData.startDate)) / (1000*60*60*24))} days</span>
               <span>👥 {formData.travelers} travelers</span>
-              <span>💰 ${formData.budget}/day</span>
+              <span>💰 {formData.budget}/day</span>
             </div>
           </div>
 
@@ -252,14 +252,14 @@ const Generate = () => {
                         <h4>{activity.title}</h4>
                         <p>{activity.description}</p>
                         {activity.cost > 0 && (
-                          <span className="activity-cost">💰 ${activity.cost}</span>
+                          <span className="activity-cost">💰 {activity.cost}</span>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
                 <div className="day-total">
-                  Total: ${day.activities?.reduce((sum, a) => sum + (a.cost || 0), 0)}
+                  Total: {day.activities?.reduce((sum, a) => sum + (a.cost || 0), 0)}
                 </div>
               </div>
             ))}

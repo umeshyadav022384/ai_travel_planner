@@ -5,24 +5,34 @@ from sklearn.cluster import KMeans
 from math import radians, sin, cos, sqrt, atan2
 import os
 
-# ============================================
 # LOAD DATASET
-# ============================================
-
 def load_attractions():
     """Load attractions from JSON file"""
-    file_path = os.path.join(os.path.dirname(__file__), 'datasets', 'nepal_attractions.json')
-    with open(file_path, 'r', encoding='utf-8') as f:
-        data = json.load(f)
+    # Try multiple possible paths
+    possible_paths = [
+        os.path.join(os.path.dirname(__file__), 'datasets', 'nepal_attractions.json'),
+        os.path.join(os.path.dirname(__file__), 'nepal_attractions.json'),
+        'datasets/nepal_attractions.json'
+    ]
     
-    # Flatten attractions from all cities
-    all_attractions = []
-    for city_data in data['cities']:
-        for attraction in city_data['attractions']:
-            attraction['city'] = city_data['city']
-            all_attractions.append(attraction)
+    for file_path in possible_paths:
+        if os.path.exists(file_path):
+            print(f"✅ Found dataset at: {file_path}")
+            with open(file_path, 'r', encoding='utf-8') as f:
+                data = json.load(f)
+            
+            # Flatten attractions from all cities
+            all_attractions = []
+            for city_data in data['cities']:
+                for attraction in city_data['attractions']:
+                    attraction['city'] = city_data['city']
+                    all_attractions.append(attraction)
+            
+            print(f"✅ Loaded {len(all_attractions)} total attractions")
+            return all_attractions
     
-    return all_attractions
+    print("❌ No dataset file found!")
+    return []
 
 # ============================================
 # KNN - RECOMMEND SIMILAR ATTRACTIONS
@@ -34,10 +44,17 @@ def knn_recommend(destination, preferences, n_recommendations=5):
     """
     all_attractions = load_attractions()
     
+    if len(all_attractions) == 0:
+        print("❌ No attractions loaded!")
+        return []
+    
     # Filter attractions by destination
     filtered = [a for a in all_attractions if a['city'].lower() == destination.lower()]
     
+    print(f"📊 Found {len(filtered)} attractions for {destination}")
+    
     if len(filtered) == 0:
+        print(f"⚠️ No attractions found for {destination}")
         return []
     
     # Create feature matrix
@@ -51,11 +68,13 @@ def knn_recommend(destination, preferences, n_recommendations=5):
     ]]
     
     attraction_vectors = [[
-        a['art'], a['history'], a['nature'], a['food'], a['adventure']
+        a.get('art', 5), a.get('history', 5), a.get('nature', 5), 
+        a.get('food', 5), a.get('adventure', 5)
     ] for a in filtered]
     
     # KNN
-    knn = NearestNeighbors(n_neighbors=min(n_recommendations, len(filtered)), metric='euclidean')
+    n_neighbors = min(n_recommendations, len(filtered))
+    knn = NearestNeighbors(n_neighbors=n_neighbors, metric='euclidean')
     knn.fit(attraction_vectors)
     distances, indices = knn.kneighbors(user_vector)
     
@@ -73,11 +92,14 @@ def kmeans_cluster(attractions, n_clusters=3):
     """
     Group attractions into clusters (one per day)
     """
+    if len(attractions) == 0:
+        return {}
+    
     if len(attractions) <= n_clusters:
         return {i: [attractions[i]] for i in range(len(attractions))}
     
     feature_cols = ['art', 'history', 'nature', 'food', 'adventure']
-    features = [[a[c] for c in feature_cols] for a in attractions]
+    features = [[a.get(c, 5) for c in feature_cols] for a in attractions]
     
     kmeans = KMeans(n_clusters=n_clusters, random_state=42, n_init=10)
     labels = kmeans.fit_predict(features)
@@ -102,17 +124,20 @@ def knapsack_optimize(activities, daily_budget):
     if len(activities) == 0:
         return []
     
-    # Calculate value based on rating and preferences
+    # Calculate value based on rating
     for a in activities:
-        a['value'] = a['rating'] * 10
+        a['value'] = a.get('rating', 4.0) * 10
     
     n = len(activities)
-    dp = [[0] * (daily_budget + 1) for _ in range(n + 1)]
+    # Use smaller budget for DP
+    max_budget = min(daily_budget, 500)
+    dp = [[0] * (max_budget + 1) for _ in range(n + 1)]
     
     for i in range(1, n + 1):
-        cost = min(activities[i-1].get('price_foreigners', 500), daily_budget)
+        # Get cost, default to 0 if not present
+        cost = int(activities[i-1].get('price_foreigners', 0))
         value = activities[i-1]['value']
-        for w in range(daily_budget + 1):
+        for w in range(max_budget + 1):
             if cost <= w:
                 dp[i][w] = max(dp[i-1][w], dp[i-1][w - cost] + value)
             else:
@@ -120,13 +145,14 @@ def knapsack_optimize(activities, daily_budget):
     
     # Find selected items
     selected = []
-    w = daily_budget
+    w = max_budget
     for i in range(n, 0, -1):
+        cost = int(activities[i-1].get('price_foreigners', 0))
         if dp[i][w] != dp[i-1][w]:
             selected.append(activities[i-1])
-            w -= min(activities[i-1].get('price_foreigners', 500), daily_budget)
+            w -= cost
     
-    return selected
+    return selected if len(selected) > 0 else activities[:3]
 
 # ============================================
 # TSP - OPTIMIZE ROUTE
@@ -159,7 +185,8 @@ def tsp_optimize(attractions):
         best_dist = float('inf')
         
         for i, attraction in enumerate(unvisited):
-            dist = haversine(last['lat'], last['lng'], attraction['lat'], attraction['lng'])
+            dist = haversine(last.get('lat', 0), last.get('lng', 0), 
+            attraction.get('lat', 0), attraction.get('lng', 0))
             if dist < best_dist:
                 best_dist = dist
                 best_idx = i
@@ -169,6 +196,15 @@ def tsp_optimize(attractions):
     return route
 
 # ============================================
+# HELPER FUNCTIONS
+# ============================================
+
+def get_time_slot(index):
+    """Return time slot based on activity order"""
+    slots = ["09:00 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM", "07:00 PM"]
+    return slots[index % len(slots)]
+
+# ============================================
 # MAIN GENERATION FUNCTION
 # ============================================
 
@@ -176,20 +212,32 @@ def generate_itinerary(destination, preferences, days, daily_budget):
     """
     Generate complete itinerary using all algorithms
     """
+    print(f"🔥🔥🔥 generate_itinerary WAS CALLED! 🔥🔥🔥")
+    print(f"Destination: {destination}, Days: {days}, Daily Budget: {daily_budget}")
+    
     # 1. KNN - Get recommended attractions
     recommended = knn_recommend(destination, preferences, n_recommendations=15)
     
+    print(f"📌 KNN returned {len(recommended)} attractions")
+    
     if len(recommended) == 0:
+        print("❌ No attractions found!")
         return []
     
     # 2. K-Means - Group into clusters (one per day)
     clusters = kmeans_cluster(recommended, n_clusters=days)
     
+    print(f"📌 K-Means created {len(clusters)} clusters")
+    
+    # 3. Build itinerary
     itinerary = []
     for cluster_idx in range(days):
-        if cluster_idx in clusters:
+        if cluster_idx in clusters and len(clusters[cluster_idx]) > 0:
             # 3. Knapsack - Optimize budget for the day
             daily_activities = knapsack_optimize(clusters[cluster_idx], daily_budget)
+            
+            if len(daily_activities) == 0:
+                daily_activities = clusters[cluster_idx][:3]
             
             # 4. TSP - Optimize route order
             optimized_route = tsp_optimize(daily_activities)
@@ -198,13 +246,13 @@ def generate_itinerary(destination, preferences, days, daily_budget):
             for i, activity in enumerate(optimized_route):
                 day_activities.append({
                     'time': get_time_slot(i),
-                    'title': activity['name'],
-                    'description': activity.get('description', 'Beautiful attraction'),
+                    'title': activity.get('name', 'Attraction'),
+                    'description': activity.get('description', 'Beautiful place to visit'),
                     'location': activity.get('city', destination),
                     'cost': activity.get('price_foreigners', 0),
                     'duration': activity.get('time_hours', 2),
-                    'lat': activity['lat'],
-                    'lng': activity['lng']
+                    'lat': activity.get('lat', 0),
+                    'lng': activity.get('lng', 0)
                 })
             
             itinerary.append({
@@ -212,14 +260,25 @@ def generate_itinerary(destination, preferences, days, daily_budget):
                 'activities': day_activities
             })
         else:
+            # Fallback for empty cluster - create from available attractions
+            all_attractions = recommended[:3]
+            day_activities = []
+            for i, activity in enumerate(all_attractions):
+                day_activities.append({
+                    'time': get_time_slot(i),
+                    'title': activity.get('name', 'Attraction'),
+                    'description': activity.get('description', 'Beautiful place to visit'),
+                    'location': activity.get('city', destination),
+                    'cost': activity.get('price_foreigners', 0),
+                    'duration': activity.get('time_hours', 2),
+                    'lat': activity.get('lat', 0),
+                    'lng': activity.get('lng', 0)
+                })
+            
             itinerary.append({
                 'day': cluster_idx + 1,
-                'activities': []
+                'activities': day_activities
             })
     
+    print(f"✅ Generated itinerary for {len(itinerary)} days")
     return itinerary
-
-def get_time_slot(index):
-    """Return time slot based on activity order"""
-    slots = ["09:00 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM", "07:00 PM"]
-    return slots[index % len(slots)]
