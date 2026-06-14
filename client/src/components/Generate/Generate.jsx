@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { generateItinerary, clearGeneratedItinerary } from "../../features/itinerarySlice";
+import { generateItinerary, clearGeneratedItinerary,  saveItinerary } from "../../features/itinerarySlice";
 import PackingList from '../PackingList/PackingList';  
 import "./Generate.scss";
 
@@ -157,7 +157,7 @@ const Generate = () => {
               />
             </div>
             <div className="input-group">
-              <label>💰 Budget </label>
+              <label>💰 Budget(in usd per day) </label>
               <input
                 type="number"
                 name="budget"
@@ -259,7 +259,7 @@ const Generate = () => {
                   ))}
                 </div>
                 <div className="day-total">
-                  Total: {day.activities?.reduce((sum, a) => sum + (a.cost || 0), 0)}
+                  Total: ${day.activities?.reduce((sum, a) => sum + (a.cost || 0), 0)}
                 </div>
               </div>
             ))}
@@ -284,15 +284,39 @@ const Generate = () => {
             </div>
           )}
 
-          <button 
-            className="save-btn"
-            onClick={() => {
-              // dispatch(saveItinerary({...}))
-              toast.info("Save feature coming soon!");
-            }}
-          >
-            💾 Save This Itinerary
-          </button>
+<button
+  className="save-btn"
+  onClick={async () => {
+    const itineraryData = {
+      destination: formData.destination,
+      startDate: formData.startDate,
+      endDate: formData.endDate,
+      travelers: formData.travelers,
+      budget: formData.budget,
+      preferences: formData.preferences,
+      dailyActivities: generatedItinerary,
+      totalCost: generatedItinerary.reduce(
+        (sum, day) =>
+          sum +
+          day.activities.reduce(
+            (daySum, activity) => daySum + (activity.cost || 0),
+            0
+          ),
+        0
+      )
+    };
+
+    const result = await dispatch(saveItinerary(itineraryData));
+
+    if (saveItinerary.fulfilled.match(result)) {
+      toast.success("Itinerary saved successfully!");
+    } else {
+      toast.error(result.payload || "Failed to save itinerary");
+    }
+  }}
+>
+  💾 Save This Itinerary
+</button>
         </div>
       )}
     </div>

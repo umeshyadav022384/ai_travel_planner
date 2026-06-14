@@ -3,11 +3,6 @@ const axios = require('axios');
 
 const ML_SERVER_URL = 'http://localhost:5000';
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
-
-// ============================================
-// HELPER FUNCTIONS
-// ============================================
-
 // 1. Fetch weather data from external API
 const getWeather = async (destination, startDate, endDate) => {
   try {
@@ -36,7 +31,7 @@ const getPackingList = async (weatherData, destination, activities, preferences)
     console.error("❌ Packing ML server error:", error.message);
     return {
       packingList: {
-        essentials: ["📱 Phone", "💳 ID/Cards", "🧴 Toiletries"],
+        essentials: ["📱 Phone", "💳 ID/Cards"],
         weather_based: ["☔ Umbrella"],
         recommended: ["👟 Comfortable shoes"],
         optional: [],
@@ -47,10 +42,6 @@ const getPackingList = async (weatherData, destination, activities, preferences)
     };
   }
 };
-
-// ============================================
-// MAIN CONTROLLER FUNCTIONS
-// ============================================
 
 const generateItinerary = async (req, res) => {
   try {
@@ -86,7 +77,7 @@ const generateItinerary = async (req, res) => {
     let mlSuccess = false;
     
     try {
-      console.log("📊 Calling Python ML for attractions at:", `${ML_SERVER_URL}/api/ml/generate`);
+      console.log("Calling Python ML for attractions at:", `${ML_SERVER_URL}/api/ml/generate`);
       
       const mlResponse = await axios.post(`${ML_SERVER_URL}/api/ml/generate`, {
         destination,
@@ -95,21 +86,21 @@ const generateItinerary = async (req, res) => {
         budget: budget || 500
       });
       
-      console.log("📊 ML Response Status:", mlResponse.status);
-      console.log("📊 ML Response Data:", JSON.stringify(mlResponse.data, null, 2));
+      console.log(" ML Response Status:", mlResponse.status);
+      console.log("ML Response Data:", JSON.stringify(mlResponse.data, null, 2));
       
       if (mlResponse.data && mlResponse.data.dailyActivities && mlResponse.data.dailyActivities.length > 0) {
         dailyActivities = mlResponse.data.dailyActivities;
         mlSuccess = true;
-        console.log(`✅ SUCCESS: Using ML attractions: ${dailyActivities.length} days`);
+        console.log(` SUCCESS: Using ML attractions: ${dailyActivities.length} days`);
       } else {
-        console.log("⚠️ ML returned empty, using fallback");
+        console.log(" ML returned empty, using fallback");
         dailyActivities = createFallbackActivities(destination, weatherData, days, startDate);
       }
     } catch (mlError) {
-      console.error("❌ ML server error:", mlError.message);
+      console.error(" ML server error:", mlError.message);
       if (mlError.code === 'ECONNREFUSED') {
-        console.error("❌ Python server is NOT running on port 5000!");
+        console.error("Python server is NOT running on port 5000!");
       }
       dailyActivities = createFallbackActivities(destination, weatherData, days, startDate);
     }
