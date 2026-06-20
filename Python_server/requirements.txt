@@ -5,7 +5,8 @@ python-dotenv==1.2.1
 
 # ========== MACHINE LEARNING ==========
 tensorflow-cpu
-numpy==2.3.5
+numpy==1.24.3
+
 scikit-learn==1.6.0
 
 # ========== NATURAL LANGUAGE PROCESSING ==========
@@ -23,3 +24,18 @@ bcrypt==5.0.0
 
 # ========== PRODUCTION (Optional) ==========
 gunicorn==23.0.0
+
+# Core ML & Deep Learning
+keras>=3.12.0
+
+requests>=2.32.5
+
+joblib>=1.5.2
+regex>=2025.11.3
+gunicorn>=23.0.0
+pillow>=12.0.0
+tqdm>=4.67.1
+
+# Cloud/API
+google-api-python-client>=2.187.0
+google-auth>=2.43.0

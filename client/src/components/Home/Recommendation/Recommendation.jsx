@@ -10,7 +10,7 @@ import janakpurImg from "../../../assets/recommended_image/dhanusha.jpg";
 const Recommendation = () => {
   return (
     <div className="recommendation">
-      <h4>Recommended Destinations</h4>
+      <h4>Explore Major Touriste Places</h4>
       <div className="dest">
  
 <Template

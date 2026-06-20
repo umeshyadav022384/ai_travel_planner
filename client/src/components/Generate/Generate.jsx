@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { generateItinerary, clearGeneratedItinerary,  saveItinerary } from "../../features/itinerarySlice";
-import PackingList from '../PackingList/PackingList';  
+import {
+  generateItinerary,
+  clearGeneratedItinerary,
+  saveItinerary,
+} from "../../features/itinerarySlice";
+import PackingList from "../PackingList/PackingList";
 import "./Generate.scss";
 
 const Generate = () => {
   const dispatch = useDispatch();
-  const { isLoading, generatedItinerary, packingList, weatherSummary } = useSelector(
-    (state) => state.itinerary
-  );
+  const { isLoading, generatedItinerary, packingList, weatherSummary } =
+    useSelector((state) => state.itinerary);
 
   const [formData, setFormData] = useState({
     destination: "",
@@ -33,17 +36,47 @@ const Generate = () => {
       ...formData,
       preferences: {
         ...formData.preferences,
-        [category]: parseInt(value)
-      }
+        [category]: parseInt(value),
+      },
     });
   };
 
   const preferenceCategories = [
-    { key: 'art', label: '🎨 Art', icon: '🖼️', color: '#e91e63', description: 'Museums, galleries, street art' },
-    { key: 'history', label: '🏛️ History', icon: '📜', color: '#795548', description: 'Heritage sites, monuments, ancient ruins' },
-    { key: 'nature', label: '🌿 Nature', icon: '🌲', color: '#4caf50', description: 'Parks, landscapes, wildlife' },
-    { key: 'food', label: '🍜 Food', icon: '🍽️', color: '#ff9800', description: 'Local cuisine, restaurants, food tours' },
-    { key: 'adventure', label: '⚡ Adventure', icon: '🏔️', color: '#2196f3', description: 'Trekking, rafting, extreme sports' },
+    {
+      key: "art",
+      label: "🎨 Art",
+      icon: "🖼️",
+      color: "#e91e63",
+      description: "Museums, galleries, street art",
+    },
+    {
+      key: "history",
+      label: "🏛️ History",
+      icon: "📜",
+      color: "#795548",
+      description: "Heritage sites, monuments, ancient ruins",
+    },
+    {
+      key: "nature",
+      label: "🌿 Nature",
+      icon: "🌲",
+      color: "#4caf50",
+      description: "Parks, landscapes, wildlife",
+    },
+    {
+      key: "food",
+      label: "🍜 Food",
+      icon: "🍽️",
+      color: "#ff9800",
+      description: "Local cuisine, restaurants, food tours",
+    },
+    {
+      key: "adventure",
+      label: "⚡ Adventure",
+      icon: "🏔️",
+      color: "#2196f3",
+      description: "Trekking, rafting, extreme sports",
+    },
   ];
 
   const handleChange = (e) => {
@@ -73,7 +106,7 @@ const Generate = () => {
 
     dispatch(clearGeneratedItinerary());
     const result = await dispatch(generateItinerary(formData));
-    
+
     if (generateItinerary.fulfilled.match(result)) {
       toast.success("✨ Itinerary generated successfully!");
     } else {
@@ -104,14 +137,14 @@ const Generate = () => {
       <div className="form-section">
         <h1>✈️ Plan Your Perfect Trip</h1>
         <p>Tell us about your travel plans and preferences</p>
-        
+
         <form onSubmit={handleSubmit}>
           {/* Trip Details Section */}
           <div className="section-title">
             <span className="icon">📍</span>
             <h3>Trip Details</h3>
           </div>
-          
+
           <div className="input-group">
             <label>Destination *</label>
             <input
@@ -179,7 +212,10 @@ const Generate = () => {
             {preferenceCategories.map((cat) => (
               <div key={cat.key} className="preference-card">
                 <div className="preference-header">
-                  <span className="preference-icon" style={{ backgroundColor: cat.color }}>
+                  <span
+                    className="preference-icon"
+                    style={{ backgroundColor: cat.color }}
+                  >
                     {cat.icon}
                   </span>
                   <span className="preference-label">{cat.label}</span>
@@ -191,10 +227,14 @@ const Generate = () => {
                     min="1"
                     max="10"
                     value={formData.preferences[cat.key]}
-                    onChange={(e) => handlePreferenceChange(cat.key, e.target.value)}
+                    onChange={(e) =>
+                      handlePreferenceChange(cat.key, e.target.value)
+                    }
                     style={{ accentColor: cat.color }}
                   />
-                  <span className="slider-value">{formData.preferences[cat.key]}/10</span>
+                  <span className="slider-value">
+                    {formData.preferences[cat.key]}/10
+                  </span>
                 </div>
                 <p className="preference-desc">{cat.description}</p>
               </div>
@@ -226,9 +266,18 @@ const Generate = () => {
         <div className="results-section">
           <div className="itinerary-header">
             <h2>🗺️ Your {formData.destination} Itinerary</h2>
-            <p>{formData.startDate} to {formData.endDate}</p>
+            <p>
+              {formData.startDate} to {formData.endDate}
+            </p>
             <div className="itinerary-stats">
-              <span>📅 {Math.ceil((new Date(formData.endDate) - new Date(formData.startDate)) / (1000*60*60*24))} days</span>
+              <span>
+                📅{" "}
+                {Math.ceil(
+                  (new Date(formData.endDate) - new Date(formData.startDate)) /
+                    (1000 * 60 * 60 * 24),
+                )}{" "}
+                days
+              </span>
               <span>👥 {formData.travelers} travelers</span>
               <span>💰 {formData.budget}/day</span>
             </div>
@@ -241,7 +290,8 @@ const Generate = () => {
                 <div className="day-header">
                   <h3>Day {day.day}</h3>
                   <div className="weather-badge">
-                    {day.weather?.condition === 'Rainy' ? '🌧️' : '☀️'} {day.weather?.tempMax}°C
+                    {day.weather?.condition === "Rainy" ? "🌧️" : "☀️"}{" "}
+                    {day.weather?.tempMax}°C
                   </div>
                 </div>
                 <div className="activities-list">
@@ -252,14 +302,17 @@ const Generate = () => {
                         <h4>{activity.title}</h4>
                         <p>{activity.description}</p>
                         {activity.cost > 0 && (
-                          <span className="activity-cost">💰 {activity.cost}</span>
+                          <span className="activity-cost">
+                            💰 {activity.cost}
+                          </span>
                         )}
                       </div>
                     </div>
                   ))}
                 </div>
                 <div className="day-total">
-                  Total: ${day.activities?.reduce((sum, a) => sum + (a.cost || 0), 0)}
+                  Total: $
+                  {day.activities?.reduce((sum, a) => sum + (a.cost || 0), 0)}
                 </div>
               </div>
             ))}
@@ -268,55 +321,55 @@ const Generate = () => {
           {/* ============================================================ */}
           {/* ✅ PACKING LIST COMPONENT - INTEGRATED HERE ✅ */}
           {/* ============================================================ */}
-          {packingList && (
-            <PackingList packingData={packingList} />
-          )}
+          {packingList && <PackingList packingData={packingList} />}
 
           {/* Optional: Weather Summary (if not already in packing list) */}
           {weatherSummary && (
             <div className="weather-summary">
               <h4>🌡️ Weather Summary</h4>
               <div className="weather-stats">
-                <span>🌧️ Rain expected: {weatherSummary.hasRain ? 'Yes' : 'No'}</span>
+                <span>
+                  🌧️ Rain expected: {weatherSummary.hasRain ? "Yes" : "No"}
+                </span>
                 <span>🔥 Max temperature: {weatherSummary.maxTemp}°C</span>
                 <span>❄️ Min temperature: {weatherSummary.minTemp}°C</span>
               </div>
             </div>
           )}
 
-<button
-  className="save-btn"
-  onClick={async () => {
-    const itineraryData = {
-      destination: formData.destination,
-      startDate: formData.startDate,
-      endDate: formData.endDate,
-      travelers: formData.travelers,
-      budget: formData.budget,
-      preferences: formData.preferences,
-      dailyActivities: generatedItinerary,
-      totalCost: generatedItinerary.reduce(
-        (sum, day) =>
-          sum +
-          day.activities.reduce(
-            (daySum, activity) => daySum + (activity.cost || 0),
-            0
-          ),
-        0
-      )
-    };
+          <button
+            className="save-btn"
+            onClick={async () => {
+              const itineraryData = {
+                destination: formData.destination,
+                startDate: formData.startDate,
+                endDate: formData.endDate,
+                travelers: formData.travelers,
+                budget: formData.budget,
+                preferences: formData.preferences,
+                dailyActivities: generatedItinerary,
+                totalCost: generatedItinerary.reduce(
+                  (sum, day) =>
+                    sum +
+                    day.activities.reduce(
+                      (daySum, activity) => daySum + (activity.cost || 0),
+                      0,
+                    ),
+                  0,
+                ),
+              };
 
-    const result = await dispatch(saveItinerary(itineraryData));
+              const result = await dispatch(saveItinerary(itineraryData));
 
-    if (saveItinerary.fulfilled.match(result)) {
-      toast.success("Itinerary saved successfully!");
-    } else {
-      toast.error(result.payload || "Failed to save itinerary");
-    }
-  }}
->
-  💾 Save This Itinerary
-</button>
+              if (saveItinerary.fulfilled.match(result)) {
+                toast.success("Itinerary saved successfully!");
+              } else {
+                toast.error(result.payload || "Failed to save itinerary");
+              }
+            }}
+          >
+            💾 Save This Itinerary
+          </button>
         </div>
       )}
     </div>
