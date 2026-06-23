@@ -5,9 +5,6 @@ from algorithm import generate_itinerary, load_attractions
 app = Flask(__name__)
 CORS(app)
 
-<<<<<<< Updated upstream
-=======
-
 @app.route('/api/ml/health', methods=['GET'])
 def health_check():
     return jsonify({'status': 'OK', 'service': 'ML Server'})
@@ -74,7 +71,6 @@ def chat():
 
 
 # Existing itinerary and packing endpoints
->>>>>>> Stashed changes
 @app.route('/api/ml/generate', methods=['POST'])
 def generate():
     data = request.json
