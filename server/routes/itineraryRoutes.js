@@ -1,5 +1,3 @@
-// server/routes/itineraryRoutes.js
-
 const express = require('express');
 const router = express.Router();
 
@@ -24,8 +22,8 @@ router.get('/supported-destinations', getSupportedDestinations);
 
 // Protected routes
 router.post('/generate', generateItinerary);
-router.post('/save', saveItinerary);        // ← This will work!
-router.post('/', saveItinerary);            // ← Also works
+router.post('/save', saveItinerary);     
+router.post('/', saveItinerary);            
 router.get('/', getItineraries);
 router.get('/:id', getItineraryById);
 router.put('/:id/status', updateItineraryStatus);

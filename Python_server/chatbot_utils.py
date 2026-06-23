@@ -24,7 +24,7 @@ def load_chatbot_resources():
     lemmatizer = WordNetLemmatizer()
 
     # Load model + pickle files
-    chat_model = keras.models.load_model('chat_model.h5')
+    chat_model = keras.models.load_model('chat_model.keras')
     with open('words.pickle', 'rb') as f:
         words = pickle.load(f)
     with open('classes.pickle', 'rb') as f:
