@@ -34,10 +34,7 @@ def load_attractions():
     print("❌ No dataset file found!")
     return []
 
-# ============================================
 # KNN - RECOMMEND SIMILAR ATTRACTIONS
-# ============================================
-
 def knn_recommend(destination, preferences, n_recommendations=5):
     """
     Find attractions similar to user preferences using KNN
@@ -84,9 +81,7 @@ def knn_recommend(destination, preferences, n_recommendations=5):
     
     return recommendations
 
-# ============================================
 # K-MEANS - GROUP ATTRACTIONS BY DAYS
-# ============================================
 
 def kmeans_cluster(attractions, n_clusters=3):
     """
@@ -113,9 +108,7 @@ def kmeans_cluster(attractions, n_clusters=3):
     
     return clusters
 
-# ============================================
 # KNAPSACK - OPTIMIZE BUDGET
-# ============================================
 
 def knapsack_optimize(activities, daily_budget):
     """
@@ -154,9 +147,7 @@ def knapsack_optimize(activities, daily_budget):
     
     return selected if len(selected) > 0 else activities[:3]
 
-# ============================================
 # TSP - OPTIMIZE ROUTE
-# ============================================
 
 def haversine(lat1, lon1, lat2, lon2):
     """Calculate distance between two points in km"""
@@ -194,40 +185,35 @@ def tsp_optimize(attractions):
         route.append(unvisited.pop(best_idx))
     
     return route
-
-# ============================================
 # HELPER FUNCTIONS
-# ============================================
 
 def get_time_slot(index):
     """Return time slot based on activity order"""
     slots = ["09:00 AM", "11:00 AM", "01:00 PM", "03:00 PM", "05:00 PM", "07:00 PM"]
     return slots[index % len(slots)]
 
-# ============================================
 # MAIN GENERATION FUNCTION
-# ============================================
 
 def generate_itinerary(destination, preferences, days, daily_budget):
     """
     Generate complete itinerary using all algorithms
     """
-    print(f"🔥🔥🔥 generate_itinerary WAS CALLED! 🔥🔥🔥")
+    print(f" generate_itinerary WAS CALLED! ")
     print(f"Destination: {destination}, Days: {days}, Daily Budget: {daily_budget}")
     
     # 1. KNN - Get recommended attractions
     recommended = knn_recommend(destination, preferences, n_recommendations=15)
     
-    print(f"📌 KNN returned {len(recommended)} attractions")
+    print(f"KNN returned {len(recommended)} attractions")
     
     if len(recommended) == 0:
-        print("❌ No attractions found!")
+        print(" No attractions found!")
         return []
     
     # 2. K-Means - Group into clusters (one per day)
     clusters = kmeans_cluster(recommended, n_clusters=days)
     
-    print(f"📌 K-Means created {len(clusters)} clusters")
+    print(f" K-Means created {len(clusters)} clusters")
     
     # 3. Build itinerary
     itinerary = []

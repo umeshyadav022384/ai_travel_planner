@@ -4,7 +4,7 @@
       "tag": "greeting",
       "patterns": ["Hello", "Hi", "Hey", "Greetings", "Namaste", "Namaskar"],
       "responses": [
-        "Namaste! Welcome to TravelPal Nepal, your personal travel assistant for exploring beautiful Nepal. How can I assist you today?",
+        "Namaste! Welcome to Travel Nepal, your personal travel assistant for exploring beautiful Nepal. How can I assist you today?",
         "Hi there! Ready to explore the wonders of Nepal? How can I help you plan your journey?",
         "Hey! Nepal is calling! What would you like to know about our beautiful country?"
       ]
@@ -12,20 +12,57 @@
     {
       "tag": "get_weather",
       "patterns": [
-        "what is the weather in",
-        "weather forecast for",
-        "how hot is it in",
-        "tell me the weather"
+        "weather",
+        "weather forecast",
+        "weather in ",
+        "weather of",
+        "tell me the weather",
+        "what is the weather",
+        "temperature today",
+        "temperature in ",
+        "how hot is it",
+        "how cold is it",
+        "is it raining",
+        "will it rain today",
+        "forecast for tomorrow",
+        "current weather",
+        "weather condition",
+        "weather update",
+        "climate of ",
+        "temperature of",
+        "temperature forecast",
+        "temperature in",
+        "weather report",
+        "do i need an umbrella",
+        "is it sunny today"
       ],
-      "responses": ["Getting weather information for Nepal..."]
+      "responses": [
+        "Fetching live weather data… please wait a moment.",
+        "Let me check the temperature for you.",
+        "Hold on, I’ll get the latest forecast."
+      ]
     },
     {
       "tag": "get_travel_recommendations",
       "patterns": [
-        "recommend some places in",
-        "what should I see in",
-        "travel ideas for",
-        "suggest some activities"
+        "recommend places",
+        "recommend places in ",
+        "recommend places in ",
+        "suggest tourist attractions",
+        "best places to visit",
+        "top attractions",
+        "what can i visit",
+        "things to do",
+        "tourist destinations",
+        "places to explore",
+        "must visit places",
+        "travel recommendations",
+        "interesting places nearby",
+        "show attractions",
+        "suggest destinations",
+        "what should i see",
+        "what are famous places",
+        "where should i travel"
       ],
       "responses": ["Finding the best recommendations in Nepal..."]
     },

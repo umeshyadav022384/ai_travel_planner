@@ -1,4 +1,4 @@
-import os, random, traceback, numpy as np
+import os, random, traceback, numpy as np, re
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -9,21 +9,37 @@ from external_api import get_weather, get_travel_recommendations
 from algorithm import generate_itinerary, load_attractions
 from packing_algorithm import PackingAlgorithm  
 
+# ---------------------------
+# Improved Regex Extraction
+# ---------------------------
+def extract_location(user_message):
+    """
+    Extracts location names from user queries for weather/travel intents.
+    Handles variations like 'weather in', 'temperature of', 'travel to',
+    'recommend place(s) in', 'best hotel in', etc.
+    """
+    location_pattern = re.compile(
+        r"(?:weather in|temperature of|forecast for|travel to|recommend place in|recommend places in|best hotel in|suggest place in|suggest places in)\s+([A-Za-z\s]+)",
+        re.IGNORECASE
+    )
+    match = location_pattern.search(user_message)
+    return match.group(1).strip() if match else None
+
+# Flask App Setup
 load_dotenv()
 app = Flask(__name__)
 CORS(app)
 print("🔄 Loading chatbot resources...")
 load_chatbot_resources()
 print("✅ Chatbot resources loaded successfully")
-print("Words:", len(chatbot_utils.words))
-print("Classes:", len(chatbot_utils.classes))
-print("Intents:", len(chatbot_utils.knowledge_base))
 
-
+# Health Check
 @app.route('/api/ml/health', methods=['GET'])
 def health_check():
     return jsonify({'status': 'OK', 'service': 'ML Server'})
 
+# ---------------------------
+# Chat Endpoint
 @app.route('/api/ml/chat', methods=['POST'])
 def chat():
     try:
@@ -35,55 +51,88 @@ def chat():
 
         print("User message:", user_message)
 
-        # Weather intent
-        if "weather" in user_message.lower() or "temperature" in user_message.lower():
-            # Extract location (default to Pokhara if not specified)
-            if "pokhara" in user_message.lower():
-                location = "Pokhara"
-            else:
-                # crude split, you can improve with NLP
-                location = user_message.split("in")[-1].strip()
-            bot_response = get_weather(location)
+        # Predict intent using model
+        bow = bag_of_words(user_message, chatbot_utils.words)
 
-        # Travel recommendations intent
-        elif "travel" in user_message.lower() or "recommend" in user_message.lower():
-            if "pokhara" in user_message.lower():
-                location = "Pokhara"
-            else:
-                location = user_message.split("to")[-1].strip()
-            bot_response = get_travel_recommendations(location)
+        res = chatbot_utils.chat_model.predict(
+            np.array([bow]),
+            verbose=0
+        )[0]
 
-        # ML model intent prediction
+        predicted_index = np.argmax(res)
+        confidence = float(res[predicted_index])
+
+        print("Confidence:", confidence)
+
+        # Confidence too low
+        if confidence < 0.50:
+            return jsonify({
+                "reply": "Sorry, I didn't understand that. Could you rephrase?"
+            })
+
+        predicted_tag = chatbot_utils.classes[predicted_index]
+
+        print("Predicted Tag:", predicted_tag)
+
+        # WEATHER INTENT
+        if predicted_tag == "get_weather":
+
+            location = extract_location(user_message)
+
+            if not location:
+                return jsonify({
+                    "reply": "Please specify a location."
+                })
+
+            weather_result = get_weather(location)
+
+            return jsonify({
+                "reply": weather_result
+            })
+
+        # TRAVEL RECOMMENDATION INTENT
+        elif predicted_tag == "get_travel_recommendations":
+
+            location = extract_location(user_message)
+
+            if not location:
+                return jsonify({
+                    "reply": "Please specify a location."
+                })
+
+            travel_result = get_travel_recommendations(location)
+
+            return jsonify({
+                "reply": travel_result
+            })
+        
+        # DATASET RESPONSE
         else:
-            bow = bag_of_words(user_message, chatbot_utils.words)
-            res = chatbot_utils.chat_model.predict(np.array([bow]), verbose=0)[0]
-            results = [[i, r] for i, r in enumerate(res) if r > 0.1]
-            results.sort(key=lambda x: x[1], reverse=True)
 
-            print("Prediction vector:", res)
-            print("Filtered results:", results)
+            for intent in chatbot_utils.knowledge_base:
 
-            predicted_tag = chatbot_utils.classes[results[0][0]] if results else None
-            bot_response = ""
+                if intent["tag"] == predicted_tag:
 
-            if predicted_tag:
-                for intent in chatbot_utils.knowledge_base:
-                    if intent['tag'] == predicted_tag:
-                        bot_response = random.choice(intent['responses'])
-                        break
+                    response = random.choice(
+                        intent["responses"]
+                    )
 
-            if not bot_response:
-                bot_response = "Sorry, I don't have information on that yet."
+                    return jsonify({
+                        "reply": response
+                    })
 
-        return jsonify({"reply": bot_response})
+            return jsonify({
+                "reply": "Sorry, I don't have information on that."
+            })
 
     except Exception as e:
         traceback.print_exc()
-        return jsonify({"reply": "Error processing your request."})
 
+        return jsonify({
+            "reply": "Error processing your request."
+        })
 
-
-# Existing itinerary and packing endpoints
+# Itinerary Endpoint
 @app.route('/api/ml/generate', methods=['POST'])
 def generate():
     data = request.json
@@ -96,6 +145,9 @@ def generate():
     return jsonify({'success': True, 'destination': destination, 'days': days,
                     'dailyActivities': itinerary, 'totalCost': budget})
 
+# ---------------------------
+# Attractions Endpoint
+# ---------------------------
 @app.route('/api/ml/attractions', methods=['GET'])
 def get_attractions():
     city = request.args.get('city')
@@ -104,6 +156,9 @@ def get_attractions():
         attractions = [a for a in attractions if a['city'].lower() == city.lower()]
     return jsonify({'attractions': attractions})
 
+# ---------------------------
+# Packing Endpoint
+# ---------------------------
 @app.route('/api/ml/packing', methods=['POST'])
 def get_packing_list():
     data = request.json
@@ -126,6 +181,9 @@ def get_packing_list():
     )
     return jsonify({'success': True, 'packingList': packing_result})
 
+# ---------------------------
+# Run Server
+# ---------------------------
 if __name__ == '__main__':
     print("🚀 Starting ML Server on port 5000...")
     app.run(port=5000, debug=True)

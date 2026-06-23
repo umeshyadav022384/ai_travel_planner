@@ -51,7 +51,7 @@ const Chatbot = () => {
   return (
     <div className="chatbot-container">
       <div className="chat-header">
-        🌄 TravelPal Nepal
+        🌄 Travel Nepal
       </div>
       <div className="chat-window" ref={chatWindowRef}>
         {messages.map((msg, idx) => (
