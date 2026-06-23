@@ -5,7 +5,8 @@ const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const bucketListRoutes = require("./routes/bucketList");
-const itineraryRoutes=require("./routes/itineraryRoutes")
+const itineraryRoutes = require("./routes/itineraryRoutes");
+const chatbotRoutes = require("./routes/chatbot");
 
 const connectDB = require("./config/db");
 
@@ -19,8 +20,8 @@ app.use(express.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/bucketList", bucketListRoutes);
-
 app.use('/api/itineraries', itineraryRoutes);
+app.use('/api/chatbot', chatbotRoutes);
 
 app.get('/api/health',(req,res)=>{
     res.json({status:"ok"})

@@ -1,97 +1,124 @@
-.container {
+// Hero Slider Styles
+.hero-slider {
+  height: 80vh;  
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background-image 1s ease-in-out;
   position: relative;
-  //   margin-top: 2rem;
-  .background {
-    img {
-      width: 100%;
-      height: 550px;
-      object-fit: cover;
-      border-radius: 30px;
-      filter: brightness(60%);
-      box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
-    }
-  }
-  .content {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0px;
-    z-index: 3;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    .title {
-      color: white;
-      h1 {
-        font-weight: 800;
-        font-size: 3.5rem;
-        letter-spacing: 0.2rem;
-      }
-      p {
-        text-align: center;
-        padding: 0 30vw;
-        margin-top: 0.5rem;
-        font-size: 1.4rem;
-      }
-    }
-  }
-  .search {
-    background-color: #fffcfcb9;
-    display: flex;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    .container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-direction: column;
-      padding: 0 2rem;
-      input {
-        background: transparent;
-        border: none;
-        text-align: center;
-        color: black;
-        font-size: 1.3rem;
-      }
-    }
-    button {
-      padding: 0.5rem 1rem;
-      cursor: pointer;
-      border-radius: 0.3rem;
-      border: none;
-      color: white;
-      background-color: #4361ee;
-      font-size: 1.1rem;
-      text-transform: uppercase;
-      transition: 0.3s ease-in-out;
-      &:hover {
-        background-color: #023e8a;
-      }
-    }
-  }
-}
-input:focus {
-  outline: none;
+  margin-bottom: 30px;
 }
 
-.move {
-  z-index: 99;
-  background-color: #e982f0aa;
-  height: 40px;
-  width: 40px;
+.slider-overlay {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0.3));
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 50%;
-  position: fixed;
-  bottom: 15px;
-  right: 50px;
-  cursor: pointer;
+  padding: 20px;
 }
-.move:hover {
-  background-color: #e05ee9dd;
-  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 22px -2px,
-    rgba(0, 0, 0, 0.3) 5px 10px 7px -3px;
+
+.slider-content {
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  padding: 20px;
+
+  h1 {
+    font-size: 3rem;  // Reduced from 3.5rem
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 25px;
+    opacity: 0.9;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .search {
+    display: flex;
+    max-width: 500px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 50px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    align-items: center;  
+
+    input {
+      flex: 1;
+      padding: 14px 20px;  // Slightly reduced padding
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      background: transparent;
+      color: #333;
+      min-width: 0;  // ← Prevents overflow
+    }
+
+    button {
+      padding: 14px 28px;  
+      background: #290dc9;
+      color: white;
+      border-radius: 50px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.3s;
+      white-space: nowrap;  // ← Prevents text wrapping
+
+      &:hover {
+        background: #ee5a5a;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .hero-slider {
+    height: 50vh;  // Even smaller on mobile
+  }
+
+  .slider-content {
+    .search {
+      max-width: 100%;
+      margin: 0 15px;
+      border-radius: 30px;  // Slightly smaller radius on mobile
+
+      input {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+      }
+
+      button {
+        padding: 12px 20px;
+        font-size: 0.9rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-slider {
+    height: 40vh;  // Very small screens
+  }
+
+  .slider-content {
+    h1 {
+      font-size: 1.5rem;
+    }
+    
+    p {
+      font-size: 0.9rem;
+    }
+  }
 }

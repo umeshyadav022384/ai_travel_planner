@@ -10,9 +10,6 @@ const {
   deleteItinerary
 } = require('../controllers/itineraryController');
 
-// ============================================
-// PROTECTED ROUTES (require authentication)
-// ============================================
 router.use(protected);  // All routes below require login
 
 // Generate itinerary (does NOT save to DB)

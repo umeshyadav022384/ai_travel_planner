@@ -50,11 +50,8 @@ const Login = () => {
     }
 
     dispatch(clear());
-    const result = await dispatch(userLogin(formData));
-    
-    if (userLogin.rejected.match(result)) {
-      toast.error(result.payload || "Login failed. Please try again.");
-    }
+      await dispatch(userLogin(formData)); 
+
   };
 
   // ===== EFFECTS =====
@@ -64,7 +61,6 @@ const Login = () => {
     }
     
     if (isSuccess || user) {
-      toast.success("Login successful! Redirecting...");
       navigate("/");
     }
     
@@ -120,7 +116,7 @@ const Login = () => {
                   value={formData.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  autoComplete="off"
+                
                 />
               </div>
               {touched.email && !formData.email && (

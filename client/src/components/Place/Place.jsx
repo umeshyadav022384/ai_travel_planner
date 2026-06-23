@@ -36,7 +36,7 @@ const Place = () => {
     const options = {
       params: { address: place },
       headers: {
-        "X-RapidAPI-Key": "1d91e57a6dmsh09e6f02d716fb78p166222jsnabc34d782df3",
+        "X-RapidAPI-Key": "cce1cee0b2msh18ecb2e9fbee23fp10f85djsn6d68b7519c30",
         "X-RapidAPI-Host": "trueway-geocoding.p.rapidapi.com",
       },
     };
@@ -62,7 +62,7 @@ const Place = () => {
         longitude: lng,
       },
       headers: {
-        "X-RapidAPI-Key": "1d91e57a6dmsh09e6f02d716fb78p166222jsnabc34d782df3",
+        "X-RapidAPI-Key": "cce1cee0b2msh18ecb2e9fbee23fp10f85djsn6d68b7519c30",
         "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
       },
     };
@@ -137,16 +137,7 @@ const Place = () => {
           <h4 style={{ fontSize: "24px", color: "#333" }}>
             Please enter some destination 🙂🚀
           </h4>
-          <p style={{ margin: "20px", fontSize: "18px", color: "#555" }}>
-            Embark on an unforgettable journey! Let us help you plan your
-            perfect trip, from finding the best hotels to discovering top
-            attractions in your chosen destination.
-          </p>
-          <p style={{ margin: "20px", fontSize: "16px", color: "#777", fontStyle: "italic" }}>
-            Whether you're seeking relaxation or adventure, we’ve got you
-            covered. Just tell us where you want to go, and we'll handle the
-            rest. Ready for your next adventure? 🌍✈️
-          </p>
+          
           <p style={{ margin: "20px", fontSize: "16px", color: "#777" }}>
             Fill in the details and let’s start planning your dream trip today!
           </p>
