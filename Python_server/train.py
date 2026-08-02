@@ -125,7 +125,7 @@ early_stopping = EarlyStopping(
 )
 
 checkpoint = ModelCheckpoint(
-    'chat_model.h5',
+    'chat_model.keras',
     monitor='val_accuracy',
     save_best_only=True,
     verbose=1
@@ -145,8 +145,8 @@ history = model.fit(
     verbose=1
 )
 
-model.save('chat_model.h5')
-print("\nModel saved as chat_model.h5")
+model.save('chat_model.keras')
+print("\nModel saved as chat_model.keras")
 
 # ==========================================
 # 9. EVALUATE

@@ -165,8 +165,7 @@ class GeminiIntegration:
     # Enhance full itinerary
     # ==========================================
     
-    def enhance_itinerary(self, itinerary_data, destination, days, preferences=None,
-                          weather_forecast=None, daily_costs=None, restaurants=None, hotels=None):
+    def enhance_itinerary(self, itinerary_data, destination, days, preferences=None, weather_forecast=None, daily_costs=None, restaurants=None, hotels=None):
         """Enhance itinerary with Gemini using real data"""
         if not self.model or not itinerary_data:
             return None

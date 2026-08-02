@@ -61,16 +61,16 @@ def load_chatbot_resources():
     lemmatizer = WordNetLemmatizer()
 
     # Load Model
-    if os.path.exists('chat_model.h5'):
+    if os.path.exists('chat_model.keras'):
         try:
-            chat_model = keras.models.load_model('chat_model.h5')
-            print("Loaded model: chat_model.h5")
+            chat_model = keras.models.load_model('chat_model.keras')
+            print("Loaded model: chat_model.keras")
             model_loaded = True
         except Exception as e:
-            print(f"Failed to load chat_model.h5: {e}")
+            print(f"Failed to load chat_model.keras: {e}")
             model_loaded = False
     else:
-        print("chat_model.h5 not found!")
+        print("chat_model.keras not found!")
         raise FileNotFoundError("No trained model found. Please run train.py")
 
     # Get max sequence length from model
@@ -151,8 +151,7 @@ def load_chatbot_resources():
 
 def fuzzy_city_match(user_message):
     """Find city even with typos using advanced fuzzy matching"""
-    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", 
-              "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
+    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
     
     user_lower = user_message.lower().strip()
     
@@ -216,10 +215,7 @@ def is_about_nepal(user_message):
             return False
     
     # Check for Nepal cities
-    nepal_terms = ['nepal', 'kathmandu', 'pokhara', 'lumbini', 'chitwan', 
-                  'bhaktapur', 'lalitpur', 'everest', 'annapurna', 
-                  'mustang', 'manang', 'janakpur', 'gorkha', 'syangja',
-                  'himalaya', 'himalayas', 'sagarmatha']
+    nepal_terms = ['nepal', 'kathmandu', 'pokhara', 'lumbini', 'chitwan', 'bhaktapur', 'lalitpur', 'everest', 'annapurna', 'mustang', 'manang', 'janakpur', 'gorkha', 'syangja','himalaya', 'himalayas', 'sagarmatha']
     
     for term in nepal_terms:
         if term in user_lower:
@@ -248,8 +244,7 @@ def extract_city_from_query(user_message):
     # ==========================================
     # THEN: Check for Nepal cities
     # ==========================================
-    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", 
-              "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
+    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
     
     # 1. Direct mention
     for city in cities:
@@ -277,98 +272,107 @@ def extract_city_from_query(user_message):
 
 
 # ==========================================
-# DETECT QUERY TYPE
+# DETECT QUERY TYPE - COMPLETELY UPDATED
 # ==========================================
 
 def detect_query_type(user_message):
     """Detect what type of information the user is asking for"""
     user_lower = user_message.lower()
     
-    # Fix common typos
-    user_lower = user_lower.replace('whis', 'what')
-    user_lower = user_lower.replace('whic', 'which')
-    user_lower = user_lower.replace('whichh', 'which')
-    user_lower = user_lower.replace('wats', 'whats')
-    user_lower = user_lower.replace('wut', 'what')
-    user_lower = user_lower.replace('teh', 'the')
+    # ==========================================
+    # STEP 0: FIX COMMON TYPOS FIRST
+    # ==========================================
+    typo_fixes = {
+        'shooping': 'shopping',
+        'shoping': 'shopping', 
+        'shopng': 'shopping',
+        'soping': 'shopping',
+        'restraunt': 'restaurant',
+        'resturent': 'restaurant',
+        'resturant': 'restaurant',
+        'attration': 'attraction',
+        'attractions': 'attractions',
+        'accomodation': 'accommodation',
+        'accomidation': 'accommodation',
+        'monestry': 'monastery',
+        'monastry': 'monastery',
+        'whis': 'what',
+        'whic': 'which',
+        'wats': 'whats',
+        'wut': 'what',
+        'teh': 'the'
+    }
     
-    # Split into words for exact matching
-    words = user_lower.split()
+    for typo, correct in typo_fixes.items():
+        user_lower = user_lower.replace(typo, correct)
     
     # ==========================================
-    # STEP 1: Check for HOTEL related keywords FIRST
+    # STEP 1: Check for HOTEL related keywords
     # ==========================================
     hotel_keywords = ['hotel', 'stay', 'accommodation', 'lodge', 'resort', 'guest house']
-    if any(word in words for word in ['hotel', 'stay', 'accommodation', 'lodge', 'resort']):
-        if 'hotel' in user_lower or 'stay' in user_lower or 'accommodation' in user_lower:
-            return 'hotels'
+    if any(word in user_lower for word in hotel_keywords):
+        return 'hotels'
     
     # ==========================================
-    # STEP 2: Check for WEATHER - EXACT WORD MATCHING
+    # STEP 2: Check for WEATHER
     # ==========================================
-    weather_words = ['weather', 'temperature', 'rain', 'rainy', 'raining',
-                     'sunny', 'cloudy', 'forecast', 'humidity',
-                     'wind', 'cold', 'hot', 'warm', 'cool', 'chilly',
-                     'climate', 'fog', 'storm', 'thunder', 'snow']
-    
-    for word in words:
-        if word in weather_words:
-            return 'weather'
-    
-    # Check for multi-word weather phrases
-    weather_phrases = ['weather forecast', 'current weather', 'weather update',
-                       'is it raining', 'will it rain', 'today weather',
-                       'weather of', 'weather in', 'weather today',
-                       'how is the weather', 'what is the weather',
-                       'temperature of', 'temperature in', 'current temperature',
-                       'weather condition']
-    
-    for phrase in weather_phrases:
-        if phrase in user_lower:
-            return 'weather'
+    weather_keywords = ['weather', 'temperature', 'rain', 'rainy', 'forecast', 'humidity', 'climate']
+    if any(word in user_lower for word in weather_keywords):
+        return 'weather'
     
     # ==========================================
     # STEP 3: Check for ATTRACTIONS
     # ==========================================
-    attraction_keywords = ['attraction', 'see', 'sight', 'tourist', 'monument', 
-                          'temple', 'stupas', 'palace', 'durbar square', 'things to do']
+    attraction_keywords = [
+        'attraction', 'attractions', 'sight', 'sights', 'tourist', 
+        'monument', 'temple', 'temples', 'stupas', 'stupa', 'palace',
+        'durbar square', 'things to do', 'what to see', 
+        'top places', 'must see', 'famous place'
+    ]
     if any(keyword in user_lower for keyword in attraction_keywords):
         return 'attractions'
     
     # ==========================================
-    # STEP 4: Check for TIME/BEST TIME
+    # STEP 4: Check for BEST TIME
     # ==========================================
-    time_phrases = ['best time', 'when to visit', 'what time', 'which time',
-                    'season', 'month', 'time to visit', 'good time', 'visit time',
-                    'best month', 'best season', 'ideal time',
-                    'when should i go', 'when is the best', 'what is the best time',
-                    'time is good', 'time to go', 'visit in',
-                    'which month', 'what month', 'best weather']
-    
-    for phrase in time_phrases:
-        if phrase in user_lower:
-            return 'best_time'
+    time_keywords = ['best time', 'when to visit', 'season', 'month to visit']
+    if any(keyword in user_lower for keyword in time_keywords):
+        return 'best_time'
     
     # ==========================================
     # STEP 5: Check for FOOD
     # ==========================================
-    food_keywords = ['food', 'eat', 'restaurant', 'cuisine', 'dish', 'meal', 
-                    'dinner', 'lunch', 'momo', 'dal bhat', 'what to eat']
+    food_keywords = [
+        'food', 'eat', 'restaurant', 'cuisine', 'dish', 'meal',
+        'dinner', 'lunch', 'momo', 'dal bhat', 'what to eat',
+        'where to eat', 'local food', 'best food'
+    ]
     if any(keyword in user_lower for keyword in food_keywords):
         return 'food'
     
     # ==========================================
     # STEP 6: Check for TRANSPORT
     # ==========================================
-    transport_keywords = ['transport', 'reach', 'go', 'bus', 'flight', 'travel', 
-                         'road', 'way', 'how to get', 'how to reach']
+    transport_keywords = [
+        'transport', 'reach', 'go', 'bus', 'flight', 'travel', 
+        'road', 'way', 'how to get', 'how to reach', 'transportation'
+    ]
     if any(keyword in user_lower for keyword in transport_keywords):
         return 'transport'
     
     # ==========================================
-    # STEP 7: Check for SHOPPING
+    # STEP 7: Check for SHOPPING (UPDATED)
     # ==========================================
-    shopping_keywords = ['shop', 'buy', 'market', 'souvenir', 'purchase', 'gift', 'what to buy']
+    shopping_keywords = [
+        'shop', 'shopping', 'buy', 'bargain', 'bazaar',
+        'market', 'souvenir', 'purchase', 'gift', 
+        'what to buy', 'where to shop', 'shop for',
+        'shopping place', 'shop in', 'buy in',
+        'souvenir shop', 'gift shop', 'local market',
+        'handicraft', 'handicrafts', 'craft', 'crafts',
+        'pashmina', 'singing bowl', 'thangka', 'wood carving',
+        'metal craft', 'pottery'
+    ]
     if any(keyword in user_lower for keyword in shopping_keywords):
         return 'shopping'
     
@@ -460,8 +464,7 @@ def is_valid_intent(predicted_tag, user_message):
     if predicted_tag in ['get_weather', 'get_travel_recommendations']:
         return True
     
-    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", 
-              "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
+    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
     
     user_lower = user_message.lower()
     
@@ -495,8 +498,7 @@ def is_valid_intent(predicted_tag, user_message):
 # ==========================================
 
 def get_unknown_response(user_message):
-    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", 
-              "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
+    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
     
     city_mentioned = None
     for city in cities:
@@ -545,8 +547,7 @@ def get_city_info(city_name):
 
 
 def extract_city_from_intent(intent_tag):
-    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", 
-              "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
+    cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
     
     for city in cities:
         if city in intent_tag.lower():
@@ -575,11 +576,6 @@ Best Time: {best_time}
 Why visit during this time:
 - Pleasant weather with clear skies
 - Comfortable temperatures for sightseeing
-- Best mountain views with minimal clouds
-- Perfect for photography and outdoor activities
-- Many festivals and cultural events take place
-
-Tip: Book accommodations in advance during peak season.
 """
     
     elif query_type == 'capital':
@@ -864,7 +860,7 @@ def validate_capital_query(user_message, predicted_tag):
 
 
 # ==========================================
-# MAIN RESPONSE FUNCTION - COMPLETELY FIXED
+# MAIN RESPONSE FUNCTION
 # ==========================================
 
 def get_response(user_message):
@@ -1020,6 +1016,12 @@ def test_chatbot():
         "what is the capital of india",
         "population of china",
         "who is the president of usa",
+        
+        # Shopping queries with typos
+        "shooping i should do in pokhara",
+        "shoping in kathmandu",
+        "what to buy in bhaktapur",
+        "shopping places in lalitpur",
         
         # Confusing queries
         "tell me about kathmandu and pokhara",
