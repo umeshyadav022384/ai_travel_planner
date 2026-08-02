@@ -33,7 +33,6 @@ const addBucketList = async (req, res) => {
     }
 };
 
-// @desc    Delete an item from the bucket list
 // @route   DELETE /api/bucketList/:id
 const deleteBucketList = async (req, res) => {
     try {

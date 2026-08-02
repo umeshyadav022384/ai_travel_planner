@@ -61,6 +61,7 @@ const Login = () => {
     }
     
     if (isSuccess || user) {
+      toast.success("Login successful!");
       navigate("/");
     }
     

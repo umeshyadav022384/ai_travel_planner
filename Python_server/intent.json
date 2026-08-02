@@ -2,378 +2,761 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["Hello", "Hi", "Hey", "Greetings", "Namaste", "Namaskar", "Hi there", "Hello there", "Good morning", "Good afternoon", "Good evening", "Hey there", "How are you", "What's up"],
+      "patterns": [
+        "Hello", "Hi", "Hey", "Greetings", "Namaste", "Namaskar",
+        "Good morning", "Good afternoon", "Good evening",
+        "Hey there", "Hi there", "What's up", "Howdy",
+        "Hello there", "Hi everyone", "Greetings and salutations",
+        "Nice to meet you", "How are you", "Is anyone there",
+        "Hey buddy", "Hello friend", "Yo", "Sup",
+        "Howdy partner", "Well hello there", "Greetings friend",
+        "Hello world", "Hi friend", "Hey how are you",
+        "Good to see you", "Hello there friend"
+      ],
       "responses": [
-        "Namaste! Welcome to TravelPal Nepal, your personal travel assistant for exploring beautiful Nepal. How can I assist you today?",
-        "Hi there! Ready to explore the wonders of Nepal? How can I help you plan your journey?",
-        "Hey! Nepal is calling! What would you like to know about our beautiful country?"
+        "Namaste! Welcome to TravelPal Nepal. How can I help you explore our beautiful country?",
+        "Hi there! Ready to discover the wonders of Nepal? What would you like to know?",
+        "Hey! Nepal is calling. Ask me anything about our amazing destinations!",
+        "Hello! I'm your Nepal travel assistant. What can I help you with today?",
+        "Namaste! So glad to see you. Where would you like to travel in Nepal?"
+      ]
+    },
+    {
+      "tag": "goodbye",
+      "patterns": [
+        "Goodbye", "Bye", "See you later", "Thanks", "Thank you",
+        "See you", "Farewell", "Take care", "Catch you later",
+        "Later", "Talk to you later", "Bye bye", "See ya",
+        "Adios", "Until next time", "Thanks for your help",
+        "Appreciate your help", "Gotta go", "Peace out",
+        "See you soon", "Take care bye", "Bye for now",
+        "Thank you bye", "Thanks a lot", "Appreciate it"
+      ],
+      "responses": [
+        "Dhanyabad! Have a wonderful journey in Nepal. Namaste!",
+        "Goodbye! Safe travels and enjoy the Himalayas!",
+        "See you later! Nepal welcomes you anytime!",
+        "Thank you for chatting! Come back if you need more travel tips!",
+        "Namaste! May your journey be filled with amazing experiences!"
       ]
     },
     {
       "tag": "get_weather",
       "patterns": [
-        "what is the weather in",
-        "weather forecast for",
-        "how hot is it in",
-        "tell me the weather",
-        "weather conditions in",
-        "weather in",
-        "current weather for",
-        "what's the weather like in",
-        "weather of",
-        "tell me the temperature",
-        "what's the temperature in",
-        "temperature in",
-        "how cold is it in",
-        "is it hot in",
-        "is it cold in",
-        "climate in",
-        "climate forecast for",
-        "will it rain in",
-        "precipitation in",
-        "will it be sunny in",
-        "humidity in",
-        "wind speed in",
-        "weather report for",
-        "tell me about the weather in",
-        "current temperature in",
-        "temperature forecast for",
-        "how's the weather",
-        "what's the climate like in",
-        "atmospheric conditions in",
-        "weather update for",
-        "temperature of",
-        "climate of",
-        "conditions of",
-        "forecast of",
-        "humidity of",
-        "weather for",
-        "temperature for",
-        "climate for",
-        "conditions for",
-        "forecast for"
+        "weather forecast for", "how hot is it in", "tell me the weather",
+        "temperature in", "is it raining in", "weather update",
+        "current weather", "what's the weather like", "will it rain today",
+        "weather report", "climate in", "what is the temperature",
+        "how's the weather", "weather conditions", "forecast for",
+        "is it going to rain", "weather in Nepal", "current temperature",
+        "weather prediction", "temperature of", "weather of",
+        "weather today", "how temperature of", "what's the weather",
+        "weather now", "current weather conditions", "temperature now",
+        "weather forecast today", "will it be sunny", "is it cold today",
+        "is it hot today", "weather this week", "weather tomorrow",
+        "what is the weather like in", "tell me the temperature in",
+        "how is the weather in", "weather update for", "weather report for"
       ],
-      "responses": ["Getting weather information for Nepal..."]
+      "responses": [
+        "Getting weather information...",
+        "Let me check the weather for you...",
+        "I'll fetch the latest weather update..."
+      ]
     },
     {
       "tag": "get_travel_recommendations",
       "patterns": [
-        "recommend some places in",
-        "what should I see in",
-        "travel ideas for",
-        "what are the top attractions in",
-        "places to see in",
-        "best things to do in",
-        "show me travel recommendations for",
-        "plan a trip to",
-        "where should I go in"
-      ],
-      "responses": ["Finding the best recommendations in Nepal..."]
-    },
-    {
-      "tag": "kathmandu",
-      "patterns": [
-        "Tell me about Kathmandu",
-        "Kathmandu travel details",
-        "I want to visit Kathmandu",
-        "What can I do in Kathmandu?",
-        "Plan a trip to Kathmandu",
-        "Kathmandu valley",
-        "Kathmandu information",
-        "Kathmandu tourism",
-        "Kathmandu attractions",
-        "things to do in Kathmandu",
-        "visit Kathmandu",
-        "Kathmandu sightseeing",
-        "Kathmandu city"
+        "recommend some places in", "what should I see in",
+        "travel ideas for", "suggest some activities",
+        "where should I go", "best places to visit in",
+        "suggest places to visit", "give me recommendations",
+        "what to do in", "travel suggestions", "top attractions",
+        "must see places", "where to travel in Nepal",
+        "best destinations", "recommend a trip", "what's worth seeing",
+        "suggest a tour", "best places to explore", "suggest a destination",
+        "where to go in Nepal", "recommend me a place", "what should I visit",
+        "best travel spots", "must visit places", "recommendations for Nepal",
+        "what to see in Nepal", "travel guide suggestions", "top destinations",
+        "best places for tourists", "suggest a travel itinerary",
+        "what are the best places to visit", "recommend some tourist spots",
+        "where should I travel in Nepal", "best tourist destinations"
       ],
       "responses": [
-        "Kathmandu, the capital city of Nepal, is a vibrant cultural hub with UNESCO World Heritage Sites including Swayambhunath Stupa (Monkey Temple), Pashupatinath Temple, Boudhanath Stupa, and Kathmandu Durbar Square. The city offers rich Newari architecture, bustling markets like Thamel, and spiritual experiences. Stay at Dwarika's Hotel, Hyatt Regency, or Yak & Yeti. Enjoy local cuisine at Bhojan Griha or traditional Newari food at local eateries. Tribhuvan International Airport connects Kathmandu to major global cities."
+        "Finding recommendations...",
+        "Let me suggest some amazing places for you...",
+        "Based on your interest, I recommend..."
       ]
     },
     {
-      "tag": "pokhara",
+      "tag": "nepal_info",
       "patterns": [
-        "Tell me about Pokhara",
-        "Pokhara travel details",
-        "I want to visit Pokhara",
-        "What can I do in Pokhara?",
-        "Plan a trip to Pokhara",
-        "Pokhara information",
-<<<<<<< HEAD
-        "Pokhara lake city"
-=======
-        "Pokhara lake city",
-        "visit Pokhara",
-        "Pokhara attractions",
-        "things to do in Pokhara",
-        "Pokhara sightseeing",
-        "Pokhara tourism",
-        "Phewa Lake"
->>>>>>> e101dfb846c61ba013131316f0db7cb7bf9346a4
+        "Tell me about Nepal", "Nepal information",
+        "Nepal travel guide", "About Nepal", "Nepal country",
+        "Nepal tourism", "Nepal history", "Nepal culture",
+        "Nepal facts", "Nepal introduction", "what is Nepal",
+        "Nepal overview", "information about Nepal",
+        "Nepal travel tips", "Nepal destination", "why visit Nepal",
+        "Nepal geography", "Nepal people", "Nepal things to know",
+        "tell me about Nepal country", "about Nepal travel",
+        "Nepal tourism information", "what is Nepal known for",
+        "Nepal country information", "Nepal travel information",
+        "tell me everything about Nepal", "give me info about Nepal",
+        "what is Nepal famous for", "Nepal general information",
+        "Nepal country details", "Nepal tourism guide",
+        "Nepal travel advice", "Nepal information for tourists"
       ],
       "responses": [
-        "Pokhara, Nepal's beautiful lake city, offers stunning views of the Annapurna range and Machhapuchhre. Top attractions include Phewa Lake, Sarangkot viewpoint, World Peace Pagoda, Davis Falls, Gupteshwor Cave, and Begnas Lake. Adventure activities include paragliding, boating, and trekking to Annapurna Base Camp. Stay at Temple Tree Resort, Hotel Pokhara Grande, or Waterfront Resort. Enjoy local cuisine at Mo2 Heaven, Cafe Concerto, or Bhojan Griha. Pokhara is accessible via bus from Kathmandu or flights to Pokhara Airport."
+        "Nepal is a beautiful country in South Asia, known for its majestic Himalayas, rich cultural heritage, and warm hospitality. It's home to 8 of the world's 14 highest peaks including Mount Everest!"
       ]
     },
     {
-      "tag": "lalitpur",
+      "tag": "nepal_capital",
       "patterns": [
-        "Tell me about Lalitpur",
-        "Lalitpur travel details",
-        "I want to visit Lalitpur",
-        "What can I do in Lalitpur?",
-        "Plan a trip to Lalitpur",
-        "Patan travel",
-        "Patan Durbar Square",
-        "Tell me about Patan",
-        "Visit Patan",
-        "Patan attractions",
-        "Lalitpur attractions",
-        "Lalitpur sightseeing"
+        "what is the capital of Nepal", "capital of Nepal",
+        "what is the capital city of Nepal", "Nepal capital",
+        "Nepal capital city", "what is the capital of nepal",
+        "tell me the capital of Nepal", "Kathmandu is the capital of which country",
+        "is Kathmandu the capital of Nepal", "what is the capital city",
+        "capital of nepal is", "what's the capital of Nepal",
+        "capital city of Nepal", "what is Nepal's capital",
+        "Nepal's capital city", "which city is the capital of Nepal",
+        "what is the capital of nepal country", "what is the capital of nepal called",
+        "capital of nepal name", "what is nepal capital",
+        "what is the capital of nepal in short", "what is nepal's capital city called",
+        "what is the capital of nepal answer", "where is the capital of nepal",
+        "where is nepal's capital located", "what city is the capital of nepal",
+        "what is the capital city of nepal country", "what is the capital of nepal tell me",
+        "what is the capital of nepal called", "what is nepal's capital city",
+        "what is the capital of nepal and where is it located",
+        "what is the name of the capital of nepal", "capital of nepal kathmandu"
       ],
       "responses": [
-        "Lalitpur (Patan), one of the three royal cities in Kathmandu Valley, is renowned for its exquisite Newari architecture and UNESCO World Heritage Site - Patan Durbar Square. Key attractions include Krishna Mandir, Golden Temple (Hiranya Varna Mahavihar), Kumbheswor Temple, and the Patan Museum. The city is famous for traditional metal crafts and fine woodcarvings. Stay at traditional Newari-style guesthouses or modern hotels. Lalitpur is easily accessible from Kathmandu and is a cultural gem of Nepal."
+        "The capital of Nepal is Kathmandu! 🏛️\n\nKathmandu is the largest city and the political, cultural, and economic center of Nepal. It's home to the royal palace, government offices, and UNESCO World Heritage Sites.",
+        "Kathmandu is the capital city of Nepal. It's located in the Kathmandu Valley and is the gateway to the Himalayas.",
+        "The capital of Nepal is Kathmandu. It's the cultural hub with ancient temples, UNESCO sites, and vibrant markets."
       ]
     },
     {
-      "tag": "bhaktapur",
+      "tag": "general_question",
       "patterns": [
-        "Tell me about Bhaktapur",
-        "Bhaktapur travel details",
-        "I want to visit Bhaktapur",
-        "What can I do in Bhaktapur?",
-        "Plan a trip to Bhaktapur",
-        "Bhaktapur Durbar Square",
-        "Nyatapola Temple",
-        "Visit Bhaktapur",
-        "Bhaktapur attractions",
-        "things to do in Bhaktapur",
-        "Bhaktapur sightseeing",
-        "Bhaktapur tourism",
-        "Pottery Square"
+        "What can you do", "Help me", "What questions can I ask",
+        "How does this work", "What do you do", "Can you help me",
+        "Tell me about yourself", "What are you", "Who are you",
+        "What can you tell me", "Help me plan", "I need assistance",
+        "I have a question", "Can you recommend", "What do you know",
+        "How do I use this", "What information do you have",
+        "Tell me something", "What's your purpose", "How can you help",
+        "What are your features", "Tell me what you can do",
+        "Help me with travel", "I need travel advice",
+        "Guide me", "Give me suggestions", "What are you capable of",
+        "Can you give me tips", "What should I ask", "What can you tell me about Nepal",
+        "Give me travel advice", "Help me plan my trip", "I need travel information",
+        "What travel information do you have", "Can you give me travel tips",
+        "What do you know about Nepal", "Tell me something about Nepal"
       ],
       "responses": [
-        "Bhaktapur, known as the 'City of Devotees', is famous for its well-preserved medieval architecture and UNESCO World Heritage Site - Bhaktapur Durbar Square. Must-visit attractions include the 5-story Nyatapola Temple, 55-Window Palace, Pottery Square, and Dattatreya Square. The city is known for its traditional Newari culture, pottery, wood carvings, and authentic Newari cuisine like Jhol Momo and Yomri. Bhaktapur is located 13 km east of Kathmandu and is a perfect day trip destination."
+        "I can help you with travel information about Nepal! Ask me about cities like Kathmandu, Pokhara, Lumbini, or Chitwan. I can tell you about attractions, hotels, food, transportation, and shopping. Just type your question!",
+        "I'm your Nepal travel assistant! Ask me about any Nepali city, attractions, hotels, food, or travel tips.",
+        "I can provide information on Nepal's top destinations, UNESCO sites, trekking regions, adventure activities, culture, food, and travel tips. What would you like to know?"
       ]
     },
     {
-      "tag": "lumbini",
+      "tag": "kathmandu_info",
       "patterns": [
-        "Tell me about Lumbini",
-        "Lumbini travel details",
-        "I want to visit Lumbini",
-        "What can I do in Lumbini?",
-        "Plan a trip to Lumbini",
-        "Birthplace of Buddha",
-        "Lumbini information",
-        "Visit Lumbini",
-        "Lumbini attractions",
-        "things to do in Lumbini",
-        "Lumbini sightseeing",
-        "Buddha birthplace",
-        "Maya Devi Temple"
+        "Tell me about Kathmandu", "What is Kathmandu",
+        "Kathmandu information", "About Kathmandu",
+        "Kathmandu details", "Kathmandu travel guide",
+        "What is Kathmandu famous for", "Kathmandu valley",
+        "Kathmandu city", "Kathmandu overview",
+        "learn about Kathmandu", "Kathmandu culture",
+        "Kathmandu history", "Kathmandu Nepal",
+        "information on Kathmandu", "tell me about Kathmandu valley",
+        "Kathmandu city guide", "what is Kathmandu like",
+        "Kathmandu information for tourists", "about Kathmandu city",
+        "Kathmandu travel information", "Kathmandu destination",
+        "why visit Kathmandu", "Kathmandu facts",
+        "Kathmandu details for tourists", "give me info about Kathmandu",
+        "tell me everything about Kathmandu", "Kathmandu general information",
+        "what is Kathmandu known for", "Kathmandu city details"
       ],
       "responses": [
-        "Lumbini, the birthplace of Lord Buddha, is one of the most sacred pilgrimage sites in the world and a UNESCO World Heritage Site. Key attractions include Maya Devi Temple, the Sacred Garden, Ashoka Pillar, and the Monastic Zone with monasteries from various countries like Japan, China, Thailand, and Myanmar. The peaceful atmosphere and ancient ruins make it a spiritual haven. Lumbini is located in Rupandehi District, accessible by road from Kathmandu or flights to Bhairahawa. The best time to visit is from October to March."
+        "Kathmandu is the capital city of Nepal, a vibrant cultural hub with UNESCO World Heritage Sites, ancient temples, and bustling markets. It is the gateway to the Himalayas."
       ]
     },
     {
-      "tag": "chitwan",
+      "tag": "kathmandu_attractions",
       "patterns": [
-        "Tell me about Chitwan",
-        "Chitwan travel details",
-        "I want to visit Chitwan",
-        "What can I do in Chitwan?",
-        "Plan a trip to Chitwan",
-        "Chitwan National Park",
-        "Jungle safari Nepal",
-        "Visit Chitwan",
-        "Chitwan attractions",
-        "things to do in Chitwan",
-        "Chitwan safari",
-        "Chitwan tourism",
-        "Chitwan National Park tour"
+        "Attractions in Kathmandu", "What to see in Kathmandu",
+        "Places to visit in Kathmandu", "Kathmandu sightseeing",
+        "Tourist places in Kathmandu", "Best places in Kathmandu",
+        "Things to do in Kathmandu", "Kathmandu Durbar Square",
+        "Swayambhunath information", "Pashupatinath Temple",
+        "Boudhanath Stupa", "Garden of Dreams",
+        "Thamel nightlife", "Kathmandu temples",
+        "Kathmandu attractions list", "must see in Kathmandu",
+        "top tourist spots Kathmandu", "Kathmandu heritage sites",
+        "what to explore in Kathmandu", "Kathmandu sightseeing places",
+        "famous places in Kathmandu", "Kathmandu tourist attractions",
+        "best things to do in Kathmandu", "Kathmandu points of interest",
+        "Monkey Temple Kathmandu", "Kathmandu valley attractions",
+        "what are the top attractions in Kathmandu",
+        "tell me about attractions in Kathmandu",
+        "Kathmandu famous places", "Kathmandu must visit places"
       ],
       "responses": [
-        "Chitwan is home to the famous Chitwan National Park, a UNESCO World Heritage Site and premier wildlife destination. Experience jungle safaris to see one-horned rhinos, Bengal tigers, elephants, and diverse bird species. Activities include elephant rides, canoe rides, jeep safaris, and visits to the Elephant Breeding Center. Explore the rich Tharu culture, traditional dances, and local cuisine. Chitwan is accessible by road from Kathmandu or flights to Bharatpur Airport. The best time for wildlife viewing is from October to February."
+        "Top attractions in Kathmandu include Swayambhunath Stupa (Monkey Temple), Pashupatinath Temple, Boudhanath Stupa, Kathmandu Durbar Square, Garden of Dreams, and the vibrant Thamel district."
       ]
     },
     {
-      "tag": "everest_region",
+      "tag": "kathmandu_hotels",
       "patterns": [
-        "Tell me about Everest Region",
-        "Everest travel details",
-        "I want to visit Everest",
-        "What can I do in Everest Region?",
-        "Plan a trip to Everest",
-        "Everest Base Camp",
-        "Sagarmatha National Park",
-        "Visit Everest Region",
-        "Everest area",
-        "Everest trek details",
-        "Everest Base Camp trek",
-        "Sagarmatha region",
-        "trips to Everest"
+        "Hotels in Kathmandu", "Where to stay in Kathmandu",
+        "Accommodation in Kathmandu", "Best hotels in Kathmandu",
+        "Kathmandu hotel recommendations", "Budget hotels in Kathmandu",
+        "Luxury hotels in Kathmandu", "Hotels near Thamel",
+        "Hotels in Thamel", "Resorts in Kathmandu",
+        "Kathmandu lodging", "places to stay Kathmandu",
+        "best places to stay Kathmandu", "Kathmandu hotel booking",
+        "cheap hotels Kathmandu", "5 star hotels Kathmandu",
+        "Kathmandu accommodation guide", "where to sleep in Kathmandu",
+        "Kathmandu guest houses", "affordable hotels Kathmandu",
+        "top hotels Kathmandu", "Kathmandu stay options",
+        "what are the best hotels in Kathmandu",
+        "recommend hotels in Kathmandu", "Kathmandu luxury hotels",
+        "Kathmandu budget hotels", "hotels near Kathmandu airport"
       ],
       "responses": [
-        "The Everest Region, home to the world's highest peak Sagarmatha (Mount Everest), is a trekker's paradise. Explore Namche Bazaar, Everest Base Camp (5,364m), Kala Patthar viewpoint, Tengboche Monastery, and Gokyo Lakes. Sagarmatha National Park, a UNESCO World Heritage Site, offers breathtaking mountain scenery and rare wildlife like snow leopards and red pandas. The region is accessible via flights to Lukla from Kathmandu. Trekking permits are required, and the best trekking seasons are spring (March-May) and autumn (September-November)."
+        "Best hotels in Kathmandu include Hyatt Regency, The Dwarika's Hotel, Yak & Yeti, and budget options like Thamel Guest House and Hotel Sapana Garden."
       ]
     },
     {
-      "tag": "annapurna_region",
+      "tag": "kathmandu_food",
       "patterns": [
-        "Tell me about Annapurna Region",
-        "Annapurna travel details",
-        "I want to visit Annapurna",
-        "What can I do in Annapurna Region?",
-        "Plan a trip to Annapurna",
-        "Annapurna Circuit",
-        "Annapurna Base Camp",
-        "Visit Annapurna Region",
-        "Annapurna trek",
-        "Annapurna attractions",
-        "Annapurna sightseeing",
-        "Annapurna tourism",
-        "Annapurna area"
+        "Food in Kathmandu", "What to eat in Kathmandu",
+        "Restaurants in Kathmandu", "Best restaurants in Kathmandu",
+        "Local cuisine in Kathmandu", "Thamel restaurants",
+        "Kathmandu food guide", "Newari food",
+        "Street food Kathmandu", "where to eat in Kathmandu",
+        "Kathmandu cuisine", "traditional food Kathmandu",
+        "best food in Kathmandu", "Kathmandu dining",
+        "Nepali food Kathmandu", "vegetarian restaurants Kathmandu",
+        "cafe in Kathmandu", "Kathmandu food places",
+        "must try food Kathmandu", "Kathmandu local food",
+        "famous food Kathmandu", "restaurants near Kathmandu",
+        "what is the best food in Kathmandu",
+        "where can I eat in Kathmandu", "Kathmandu street food",
+        "Kathmandu restaurants recommendations"
       ],
       "responses": [
-        "The Annapurna Region offers some of the world's best trekking routes including the famous Annapurna Circuit and Annapurna Base Camp trek. Highlights include Poon Hill sunrise, Machhapuchhre Base Camp, and the Annapurna Sanctuary. Visit traditional villages like Ghandruk and explore diverse landscapes from lush forests to arid high-altitude deserts. The region is accessible from Pokhara. Treks range from 5 to 20 days, with options for all experience levels. The best seasons are spring (March-May) and autumn (September-November)."
+        "Must-try food in Kathmandu includes Newari cuisine, Momo (dumplings), Dal Bhat, Samay Baji, Yomari, and Chatamari. Visit Thamel for great restaurants!"
       ]
     },
     {
-      "tag": "manang",
+      "tag": "kathmandu_transport",
       "patterns": [
-        "Tell me about Manang",
-        "Manang travel details",
-        "I want to visit Manang",
-        "What can I do in Manang?",
-        "Plan a trip to Manang",
-        "Tilicho Lake",
-        "Manang Valley",
-        "Visit Manang",
-        "Manang trek",
-        "Manang attractions",
-        "Manang sightseeing",
-        "Manang travel"
+        "How to reach Kathmandu", "How to go to Kathmandu",
+        "Transportation in Kathmandu", "Flights to Kathmandu",
+        "Kathmandu airport", "Tribhuvan International Airport",
+        "Kathmandu bus", "Kathmandu local transport",
+        "getting around Kathmandu", "Kathmandu transport guide",
+        "taxi in Kathmandu", "Kathmandu to Pokhara transport",
+        "Kathmandu public transport", "buses in Kathmandu",
+        "Kathmandu travel options", "reaching Kathmandu",
+        "Kathmandu airport to city", "Kathmandu transportation",
+        "how do I get to Kathmandu", "Kathmandu from airport",
+        "transport to Kathmandu", "ways to reach Kathmandu",
+        "how to get around Kathmandu", "Kathmandu transport"
       ],
       "responses": [
-        "Manang is a high-altitude Himalayan district in the Annapurna region, known for its stunning landscapes and Tibetan Buddhist culture. Major attractions include Tilicho Lake (one of the world's highest lakes), Braga Monastery, Gangapurna Lake, and Ice Lake. The area is part of the Annapurna Circuit trek and offers breathtaking views of Annapurna peaks. Traditional villages like Manang, Pisang, and Braga offer authentic cultural experiences. Accessible via road from Besishahar, the best time to visit is from May to October."
+        "Kathmandu is accessible by international flights to Tribhuvan International Airport, and by bus from major cities in Nepal. Local transport includes taxis, buses, and rickshaws."
       ]
     },
     {
-      "tag": "mustang",
+      "tag": "kathmandu_shopping",
       "patterns": [
-        "Tell me about Mustang",
-        "Mustang travel details",
-        "I want to visit Mustang",
-        "What can I do in Mustang?",
-        "Plan a trip to Mustang",
-        "Upper Mustang",
-        "Lo Manthang",
-        "Visit Mustang",
-        "Upper Mustang travel",
-        "Lo Manthang details",
-        "Mustang trek",
-        "Mustang attractions"
+        "Shopping in Kathmandu", "What to buy in Kathmandu",
+        "Best shopping places in Kathmandu", "Thamel shopping",
+        "Kathmandu markets", "Souvenirs in Kathmandu",
+        "Pashmina Kathmandu", "Kathmandu handicrafts",
+        "shopping malls Kathmandu", "bargaining in Kathmandu",
+        "local markets Kathmandu", "Kathmandu shopping guide",
+        "buy souvenirs Kathmandu", "Kathmandu gift items",
+        "traditional crafts Kathmandu", "Kathmandu shopping street",
+        "where to shop Kathmandu", "Kathmandu bazaar",
+        "Kathmandu shopping areas", "best markets Kathmandu",
+        "what to buy from Kathmandu", "Kathmandu souvenir shopping"
       ],
       "responses": [
-        "Mustang, the 'Forbidden Kingdom' of Nepal, offers a unique Tibetan Buddhist culture and dramatic desert-like landscapes. Highlights include the walled city of Lo Manthang, Muktinath Temple (sacred to both Hindus and Buddhists), and ancient monasteries like Thubchen Gompa. The region is known for its caves, cliffs, and the deepest gorge in the world - Kali Gandaki Gorge. Upper Mustang requires a special permit and is accessible via Jomsom. The best time to visit is from May to October. This is a truly off-the-beaten-path destination."
+        "Best shopping in Kathmandu includes Thamel for trekking gear, Pashmina, handicrafts, singing bowls, and Thanka paintings. Durbar Square also has great local crafts."
       ]
     },
     {
-      "tag": "janakpur",
+      "tag": "pokhara_info",
       "patterns": [
-        "Tell me about Janakpur",
-        "Janakpur travel details",
-        "I want to visit Janakpur",
-        "What can I do in Janakpur?",
-        "Plan a trip to Janakpur",
-        "Janaki Temple",
-        "Mithila art",
-        "Visit Janakpur",
-        "Janakpur attractions",
-        "Janaki Mandir",
-        "Janakpur pilgrimage",
-        "Mithila paintings"
+        "Tell me about Pokhara", "What is Pokhara",
+        "Pokhara information", "About Pokhara",
+        "Pokhara details", "Pokhara travel guide",
+        "What is Pokhara famous for", "Pokhara city",
+        "Lake city Pokhara", "Pokhara overview",
+        "learn about Pokhara", "Pokhara Nepal",
+        "Pokhara destination", "Pokhara attractions info",
+        "why visit Pokhara", "Pokhara tourism",
+        "Pokhara city guide", "information about Pokhara",
+        "tell me about Pokhara city", "Pokhara travel information",
+        "Pokhara general info", "what is Pokhara known for"
       ],
       "responses": [
-        "Janakpur is the cultural capital of Nepal's Madhesh Province and birthplace of Goddess Sita. The magnificent Janaki Mandir is the city's centerpiece, a stunning white marble temple dedicated to Sita. Other attractions include Ram Sita Vivaha Mandap, the sacred Gangasagar and Dhanush Sagar ponds, and the Mithila Art Museum showcasing traditional Mithila paintings. The city offers rich Maithili culture, colorful festivals, and traditional handicrafts. Janakpur is accessible by road from Kathmandu or flights to Janakpur Airport. The best time to visit is from October to March."
+        "Pokhara is Nepal's second-largest city and the gateway to the Annapurna region. Known for its stunning lakes, mountain views, and adventure activities like paragliding."
       ]
     },
     {
-      "tag": "syangja",
+      "tag": "pokhara_attractions",
       "patterns": [
-        "Tell me about Syangja",
-        "Syangja travel details",
-        "I want to visit Syangja",
-        "What can I do in Syangja?",
-        "Plan a trip to Syangja",
-        "Manakamana Temple",
-        "Visit Syangja",
-        "Syangja attractions",
-        "things to do in Syangja",
-        "Syangja tourism",
-        "Manakamana cable car"
+        "Attractions in Pokhara", "What to see in Pokhara",
+        "Places to visit in Pokhara", "Pokhara sightseeing",
+        "Tourist places in Pokhara", "Best places in Pokhara",
+        "Things to do in Pokhara", "Phewa Lake",
+        "Sarangkot viewpoint", "World Peace Pagoda",
+        "Davis Falls", "Gupteshwor Cave",
+        "Begnas Lake", "Pokhara attractions list",
+        "must see in Pokhara", "top tourist spots Pokhara",
+        "Pokhara adventure", "Pokhara nature spots",
+        "what to explore in Pokhara", "Pokhara paragliding",
+        "Pokhara lake", "Pokhara viewpoints",
+        "what are the top attractions in Pokhara",
+        "Pokhara must visit places", "Pokhara famous spots"
       ],
       "responses": [
-        "Syangja is a beautiful hill district in Gandaki Province, known for the famous Manakamana Temple dedicated to Goddess Bhagwati. The temple is accessible via cable car, offering panoramic views of the Himalayas and valleys. Other attractions include Sirubari Village (Nepal's first tourism village), Panchase Hill, and authentic Gurung culture and homestays. The region offers trekking, mountain biking, and stunning views of Annapurna and Dhaulagiri ranges. Syangja is accessible by road from Pokhara or Kathmandu, and the best time to visit is from September to November and March to May."
+        "Top attractions in Pokhara include Phewa Lake, Sarangkot viewpoint, World Peace Pagoda, Davis Falls, Gupteshwor Cave, and Begnas Lake. Don't miss paragliding!"
       ]
     },
     {
-      "tag": "gorkha",
+      "tag": "pokhara_hotels",
       "patterns": [
-        "Tell me about Gorkha",
-        "Gorkha travel details",
-        "I want to visit Gorkha",
-        "What can I do in Gorkha?",
-        "Plan a trip to Gorkha",
-        "Gorkha Durbar",
-        "Gorkha Kingdom",
-        "Visit Gorkha",
-        "Gorkha attractions",
-        "Gorkha Durbar Palace",
-        "Gurkha history",
-        "Gorkha trek"
+        "Hotels in Pokhara", "Where to stay in Pokhara",
+        "Accommodation in Pokhara", "Best hotels in Pokhara",
+        "Pokhara hotel recommendations", "Budget hotels in Pokhara",
+        "Luxury hotels in Pokhara", "Hotels near Phewa Lake",
+        "Lakeside hotels Pokhara", "Resorts in Pokhara",
+        "Pokhara lodging", "places to stay Pokhara",
+        "best places to stay Pokhara", "Pokhara hotel booking",
+        "cheap hotels Pokhara", "Pokhara accommodation guide",
+        "where to sleep in Pokhara", "Pokhara resort stay",
+        "Pokhara lakeside hotels", "Pokhara guest houses",
+        "what are the best hotels in Pokhara"
       ],
       "responses": [
-        "Gorkha is a historic district in Gandaki Province, birthplace of King Prithvi Narayan Shah who unified Nepal. The main attraction is Gorkha Durbar (palace), a historic fort complex with stunning mountain views. Visit the Gorkha Nath Temple, Gurkha Memorial Museum, and the Manaslu region trekking routes. The area offers rich history, Gurkha culture, and beautiful hill landscapes. Gorkha is accessible by road from Kathmandu (approximately 6-7 hours). The best time to visit is from September to November and March to May."
+        "Best hotels in Pokhara include Temple Tree Resort & Spa, Hotel Pokhara Grande, and budget options like Hotel Orchid and Zostel Pokhara near Lakeside."
       ]
     },
     {
-      "tag": "nepal_general",
+      "tag": "pokhara_food",
       "patterns": [
-        "Tell me about Nepal",
-        "Nepal travel information",
-        "I want to visit Nepal",
-        "What can I do in Nepal?",
-        "Plan a trip to Nepal",
-        "Nepal tourism",
-        "Nepal travel guide",
-        "Visit Nepal",
-        "Nepal travel tips",
-        "Nepal vacation ideas",
-        "Nepal tour packages",
-        "Nepal holiday ideas"
+        "Food in Pokhara", "What to eat in Pokhara",
+        "Restaurants in Pokhara", "Best restaurants in Pokhara",
+        "Local cuisine in Pokhara", "Pokhara food guide",
+        "Where to eat in Pokhara", "Famous food in Pokhara",
+        "Lakeside restaurants", "Pokhara cuisine",
+        "traditional food Pokhara", "best food in Pokhara",
+        "Pokhara dining", "Nepali food Pokhara",
+        "fresh fish Pokhara", "Thakali food Pokhara",
+        "cafe in Pokhara", "Pokhara food places",
+        "must try food Pokhara", "Pokhara local dishes"
       ],
       "responses": [
-        "Nepal is a beautiful country in South Asia, home to eight of the world's fourteen highest peaks including Mount Everest (Sagarmatha) at 8,848 meters. Nepal offers incredible trekking, rich cultural heritage, diverse landscapes from the Himalayan mountains to the Terai jungles, and warm hospitality. Major tourist destinations include Kathmandu Valley, Pokhara, Lumbini (birthplace of Buddha), Chitwan National Park, and the Everest and Annapurna regions. The best time to visit is autumn (September-November) and spring (March-May) for clear skies and pleasant weather."
+        "Must-try food in Pokhara includes Momo, Dal Bhat, fresh fish from Phewa Lake, Sel Roti, and Thakali Set. Lakeside has many great restaurants!"
       ]
     },
     {
-      "tag": "goodbye",
-      "patterns": ["Goodbye", "See you later", "Bye", "Thank you", "Thanks", "Talk to you later", "Catch you later", "Bye bye", "Take care", "Thanks, bye", "Thank you, bye", "Good night"],
+      "tag": "pokhara_transport",
+      "patterns": [
+        "How to reach Pokhara", "How to go to Pokhara",
+        "Transportation in Pokhara", "Pokhara transport",
+        "Flights to Pokhara", "Bus to Pokhara",
+        "Pokhara airport", "Kathmandu to Pokhara",
+        "getting around Pokhara", "Pokhara transport guide",
+        "taxi in Pokhara", "Pokhara to Kathmandu transport",
+        "Pokhara public transport", "Pokhara travel options",
+        "reaching Pokhara", "Pokhara bus station",
+        "Pokhara local transport", "Pokhara transportation",
+        "ways to reach Pokhara", "Pokhara from Kathmandu"
+      ],
       "responses": [
-        "Goodbye! Hope you enjoy exploring Nepal! Safe travels and come back again!",
-        "See you later! Nepal is always waiting for you with open arms. Namaste!",
-        "Bye for now! Have an amazing journey through the Himalayas. Thanks for choosing TravelPal Nepal!"
+        "Pokhara is accessible by bus from Kathmandu (6-7 hours) or by flight (25 minutes). Local transport includes taxis, auto-rickshaws, and rental bikes/scooters."
+      ]
+    },
+    {
+      "tag": "pokhara_shopping",
+      "patterns": [
+        "Shopping in Pokhara", "What to buy in Pokhara",
+        "Best shopping places in Pokhara", "Lakeside shopping",
+        "Pokhara markets", "Souvenirs in Pokhara",
+        "Pokhara handicrafts", "buy souvenirs Pokhara",
+        "Pokhara shopping guide", "local markets Pokhara",
+        "Pokhara gift items", "traditional crafts Pokhara",
+        "where to shop Pokhara", "Pokhara bazaar",
+        "Pokhara shopping street", "Pokhara craft shops",
+        "Pokhara shopping areas", "what to buy from Pokhara"
+      ],
+      "responses": [
+        "Best shopping in Pokhara includes Lakeside for Pashmina, handicrafts, trekking gear, local art, singing bowls, and Buddhist art."
+      ]
+    },
+    {
+      "tag": "lumbini_info",
+      "patterns": [
+        "Tell me about Lumbini", "What is Lumbini",
+        "Lumbini information", "About Lumbini",
+        "Lumbini travel guide", "Birthplace of Buddha",
+        "Lumbini Nepal", "Lumbini garden",
+        "Lumbini overview", "learn about Lumbini",
+        "Lumbini pilgrimage", "Buddha birthplace",
+        "Lumbini history", "Lumbini UNESCO",
+        "why visit Lumbini", "Lumbini tourism",
+        "Lumbini city guide", "Lumbini details",
+        "information about Lumbini", "Lumbini sacred site"
+      ],
+      "responses": [
+        "Lumbini is the birthplace of Lord Buddha, a UNESCO World Heritage Site. It's one of the most sacred pilgrimage sites in the world with beautiful monasteries and gardens."
+      ]
+    },
+    {
+      "tag": "lumbini_attractions",
+      "patterns": [
+        "Attractions in Lumbini", "What to see in Lumbini",
+        "Places to visit in Lumbini", "Maya Devi Temple",
+        "Lumbini monasteries", "Lumbini sightseeing",
+        "Sacred Garden Lumbini", "Ashoka Pillar",
+        "Lumbini attractions list", "must see in Lumbini",
+        "top tourist spots Lumbini", "Buddhist temples Lumbini",
+        "Lumbini garden visit", "what to explore in Lumbini",
+        "Lumbini pilgrimage sites", "Lumbini museum",
+        "World Peace Pagoda Lumbini", "Lumbini stupas",
+        "Lumbini sacred sites", "things to do in Lumbini"
+      ],
+      "responses": [
+        "Top attractions in Lumbini include Maya Devi Temple, Sacred Garden, Ashoka Pillar, Chinese Monastery, Japanese Monastery, Lumbini Museum, and World Peace Pagoda."
+      ]
+    },
+    {
+      "tag": "lumbini_hotels",
+      "patterns": [
+        "Hotels in Lumbini", "Where to stay in Lumbini",
+        "Accommodation in Lumbini", "Best hotels in Lumbini",
+        "Lumbini budget hotels", "Lumbini lodging",
+        "places to stay Lumbini", "best places to stay Lumbini",
+        "Lumbini hotel booking", "cheap hotels Lumbini",
+        "Lumbini accommodation guide", "where to sleep in Lumbini",
+        "hotels near Maya Devi Temple", "Lumbini resort",
+        "Lumbini guest house", "Lumbini stay options"
+      ],
+      "responses": [
+        "Best hotels in Lumbini include Lumbini Garden Hotel, Hotel Lumbini Hokke, Lumbini Buddha Garden, and budget options like Ananda Inn and Korea Guest House."
+      ]
+    },
+    {
+      "tag": "lumbini_food",
+      "patterns": [
+        "Food in Lumbini", "What to eat in Lumbini",
+        "Restaurants in Lumbini", "Local cuisine in Lumbini",
+        "Lumbini food", "where to eat in Lumbini",
+        "Lumbini cuisine", "traditional food Lumbini",
+        "best food in Lumbini", "Lumbini dining",
+        "Nepali food Lumbini", "vegetarian restaurants Lumbini",
+        "cafe in Lumbini", "Lumbini food places",
+        "Buddhist cuisine Lumbini", "Lumbini local food",
+        "must try food Lumbini"
+      ],
+      "responses": [
+        "Must-try food in Lumbini includes local Nepali and Buddhist cuisine, Dal Bhat, Momo, Thukpa, Tibetan Bread, and Local Thali."
+      ]
+    },
+    {
+      "tag": "lumbini_transport",
+      "patterns": [
+        "How to reach Lumbini", "How to go to Lumbini",
+        "Transportation in Lumbini", "Flights to Lumbini",
+        "Bhairahawa airport", "Kathmandu to Lumbini",
+        "getting around Lumbini", "Lumbini transport guide",
+        "bus to Lumbini", "Lumbini travel options",
+        "reaching Lumbini", "Lumbini local transport",
+        "Lumbini transportation", "taxi in Lumbini",
+        "Lumbini to Kathmandu", "Lumbini road trip",
+        "ways to reach Lumbini"
+      ],
+      "responses": [
+        "Lumbini is accessible by flights to Bhairahawa Airport from Kathmandu (35 minutes), or by bus (8-10 hours). Local transport includes taxis, auto-rickshaws, and bicycles."
+      ]
+    },
+    {
+      "tag": "chitwan_info",
+      "patterns": [
+        "Tell me about Chitwan", "Chitwan information",
+        "Chitwan travel guide", "Chitwan National Park",
+        "About Chitwan", "Wildlife in Chitwan",
+        "Chitwan overview", "learn about Chitwan",
+        "Chitwan Nepal", "Chitwan destination",
+        "Chitwan tourism", "Chitwan jungle",
+        "Chitwan safari park", "why visit Chitwan",
+        "Chitwan wildlife sanctuary", "Chitwan UNESCO",
+        "Chitwan jungle guide", "Chitwan national park information"
+      ],
+      "responses": [
+        "Chitwan is famous for Chitwan National Park, a UNESCO World Heritage Site. It's Nepal's premier wildlife destination with one-horned rhinos, Bengal tigers, and over 500 bird species."
+      ]
+    },
+    {
+      "tag": "chitwan_attractions",
+      "patterns": [
+        "Attractions in Chitwan", "What to see in Chitwan",
+        "Places to visit in Chitwan", "Jungle safari Chitwan",
+        "Elephant breeding center", "Tharu culture",
+        "Chitwan wildlife", "Chitwan attractions list",
+        "must see in Chitwan", "top tourist spots Chitwan",
+        "Chitwan safari", "Chitwan jungle walk",
+        "what to explore in Chitwan", "Chitwan nature spots",
+        "Tharu village visit", "Chitwan bird watching",
+        "Chitwan canoe ride", "Chitwan elephant bath"
+      ],
+      "responses": [
+        "Top attractions in Chitwan include Chitwan National Park, Jungle Safari (Jeep or elephant), Elephant Breeding Center, Tharu Cultural Museum, Canoe Ride, and Elephant Bathing."
+      ]
+    },
+    {
+      "tag": "chitwan_hotels",
+      "patterns": [
+        "Hotels in Chitwan", "Where to stay in Chitwan",
+        "Accommodation in Chitwan", "Luxury resorts in Chitwan",
+        "Jungle lodges Chitwan", "Chitwan lodging",
+        "places to stay Chitwan", "best places to stay Chitwan",
+        "Chitwan hotel booking", "cheap hotels Chitwan",
+        "Chitwan accommodation guide", "where to sleep in Chitwan",
+        "Chitwan safari lodges", "Chitwan resort",
+        "Chitwan guest house", "Chitwan stay options"
+      ],
+      "responses": [
+        "Best hotels in Chitwan include Tiger Tops Tharu Lodge, Hotel Jungle Crown, Green Park Chitwan, and budget options like Jungle Villa Resort and Hotel Parkside."
+      ]
+    },
+    {
+      "tag": "chitwan_food",
+      "patterns": [
+        "Food in Chitwan", "What to eat in Chitwan",
+        "Restaurants in Chitwan", "Tharu cuisine",
+        "Local food Chitwan", "where to eat in Chitwan",
+        "Chitwan cuisine", "traditional food Chitwan",
+        "best food in Chitwan", "Chitwan dining",
+        "Tharu food", "local restaurants Chitwan",
+        "Chitwan food places", "Chitwan local dishes",
+        "Nepali food Chitwan", "Chitwan fresh fish"
+      ],
+      "responses": [
+        "Must-try food in Chitwan includes Tharu cuisine (Ghugni, Bara, Dhikri), Dal Bhat, Momo, fresh river fish, and local vegetables."
+      ]
+    },
+    {
+      "tag": "chitwan_transport",
+      "patterns": [
+        "How to reach Chitwan", "How to go to Chitwan",
+        "Transportation in Chitwan", "Flights to Chitwan",
+        "Bharatpur airport", "Kathmandu to Chitwan",
+        "getting around Chitwan", "Chitwan transport guide",
+        "bus to Chitwan", "Chitwan travel options",
+        "reaching Chitwan", "Chitwan local transport",
+        "Chitwan transportation", "taxi in Chitwan",
+        "Chitwan to Kathmandu", "Chitwan road trip"
+      ],
+      "responses": [
+        "Chitwan is accessible by flights to Bharatpur Airport from Kathmandu (25 minutes), or by bus (5-6 hours). Local transport includes taxis, auto-rickshaws, and rental bikes."
+      ]
+    },
+    {
+      "tag": "bhaktapur_info",
+      "patterns": [
+        "Tell me about Bhaktapur", "Bhaktapur information",
+        "Bhaktapur travel guide", "Bhaktapur Durbar Square",
+        "About Bhaktapur", "Bhaktapur city",
+        "Bhaktapur overview", "learn about Bhaktapur",
+        "Bhaktapur Nepal", "Bhaktapur destination",
+        "Bhaktapur history", "Bhaktapur culture",
+        "why visit Bhaktapur", "Bhaktapur UNESCO",
+        "Bhaktapur medieval city", "Bhaktapur tourism",
+        "Bhaktapur city guide"
+      ],
+      "responses": [
+        "Bhaktapur is known for its well-preserved medieval architecture and is a UNESCO World Heritage Site. It's called the 'City of Devotees' with rich Newari culture."
+      ]
+    },
+    {
+      "tag": "bhaktapur_attractions",
+      "patterns": [
+        "Attractions in Bhaktapur", "What to see in Bhaktapur",
+        "Places to visit in Bhaktapur", "Nyatapola Temple",
+        "Pottery Square", "Bhaktapur sightseeing",
+        "Bhaktapur Durbar Square", "55-Window Palace",
+        "Dattatreya Square", "Bhaktapur attractions list",
+        "must see in Bhaktapur", "top tourist spots Bhaktapur",
+        "Bhaktapur temples", "what to explore in Bhaktapur",
+        "Bhaktapur heritage sites", "Bhaktapur old city"
+      ],
+      "responses": [
+        "Top attractions in Bhaktapur include Bhaktapur Durbar Square, Nyatapola Temple (tallest pagoda in Nepal), 55-Window Palace, Pottery Square, and Dattatreya Square."
+      ]
+    },
+    {
+      "tag": "bhaktapur_hotels",
+      "patterns": [
+        "Hotels in Bhaktapur", "Where to stay in Bhaktapur",
+        "Accommodation in Bhaktapur", "Best hotels in Bhaktapur",
+        "Bhaktapur lodging", "places to stay Bhaktapur",
+        "best places to stay Bhaktapur", "Bhaktapur hotel booking",
+        "cheap hotels Bhaktapur", "Bhaktapur accommodation guide",
+        "where to sleep in Bhaktapur", "Bhaktapur guest house",
+        "Bhaktapur stay options", "heritage hotels Bhaktapur"
+      ],
+      "responses": [
+        "Best hotels in Bhaktapur include Heritage Hotel Bhaktapur, Hotel Nagarkot, and budget options like Bhaktapur Guest House and Shiva Guest House."
+      ]
+    },
+    {
+      "tag": "bhaktapur_food",
+      "patterns": [
+        "Food in Bhaktapur", "What to eat in Bhaktapur",
+        "Restaurants in Bhaktapur", "Bhaktapur cuisine",
+        "Local food Bhaktapur", "where to eat in Bhaktapur",
+        "traditional food Bhaktapur", "best food in Bhaktapur",
+        "Bhaktapur dining", "Newari food Bhaktapur",
+        "Jhol Momo Bhaktapur", "Bhaktapur local dishes",
+        "cafe in Bhaktapur", "Bhaktapur food places"
+      ],
+      "responses": [
+        "Must-try food in Bhaktapur includes Jhol Momo (soup dumplings), Yomri (sweet dumpling), Chatamari (Newari pizza), Sel Roti, and Bara (lentil pancake)."
+      ]
+    },
+    {
+      "tag": "bhaktapur_transport",
+      "patterns": [
+        "How to reach Bhaktapur", "How to go to Bhaktapur",
+        "Transportation in Bhaktapur", "Kathmandu to Bhaktapur",
+        "getting around Bhaktapur", "Bhaktapur transport guide",
+        "bus to Bhaktapur", "Bhaktapur travel options",
+        "reaching Bhaktapur", "Bhaktapur local transport",
+        "Bhaktapur transportation", "taxi in Bhaktapur",
+        "Bhaktapur to Kathmandu", "Bhaktapur road trip"
+      ],
+      "responses": [
+        "Bhaktapur is accessible by bus from Kathmandu (1 hour) or taxi (45 minutes). Local transport includes walking, taxis, and rickshaws."
+      ]
+    },
+    {
+      "tag": "bhaktapur_shopping",
+      "patterns": [
+        "Shopping in Bhaktapur", "What to buy in Bhaktapur",
+        "Best shopping places in Bhaktapur", "Pottery shopping",
+        "Bhaktapur markets", "Souvenirs in Bhaktapur",
+        "Bhaktapur handicrafts", "buy souvenirs Bhaktapur",
+        "Bhaktapur shopping guide", "local markets Bhaktapur",
+        "Bhaktapur gift items", "traditional crafts Bhaktapur",
+        "where to shop Bhaktapur", "wood carvings Bhaktapur",
+        "Bhaktapur masks", "Bhaktapur pottery"
+      ],
+      "responses": [
+        "Best shopping in Bhaktapur includes Pottery Square for ceramics, wood carvings, handicrafts, and traditional masks at Durbar Square."
+      ]
+    },
+    {
+      "tag": "lalitpur_info",
+      "patterns": [
+        "Tell me about Lalitpur", "Lalitpur information",
+        "Patan travel guide", "Patan Durbar Square",
+        "About Lalitpur", "Patan city",
+        "Lalitpur overview", "learn about Lalitpur",
+        "Patan Nepal", "Lalitpur destination",
+        "Patan history", "Patan culture",
+        "Newari architecture", "why visit Patan",
+        "Lalitpur UNESCO", "Patan tourism",
+        "Lalitpur city guide"
+      ],
+      "responses": [
+        "Lalitpur (Patan) is one of the three royal cities in Kathmandu Valley, renowned for its exquisite Newari architecture and UNESCO World Heritage Sites."
+      ]
+    },
+    {
+      "tag": "lalitpur_attractions",
+      "patterns": [
+        "Attractions in Lalitpur", "What to see in Lalitpur",
+        "Places to visit in Patan", "Krishna Mandir",
+        "Golden Temple Patan", "Patan Museum",
+        "Patan Durbar Square", "Kumbheswor Temple",
+        "Lalitpur attractions list", "must see in Lalitpur",
+        "top tourist spots Patan", "Patan temples",
+        "what to explore in Lalitpur", "Patan heritage sites",
+        "Newari architecture Patan", "Patan royal palace"
+      ],
+      "responses": [
+        "Top attractions in Lalitpur include Patan Durbar Square, Krishna Mandir, Golden Temple, Patan Museum, and Kumbheswor Temple."
+      ]
+    },
+    {
+      "tag": "lalitpur_hotels",
+      "patterns": [
+        "Hotels in Lalitpur", "Where to stay in Lalitpur",
+        "Accommodation in Lalitpur", "Patan hotels",
+        "Lalitpur lodging", "places to stay Lalitpur",
+        "best places to stay Patan", "Lalitpur hotel booking",
+        "cheap hotels Lalitpur", "Lalitpur accommodation guide",
+        "where to sleep in Lalitpur", "Patan guest house",
+        "Lalitpur stay options", "heritage hotels Patan"
+      ],
+      "responses": [
+        "Best hotels in Lalitpur include Patan Courtyard Hotel, Hotel Patan, and budget options like Patan Guest House and Newa Chhen."
+      ]
+    },
+    {
+      "tag": "lalitpur_food",
+      "patterns": [
+        "Food in Lalitpur", "What to eat in Lalitpur",
+        "Restaurants in Lalitpur", "Patan cuisine",
+        "Local food Lalitpur", "where to eat in Lalitpur",
+        "traditional food Patan", "best food in Lalitpur",
+        "Lalitpur dining", "Newari food Patan",
+        "Chhwela Lalitpur", "Lalitpur local dishes",
+        "cafe in Patan", "Lalitpur food places"
+      ],
+      "responses": [
+        "Must-try food in Lalitpur includes Newari Khaja, Chhwela (spiced meat), Bara, Yomri, and Samay Baji (traditional Newari meal)."
+      ]
+    },
+    {
+      "tag": "lalitpur_transport",
+      "patterns": [
+        "How to reach Lalitpur", "How to go to Lalitpur",
+        "Transportation in Lalitpur", "Kathmandu to Patan",
+        "getting around Lalitpur", "Lalitpur transport guide",
+        "bus to Patan", "Lalitpur travel options",
+        "reaching Lalitpur", "Lalitpur local transport",
+        "Lalitpur transportation", "taxi in Lalitpur",
+        "Patan to Kathmandu", "Lalitpur road trip"
+      ],
+      "responses": [
+        "Lalitpur is accessible by bus from Kathmandu (30 minutes) or taxi (20 minutes). Local transport includes walking, taxis, and rickshaws."
+      ]
+    },
+    {
+      "tag": "lalitpur_shopping",
+      "patterns": [
+        "Shopping in Lalitpur", "What to buy in Lalitpur",
+        "Best shopping places in Lalitpur", "Patan shopping",
+        "Lalitpur markets", "Souvenirs in Lalitpur",
+        "Lalitpur handicrafts", "metal crafts Patan",
+        "buy souvenirs Lalitpur", "Lalitpur shopping guide",
+        "local markets Patan", "Lalitpur gift items",
+        "traditional crafts Lalitpur", "where to shop Patan",
+        "Thanka paintings Patan", "wood carvings Lalitpur"
+      ],
+      "responses": [
+        "Best shopping in Lalitpur includes metal crafts, wood carvings, handicrafts, and Thanka paintings at Durbar Square."
       ]
     }
-  ],
-  "context": {
-    "destination_recommendation": {
-      "next_intent": "destination_preferences",
-      "response": "Great! What type of vacation are you looking for in Nepal? For example, mountains, lakes, culture, adventure, or wildlife?"
-    }
-  }
+  ]
 }

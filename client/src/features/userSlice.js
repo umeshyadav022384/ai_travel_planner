@@ -3,7 +3,6 @@ import axios from "axios";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
-// ✅ CHANGE THIS LINE - Use your local backend
 const API_URL = "http://localhost:5001/api/auth/";
 
 const initialState = {

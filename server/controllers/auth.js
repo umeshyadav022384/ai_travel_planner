@@ -30,7 +30,7 @@ const register = async (req, res) => {
       token: generateToken(newUser._id),
     });
   } catch (error) {
-    res.status(500).json({ message: error });  // ← Fixed: "json" not "lson"
+    res.status(500).json({ message: error });  
   }
 };
 

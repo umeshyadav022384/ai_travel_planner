@@ -36,7 +36,7 @@ const Place = () => {
     const options = {
       params: { address: place },
       headers: {
-        "X-RapidAPI-Key": "1d91e57a6dmsh09e6f02d716fb78p166222jsnabc34d782df3",
+        "X-RapidAPI-Key": "cce1cee0b2msh18ecb2e9fbee23fp10f85djsn6d68b7519c30",
         "X-RapidAPI-Host": "trueway-geocoding.p.rapidapi.com",
       },
     };
@@ -62,7 +62,7 @@ const Place = () => {
         longitude: lng,
       },
       headers: {
-        "X-RapidAPI-Key": "1d91e57a6dmsh09e6f02d716fb78p166222jsnabc34d782df3",
+        "X-RapidAPI-Key": "cce1cee0b2msh18ecb2e9fbee23fp10f85djsn6d68b7519c30",
         "X-RapidAPI-Host": "travel-advisor.p.rapidapi.com",
       },
     };

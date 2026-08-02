@@ -7,7 +7,6 @@ import { getPlace } from "../../../features/placeSlice";
 import axios from "axios";
 import L from "leaflet";
 
-// Fix for default marker icon in Leaflet (required)
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl:

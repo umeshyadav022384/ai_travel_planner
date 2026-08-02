@@ -18,14 +18,14 @@ const Overview = () => {
     }
   };
 
-  // Fetch Wikipedia info using FREE API (no key needed)
+  // Fetch Wikipedia 
   useEffect(() => {
     if (!place) return;
 
     const fetchWikipediaInfo = async () => {
       setLoading(true);
       try {
-        // Free Wikipedia API - NO API KEY NEEDED!
+        // Free Wikipedia APi
         const searchUrl = `https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=${encodeURIComponent(place)}&format=json&origin=*`;
         const searchResponse = await fetch(searchUrl);
         const searchData = await searchResponse.json();

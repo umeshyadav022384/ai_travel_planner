@@ -1,5 +1,3 @@
-// client/src/components/PackingList/PackingList.jsx
-
 import React from 'react';
 import './PackingList.scss';
 
@@ -12,7 +10,7 @@ const PackingList = ({ packingData }) => {
       
       <div className="packing-grid">
         
-        {/* Essentials - Display Only */}
+        {/*  Display Only */}
         {packingData.essentials && packingData.essentials.length > 0 && (
           <div className="packing-card essentials">
             <div className="packing-icon">✅</div>
@@ -79,7 +77,7 @@ const PackingList = ({ packingData }) => {
         </div>
       )}
       
-      {/* Tips - Display Only */}
+      {/*Display Only */}
       {packingData.tips && packingData.tips.length > 0 && (
         <div className="packing-tips">
           <h4>💡 Travel Tips</h4>

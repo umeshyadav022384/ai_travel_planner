@@ -1,7 +1,6 @@
 """
 PACKING ALGORITHM - Rule-Based Decision Tree
 """
-
 class PackingAlgorithm:
     
     @staticmethod
@@ -50,7 +49,7 @@ class PackingAlgorithm:
         packing['essentials'] = [
             "📱 Phone & Charger",
             "💳 Wallet/Cash/Cards",
-            "🪪 ID/Passport",
+            "🪪  ID/Passport",
             "💊 Basic medical kit",
             "🔑 Hotel keys/cards"
         ]

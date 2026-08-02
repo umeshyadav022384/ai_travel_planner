@@ -37,7 +37,7 @@ export const getBucketList = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().user.user.token;
-      const response = await axios.get("/api/bucketlist", {  // ← lowercase 'l'
+      const response = await axios.get("/api/bucketlist", {  
         headers: { Authorization: `Bearer ${token}` },
       });
       return response.data;
@@ -89,7 +89,6 @@ const bucketListSlice = createSlice({
       .addCase(createBucketList.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        // ✅ FIX: Add new item to existing list
         state.bucketList = [...state.bucketList, action.payload];
       })
       .addCase(createBucketList.rejected, (state, action) => {

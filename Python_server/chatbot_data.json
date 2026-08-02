@@ -1,0 +1,1157 @@
+{
+  "cities": [
+    {
+      "city": "Kathmandu",
+      "keywords": ["capital", "temple", "durbar square", "thamel", "heritage", "UNESCO", "valley", "culture", "history"],
+      "info": {
+        "description": "Kathmandu is the capital city of Nepal, a vibrant cultural hub with UNESCO World Heritage Sites, ancient temples, and bustling markets. It is the gateway to the Himalayas.",
+        "best_time": "September to November and March to May",
+        "altitude": "1400 meters (4600 feet)",
+        "population": "1.5 million",
+        "popularity": 98,
+        "history": "Kathmandu Valley has been inhabited for over 2000 years. It was ruled by the Malla kings from the 12th to 18th centuries, who built many of the temples and palaces you see today.",
+        "culture": "Kathmandu is a melting pot of Hindu and Buddhist cultures. The city is famous for its festivals like Indra Jatra, Dashain, Tihar, and Holi.",
+        "weather": "Kathmandu has a temperate climate with warm summers and cool winters."
+      },
+      "attractions": [
+        {
+          "name": "Swayambhunath Stupa",
+          "description": "Ancient Buddhist stupa on a hilltop offering 360-degree views of Kathmandu Valley. Also known as the Monkey Temple due to the resident monkeys.",
+          "entry_fee": "NPR 200",
+          "best_time": "Morning 7-10 AM",
+          "rating": 4.6,
+          "category": ["temple", "UNESCO"]
+        },
+        {
+          "name": "Pashupatinath Temple",
+          "description": "The most sacred Hindu temple in Nepal dedicated to Lord Shiva, located on the banks of the Bagmati River.",
+          "entry_fee": "NPR 1000",
+          "best_time": "Morning 6-9 AM for the aarti ceremony",
+          "rating": 4.8,
+          "category": ["temple", "UNESCO"]
+        },
+        {
+          "name": "Boudhanath Stupa",
+          "description": "One of the largest spherical stupas in the world and the center of Tibetan Buddhism in Nepal.",
+          "entry_fee": "NPR 400",
+          "best_time": "Evening 4-7 PM for prayer ceremonies",
+          "rating": 4.5,
+          "category": ["temple", "UNESCO"]
+        },
+        {
+          "name": "Kathmandu Durbar Square",
+          "description": "Historic palace square with 800-year-old temples, the royal palace, and the Living Goddess Kumari temple.",
+          "entry_fee": "NPR 1000 for SAARC, NPR 2000 for other foreigners",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.6,
+          "category": ["UNESCO", "heritage"]
+        },
+        {
+          "name": "Garden of Dreams",
+          "description": "A neo-classical garden with pavilions, fountains, and a peaceful escape from the city chaos.",
+          "entry_fee": "NPR 500",
+          "best_time": "Afternoon 2-5 PM",
+          "rating": 4.2,
+          "category": ["garden", "relaxation"]
+        },
+        {
+          "name": "Thamel",
+          "description": "A bustling tourist hub with hundreds of hotels, restaurants, shops selling trekking gear, souvenirs, and vibrant nightlife.",
+          "entry_fee": "Free",
+          "best_time": "Evening 6-10 PM",
+          "rating": 4.4,
+          "category": ["shopping", "nightlife"]
+        }
+      ],
+      "hotels": [
+        {"name": "The Dwarika's Hotel", "price": "NPR 9000-18000", "type": "luxury", "location": "Battisputali", "rating": 4.8, "description": "5-star heritage hotel with traditional Newari architecture"},
+        {"name": "Hyatt Regency Kathmandu", "price": "NPR 12000-20000", "type": "luxury", "location": "Near Boudhanath", "rating": 4.7, "description": "International luxury hotel with mountain views"},
+        {"name": "Yak & Yeti Hotel", "price": "NPR 10000-18000", "type": "luxury", "location": "Durbar Marg", "rating": 4.6, "description": "Heritage hotel with modern amenities"},
+        {"name": "Hotel Sapana Garden", "price": "NPR 1500-5000", "type": "budget", "location": "Thamel", "rating": 4.9, "description": "Budget hotel in Thamel with excellent reviews"},
+        {"name": "Thamel Guest House", "price": "NPR 1200-2500", "type": "budget", "location": "Thamel", "rating": 4.2, "description": "Budget guest house in Thamel"},
+        {"name": "Hotel Shanker", "price": "NPR 4000-8000", "type": "mid", "location": "Lazimpat", "rating": 4.3, "description": "Heritage hotel with swimming pool"}
+      ],
+      "food": {
+        "must_try": ["Momo", "Dal Bhat", "Newari Khaja", "Samay Baji", "Yomari", "Chatamari", "Sel Roti"],
+        "price_range_per_person": "NPR 300-1500",
+        "popular_restaurants": [
+          {"name": "Western Tandoori & Naan House", "cuisine": "Indian", "price_range": "NPR 300-1200", "location": "Thamel"},
+          {"name": "Forest and Plate", "cuisine": "Organic and Healthy", "price_range": "NPR 400-900", "location": "Thamel"},
+          {"name": "Nani's Kitchen", "cuisine": "Multi-cuisine", "price_range": "NPR 500-2000", "location": "Near Boudhanath"},
+          {"name": "Bhojan Griha", "cuisine": "Nepali", "price_range": "NPR 600-1500", "location": "Dillibazar"},
+          {"name": "OR2K", "cuisine": "Middle Eastern", "price_range": "NPR 500-1200", "location": "Thamel"}
+        ],
+        "local_specialties": "Newari cuisine features dishes like Chatamari, Yomari, Bara, and Samay Baji"
+      },
+      "transport": {
+        "from_airport": "Taxi takes 30 minutes to city center costing NPR 800-1200",
+        "local": "Taxis, buses, rickshaws, and micro-buses",
+        "to_attractions": "Taxis to Swayambhunath, walking in Durbar Square, buses to Boudhanath",
+        "how_to_reach": "Kathmandu is accessible by international flights to Tribhuvan International Airport, and by bus from major cities in Nepal and India."
+      },
+      "shopping": [
+        {"item": "Pashmina", "place": "Thamel"},
+        {"item": "Singing Bowls", "place": "Thamel"},
+        {"item": "Thanka Paintings", "place": "Thamel"},
+        {"item": "Handicrafts", "place": "Durbar Square"},
+        {"item": "Trekking Gear", "place": "Thamel"},
+        {"item": "Wood Carvings", "place": "Patan"}
+      ]
+    },
+    {
+      "city": "Pokhara",
+      "keywords": ["lake", "paragliding", "annapurna", "phewa", "adventure", "sarangkot", "tourist", "relaxation"],
+      "info": {
+        "description": "Pokhara is Nepal's second-largest city and the gateway to the Annapurna region. Known for its stunning lakes, mountain views, and adventure activities like paragliding and trekking.",
+        "best_time": "September to November and March to May",
+        "altitude": "822 meters (2700 feet)",
+        "population": "500,000",
+        "popularity": 95,
+        "history": "Pokhara was an important trading center on the trans-Himalayan trade route between India and Tibet.",
+        "culture": "Pokhara is home to diverse ethnic groups including Gurung, Magar, and Brahmin communities.",
+        "weather": "Pokhara has a subtropical climate with mild winters and warm summers."
+      },
+      "attractions": [
+        {
+          "name": "Phewa Lake",
+          "description": "The second largest lake in Nepal with beautiful reflection of Machhapuchhre mountain. Boating and lakeside cafes are popular activities.",
+          "entry_fee": "Free, boats cost NPR 500-1000 per hour",
+          "best_time": "Morning 6-9 AM for boating",
+          "rating": 4.7,
+          "category": ["lake", "nature"]
+        },
+        {
+          "name": "Sarangkot",
+          "description": "A famous viewpoint for sunrise over the Annapurna range. Also the best paragliding launch site in Nepal.",
+          "entry_fee": "Free, paragliding costs NPR 8000-12000",
+          "best_time": "Sunrise 5-6 AM",
+          "rating": 4.9,
+          "category": ["viewpoint", "adventure"]
+        },
+        {
+          "name": "World Peace Pagoda",
+          "description": "A white Buddhist stupa offering 360-degree views of the Annapurna range and Phewa Lake.",
+          "entry_fee": "Free",
+          "best_time": "Sunset 4-6 PM",
+          "rating": 4.8,
+          "category": ["temple", "viewpoint"]
+        },
+        {
+          "name": "Davis Falls",
+          "description": "A waterfall that disappears into a cave, also known as Patale Chhango in Nepali.",
+          "entry_fee": "NPR 100",
+          "best_time": "Afternoon 11 AM to 3 PM",
+          "rating": 4.5,
+          "category": ["waterfall", "nature"]
+        },
+        {
+          "name": "Gupteshwor Cave",
+          "description": "A sacred cave with a Shiva shrine and a waterfall inside, located opposite Davis Falls.",
+          "entry_fee": "NPR 100",
+          "best_time": "10 AM to 4 PM",
+          "rating": 4.4,
+          "category": ["cave", "religious"]
+        },
+        {
+          "name": "Begnas Lake",
+          "description": "The third largest lake in Nepal, less crowded than Phewa, great for swimming and relaxation.",
+          "entry_fee": "Free",
+          "best_time": "Afternoon 2-5 PM",
+          "rating": 4.6,
+          "category": ["lake", "relaxation"]
+        }
+      ],
+      "hotels": [
+        {"name": "Temple Tree Resort & Spa", "price": "NPR 12000-20000", "type": "luxury", "location": "Lakeside", "rating": 4.5, "description": "Luxury resort with spa and mountain views"},
+        {"name": "Hotel Pokhara Grande", "price": "NPR 5000-10000", "type": "mid", "location": "Near Airport", "rating": 4.2, "description": "Mid-range hotel near airport"},
+        {"name": "Hotel Orchid", "price": "NPR 2000-4000", "type": "budget", "location": "Lakeside", "rating": 4.7, "description": "Popular budget hotel with excellent service"},
+        {"name": "Waterfront Resort", "price": "NPR 6000-12000", "type": "mid", "location": "Lakeside", "rating": 4.3, "description": "Resort with lake views"},
+        {"name": "Hotel Middle Path", "price": "NPR 3000-6000", "type": "mid", "location": "Lakeside", "rating": 4.4, "description": "Comfortable mid-range hotel"},
+        {"name": "Zostel Pokhara", "price": "NPR 1200-2500", "type": "budget", "location": "Lakeside", "rating": 4.1, "description": "Popular budget hostel"}
+      ],
+      "food": {
+        "must_try": ["Momo", "Dal Bhat", "Sel Roti", "Fresh Fish from Phewa Lake", "Thakali Set"],
+        "price_range_per_person": "NPR 300-1500",
+        "popular_restaurants": [
+          {"name": "Mo2 Heaven", "cuisine": "Multi-cuisine", "price_range": "NPR 500-1500", "location": "Lakeside"},
+          {"name": "Cafe Concerto", "cuisine": "Italian", "price_range": "NPR 600-1800", "location": "Lakeside"},
+          {"name": "Bhojan Griha", "cuisine": "Nepali", "price_range": "NPR 400-1000", "location": "Lakeside"},
+          {"name": "Godfather's Pizza", "cuisine": "Italian", "price_range": "NPR 500-1200", "location": "Lakeside"},
+          {"name": "Lakeside Retreat", "cuisine": "Continental", "price_range": "NPR 600-1500", "location": "Lakeside"}
+        ],
+        "local_specialties": "Fresh lake fish, Newari cuisine, Thakali Set featuring dal, bhat, vegetables, and curry"
+      },
+      "transport": {
+        "from_kathmandu": "Bus takes 6-7 hours costing NPR 500-800, or flight takes 25 minutes costing NPR 4000-6000",
+        "local": "Taxis, auto-rickshaws, rental bikes and scooters costing NPR 500-800 per day",
+        "to_attractions": "Taxi to Sarangkot costs NPR 1500, boats on Phewa Lake cost NPR 500, walking to Lakeside",
+        "how_to_reach": "Pokhara is accessible by bus from Kathmandu in 6-7 hours or by flight in 25 minutes."
+      },
+      "shopping": [
+        {"item": "Pashmina", "place": "Lakeside"},
+        {"item": "Handicrafts", "place": "Lakeside"},
+        {"item": "Trekking Gear", "place": "Lakeside"},
+        {"item": "Local Art", "place": "Lakeside"},
+        {"item": "Singing Bowls", "place": "Lakeside"},
+        {"item": "Buddhist Art", "place": "Lakeside"}
+      ]
+    },
+    {
+      "city": "Lumbini",
+      "keywords": ["buddha", "birthplace", "monastery", "spiritual", "UNESCO", "pilgrimage", "sacred"],
+      "info": {
+        "description": "Lumbini is the birthplace of Lord Buddha, one of the most sacred pilgrimage sites in the world and a UNESCO World Heritage Site.",
+        "best_time": "October to March",
+        "altitude": "150 meters (490 feet)",
+        "population": "70,000",
+        "popularity": 85,
+        "history": "Lumbini is where Queen Mayadevi gave birth to Siddhartha Gautama (Lord Buddha) in 563 BCE. Emperor Ashoka visited in 249 BCE and erected the Ashoka Pillar to mark the birthplace.",
+        "culture": "Lumbini is a place of peace and spiritual reflection, attracting pilgrims from all over the world who come to meditate and pay their respects.",
+        "weather": "Lumbini has a subtropical climate with hot summers and mild winters."
+      },
+      "attractions": [
+        {
+          "name": "Maya Devi Temple",
+          "description": "The main temple marking the exact birthplace of Lord Buddha, with the sacred marker stone inside.",
+          "entry_fee": "NPR 200",
+          "best_time": "Morning 7-10 AM",
+          "rating": 4.8,
+          "category": ["temple", "UNESCO"]
+        },
+        {
+          "name": "Sacred Garden",
+          "description": "A peaceful garden surrounding Maya Devi Temple with the sacred pond and ancient ruins.",
+          "entry_fee": "Included with Maya Devi Temple",
+          "best_time": "Morning 7-10 AM",
+          "rating": 4.7,
+          "category": ["garden", "spiritual"]
+        },
+        {
+          "name": "Ashoka Pillar",
+          "description": "An ancient stone pillar erected by Emperor Ashoka in 249 BCE, marking his visit to the birthplace.",
+          "entry_fee": "Included with Maya Devi Temple",
+          "best_time": "Morning 7-10 AM",
+          "rating": 4.6,
+          "category": ["historical", "UNESCO"]
+        },
+        {
+          "name": "Chinese Monastery",
+          "description": "A beautiful traditional Chinese-style monastery with ornate architecture and peaceful gardens.",
+          "entry_fee": "Free",
+          "best_time": "Morning 8-11 AM",
+          "rating": 4.5,
+          "category": ["monastery", "culture"]
+        },
+        {
+          "name": "Japanese Monastery",
+          "description": "A serene Japanese monastery featuring traditional Zen architecture and meditation gardens.",
+          "entry_fee": "Free",
+          "best_time": "Morning 8-11 AM",
+          "rating": 4.5,
+          "category": ["monastery", "culture"]
+        },
+        {
+          "name": "Lumbini Museum",
+          "description": "A museum showcasing Buddha's life, the history of Lumbini, and Buddhist artifacts from around the world.",
+          "entry_fee": "NPR 50",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.4,
+          "category": ["museum", "education"]
+        }
+      ],
+      "hotels": [
+        {"name": "Lumbini Garden Hotel", "price": "NPR 3000-5000", "type": "mid", "location": "Near Sacred Garden", "rating": 4.2, "description": "Comfortable hotel near Sacred Garden"},
+        {"name": "Hotel Lumbini Hokke", "price": "NPR 2500-4500", "type": "mid", "location": "Near Monastic Zone", "rating": 4.0, "description": "Japanese-run hotel"},
+        {"name": "Lumbini Buddha Garden", "price": "NPR 1500-3000", "type": "budget", "location": "Near Maya Devi Temple", "rating": 3.8, "description": "Budget garden hotel"},
+        {"name": "Ananda Inn", "price": "NPR 1200-2500", "type": "budget", "location": "Near Bus Station", "rating": 3.5, "description": "Budget inn"},
+        {"name": "Korea Guest House", "price": "NPR 800-1500", "type": "budget", "location": "Near Monastic Zone", "rating": 3.2, "description": "Budget guest house"}
+      ],
+      "food": {
+        "must_try": ["Dal Bhat", "Momo", "Thukpa", "Tibetan Bread", "Local Thali"],
+        "price_range_per_person": "NPR 200-1000",
+        "popular_restaurants": [
+          {"name": "Lumbini Food Cafe", "cuisine": "Nepali", "price_range": "NPR 200-500", "location": "Near Sacred Garden"},
+          {"name": "Buddha Garden Restaurant", "cuisine": "Multi-cuisine", "price_range": "NPR 300-800", "location": "Near Monastic Zone"},
+          {"name": "Peace Cafe", "cuisine": "Continental", "price_range": "NPR 400-1000", "location": "Near Maya Devi Temple"}
+        ],
+        "local_specialties": "Dal Bhat, Thukpa, Momo, and Tibetan bread"
+      },
+      "transport": {
+        "from_kathmandu": "Bus takes 8-10 hours costing NPR 600-900, or flight to Bhairahawa takes 35 minutes costing NPR 5000-7000 then taxi",
+        "local": "Taxis, auto-rickshaws, bicycles costing NPR 100-200 per hour",
+        "to_attractions": "Walking inside Sacred Garden, taxis between sites costing NPR 500-1000",
+        "how_to_reach": "Lumbini is accessible by bus from Kathmandu in 8-10 hours or by flight to Bhairahawa Airport in 35 minutes."
+      },
+      "shopping": [
+        {"item": "Buddhist Books", "place": "Monastic Zone"},
+        {"item": "Prayer Flags", "place": "Monastic Zone"},
+        {"item": "Singing Bowls", "place": "Lumbini Market"},
+        {"item": "Handicrafts", "place": "Lumbini Market"},
+        {"item": "Tibetan Art", "place": "Monastic Zone"}
+      ]
+    },
+    {
+      "city": "Chitwan",
+      "keywords": ["wildlife", "safari", "jungle", "rhino", "tiger", "national park", "UNESCO", "elephant"],
+      "info": {
+        "description": "Chitwan is home to the famous Chitwan National Park, a UNESCO World Heritage Site and premier wildlife destination in Nepal.",
+        "best_time": "October to February",
+        "altitude": "150 meters (490 feet)",
+        "population": "600,000",
+        "popularity": 88,
+        "history": "Chitwan National Park was established in 1973 as Nepal's first national park and declared a UNESCO World Heritage Site in 1984.",
+        "culture": "Chitwan is home to the indigenous Tharu people, known for their unique culture, dance, and cuisine.",
+        "weather": "Chitwan has a tropical climate with hot summers and mild winters."
+      },
+      "attractions": [
+        {
+          "name": "Chitwan National Park",
+          "description": "A UNESCO World Heritage Site with one-horned rhinos, Bengal tigers, elephants, and over 500 bird species.",
+          "entry_fee": "NPR 2000",
+          "best_time": "Morning 6-9 AM and Afternoon 3-6 PM",
+          "rating": 4.6,
+          "category": ["wildlife", "UNESCO"]
+        },
+        {
+          "name": "Jungle Safari",
+          "description": "A jeep safari or elephant ride through the jungle to see wildlife including rhinos, elephants, deer, and birds.",
+          "entry_fee": "NPR 2500-4000",
+          "best_time": "Morning 6-9 AM",
+          "rating": 4.7,
+          "category": ["safari", "wildlife"]
+        },
+        {
+          "name": "Elephant Breeding Center",
+          "description": "A center dedicated to elephant conservation and breeding, offering close encounters with elephants.",
+          "entry_fee": "NPR 150",
+          "best_time": "Morning 8-10 AM",
+          "rating": 4.5,
+          "category": ["wildlife", "conservation"]
+        },
+        {
+          "name": "Tharu Cultural Museum",
+          "description": "A museum showcasing the culture, lifestyle, and traditions of the indigenous Tharu people.",
+          "entry_fee": "NPR 100",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.3,
+          "category": ["culture", "museum"]
+        },
+        {
+          "name": "Canoe Ride",
+          "description": "A traditional canoe ride along protected river areas to observe crocodiles and aquatic birds.",
+          "entry_fee": "NPR 500",
+          "best_time": "Morning 7-9 AM",
+          "rating": 4.4,
+          "category": ["boat", "wildlife"]
+        }
+      ],
+      "hotels": [
+        {"name": "Tiger Tops Tharu Lodge", "price": "NPR 6000-12000", "type": "luxury", "location": "Near Park Entrance", "rating": 4.6, "description": "Luxury lodge with Tharu culture"},
+        {"name": "Hotel Jungle Crown", "price": "NPR 3500-7000", "type": "mid", "location": "Near Park Entrance", "rating": 4.3, "description": "Comfortable jungle hotel"},
+        {"name": "Green Park Chitwan", "price": "NPR 4000-8000", "type": "mid", "location": "Near Park Entrance", "rating": 4.4, "description": "Green resort near park"},
+        {"name": "Jungle Villa Resort", "price": "NPR 1800-3500", "type": "budget", "location": "Near Park Entrance", "rating": 4.0, "description": "Budget jungle resort"},
+        {"name": "Hotel Parkside", "price": "NPR 1500-3000", "type": "budget", "location": "Near Park Entrance", "rating": 3.8, "description": "Budget hotel"}
+      ],
+      "food": {
+        "must_try": ["Tharu Cuisine", "Dal Bhat", "Momo", "Fresh River Fish", "Local Vegetables"],
+        "price_range_per_person": "NPR 250-1200",
+        "popular_restaurants": [
+          {"name": "Tharu Kitchen", "cuisine": "Tharu", "price_range": "NPR 250-600", "location": "Near Park Entrance"},
+          {"name": "Jungle Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Near Park Entrance"},
+          {"name": "River View Restaurant", "cuisine": "Continental", "price_range": "NPR 500-1200", "location": "Near Park Entrance"}
+        ],
+        "local_specialties": "Tharu cuisine including Ghugni, Bara, Dhikri, fresh river fish, and local vegetables"
+      },
+      "transport": {
+        "from_kathmandu": "Bus takes 5-6 hours costing NPR 500-700, or flight to Bharatpur takes 25 minutes costing NPR 4000-5000 then taxi",
+        "local": "Taxis, auto-rickshaws, rental bikes",
+        "to_attractions": "Taxi to Park Entrance, jeep safari inside park",
+        "how_to_reach": "Chitwan is accessible by bus from Kathmandu in 5-6 hours or by flight to Bharatpur Airport in 25 minutes."
+      },
+      "shopping": [
+        {"item": "Handicrafts", "place": "Near Park Entrance"},
+        {"item": "Tharu Art", "place": "Tharu Village"},
+        {"item": "Local Products", "place": "Market Area"},
+        {"item": "Bamboo Crafts", "place": "Tharu Village"}
+      ]
+    },
+    {
+      "city": "Bhaktapur",
+      "keywords": ["medieval", "durbar square", "pottery", "newari", "UNESCO", "temple", "heritage"],
+      "info": {
+        "description": "Bhaktapur is known as the City of Devotees, famous for its well-preserved medieval architecture and UNESCO World Heritage Site.",
+        "best_time": "September to November and March to May",
+        "altitude": "1401 meters (4600 feet)",
+        "population": "80,000",
+        "popularity": 82,
+        "history": "Bhaktapur was the capital of the Malla kingdom from the 12th to 15th centuries and was known as Nepal in ancient times.",
+        "culture": "Bhaktapur is the heart of Newari culture, famous for pottery traditions, wood carvings, and traditional festivals.",
+        "weather": "Bhaktapur has a temperate climate similar to Kathmandu."
+      },
+      "attractions": [
+        {
+          "name": "Bhaktapur Durbar Square",
+          "description": "A UNESCO World Heritage Site with well-preserved medieval architecture, the 55-Window Palace, and ancient temples.",
+          "entry_fee": "NPR 1800",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.8,
+          "category": ["UNESCO", "heritage"]
+        },
+        {
+          "name": "Nyatapola Temple",
+          "description": "The tallest pagoda-style temple in Nepal at 30 meters with five stories and intricate wood carvings.",
+          "entry_fee": "Included with Durbar Square",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.7,
+          "category": ["temple", "heritage"]
+        },
+        {
+          "name": "55-Window Palace",
+          "description": "A royal palace famous for its ornate 55 wooden windows with intricate carvings from the Malla period.",
+          "entry_fee": "Included with Durbar Square",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.6,
+          "category": ["palace", "heritage"]
+        },
+        {
+          "name": "Pottery Square",
+          "description": "A traditional pottery-making area where artisans demonstrate age-old techniques and sell handmade ceramics.",
+          "entry_fee": "Free",
+          "best_time": "Morning 8-11 AM",
+          "rating": 4.5,
+          "category": ["craft", "culture"]
+        },
+        {
+          "name": "Dattatreya Square",
+          "description": "An ancient square with Dattatreya Temple and traditional wooden struts with mythological carvings.",
+          "entry_fee": "Included with Durbar Square",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.4,
+          "category": ["temple", "heritage"]
+        }
+      ],
+      "hotels": [
+        {"name": "Heritage Hotel Bhaktapur", "price": "NPR 3500-6000", "type": "mid", "location": "Near Durbar Square", "rating": 4.5, "description": "Heritage hotel"},
+        {"name": "Hotel Nagarkot", "price": "NPR 2500-5000", "type": "mid", "location": "Near Durbar Square", "rating": 4.2, "description": "Comfortable mid-range hotel"},
+        {"name": "Bhaktapur Guest House", "price": "NPR 1200-2500", "type": "budget", "location": "Near Durbar Square", "rating": 4.0, "description": "Budget guest house"},
+        {"name": "Shiva Guest House", "price": "NPR 800-1500", "type": "budget", "location": "Near Durbar Square", "rating": 3.8, "description": "Budget guest house"}
+      ],
+      "food": {
+        "must_try": ["Jhol Momo", "Yomri", "Chatamari", "Sel Roti", "Bara"],
+        "price_range_per_person": "NPR 200-1000",
+        "popular_restaurants": [
+          {"name": "Bhaktapur Kitchen", "cuisine": "Newari", "price_range": "NPR 200-600", "location": "Near Durbar Square"},
+          {"name": "Nyatapola Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Near Durbar Square"},
+          {"name": "Pottery Square Cafe", "cuisine": "Continental", "price_range": "NPR 300-800", "location": "Near Pottery Square"}
+        ],
+        "local_specialties": "Jhol Momo, Yomri, Chatamari, Bara, and Sel Roti"
+      },
+      "transport": {
+        "from_kathmandu": "Bus takes 1 hour costing NPR 200-300, or taxi takes 45 minutes costing NPR 1500-2000",
+        "local": "Walking, taxis, and rickshaws",
+        "to_attractions": "Walking inside Durbar Square, taxis to nearby attractions",
+        "how_to_reach": "Bhaktapur is accessible by bus from Kathmandu in 1 hour or by taxi in 45 minutes."
+      },
+      "shopping": [
+        {"item": "Pottery", "place": "Pottery Square"},
+        {"item": "Wood Carvings", "place": "Durbar Square"},
+        {"item": "Handicrafts", "place": "Durbar Square"},
+        {"item": "Traditional Masks", "place": "Durbar Square"}
+      ]
+    },
+    {
+      "city": "Lalitpur",
+      "keywords": ["patan", "durbar square", "newari", "architecture", "UNESCO", "metal craft"],
+      "info": {
+        "description": "Lalitpur, also known as Patan, is one of the three royal cities in Kathmandu Valley, renowned for its exquisite Newari architecture and UNESCO World Heritage Sites.",
+        "best_time": "September to November and March to May",
+        "altitude": "1400 meters (4600 feet)",
+        "population": "300,000",
+        "popularity": 80,
+        "history": "Patan was founded in the 3rd century by King Veer Deva and flourished during the Malla period as a center of art and culture.",
+        "culture": "Patan is known as the City of Artists for its rich tradition of metal crafts, wood carving, and architecture.",
+        "weather": "Lalitpur shares the same climate as Kathmandu."
+      },
+      "attractions": [
+        {
+          "name": "Patan Durbar Square",
+          "description": "A UNESCO World Heritage Site with an ancient palace, Krishna Mandir, and the finest Newar architecture.",
+          "entry_fee": "NPR 1000",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.6,
+          "category": ["UNESCO", "heritage"]
+        },
+        {
+          "name": "Krishna Mandir",
+          "description": "A stone Shikara-style temple dedicated to Lord Krishna, built in 1637 with intricate carvings.",
+          "entry_fee": "Included with Durbar Square",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.6,
+          "category": ["temple", "heritage"]
+        },
+        {
+          "name": "Golden Temple",
+          "description": "A magnificent Buddhist monastery known as Hiranya Varna Mahavihar with a gold-plated entrance.",
+          "entry_fee": "Free",
+          "best_time": "Morning 9-11 AM",
+          "rating": 4.5,
+          "category": ["temple", "buddhist"]
+        },
+        {
+          "name": "Patan Museum",
+          "description": "One of Asia's finest museums showcasing traditional Nepalese art, sculptures, bronze, and religious artifacts.",
+          "entry_fee": "NPR 500",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.6,
+          "category": ["museum", "art"]
+        },
+        {
+          "name": "Kumbheswor Temple",
+          "description": "A 5th-century Hindu temple dedicated to Lord Shiva, famous for two sacred ponds.",
+          "entry_fee": "Free",
+          "best_time": "Morning 8-10 AM",
+          "rating": 4.4,
+          "category": ["temple", "religious"]
+        }
+      ],
+      "hotels": [
+        {"name": "Patan Courtyard Hotel", "price": "NPR 3500-6500", "type": "mid", "location": "Near Durbar Square", "rating": 4.4, "description": "Heritage courtyard hotel"},
+        {"name": "Hotel Patan", "price": "NPR 2500-4500", "type": "mid", "location": "Near Durbar Square", "rating": 4.0, "description": "Comfortable hotel"},
+        {"name": "Patan Guest House", "price": "NPR 1200-2500", "type": "budget", "location": "Near Durbar Square", "rating": 3.8, "description": "Budget guest house"},
+        {"name": "Newa Chhen", "price": "NPR 1500-3000", "type": "budget", "location": "Near Durbar Square", "rating": 3.5, "description": "Budget hotel"}
+      ],
+      "food": {
+        "must_try": ["Newari Khaja", "Chhwela", "Bara", "Yomri", "Samay Baji"],
+        "price_range_per_person": "NPR 250-1200",
+        "popular_restaurants": [
+          {"name": "Newa Kitchen", "cuisine": "Newari", "price_range": "NPR 250-700", "location": "Near Durbar Square"},
+          {"name": "Patan Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Near Durbar Square"},
+          {"name": "Durbar Restaurant", "cuisine": "Continental", "price_range": "NPR 500-1200", "location": "Near Durbar Square"}
+        ],
+        "local_specialties": "Newari Khaja featuring Chhwela, Bara, Yomri, and Samay Baji"
+      },
+      "transport": {
+        "from_kathmandu": "Bus takes 30 minutes costing NPR 100-200, or taxi takes 20 minutes costing NPR 500-800",
+        "local": "Walking, taxis, and rickshaws",
+        "to_attractions": "Walking inside Durbar Square, taxis to nearby attractions",
+        "how_to_reach": "Lalitpur is accessible by bus from Kathmandu in 30 minutes or by taxi in 20 minutes."
+      },
+      "shopping": [
+        {"item": "Metal Crafts", "place": "Durbar Square"},
+        {"item": "Wood Carvings", "place": "Durbar Square"},
+        {"item": "Handicrafts", "place": "Durbar Square"},
+        {"item": "Thanka Paintings", "place": "Durbar Square"}
+      ]
+    },
+    {
+      "city": "Everest",
+      "keywords": ["everest", "sagarmatha", "trekking", "himalaya", "base camp", "mountain", "adventure"],
+      "info": {
+        "description": "The Everest Region is home to the world's highest peak, Mount Everest, known as Sagarmatha in Nepali, standing at 8848.86 meters. It offers world-class trekking with stunning mountain scenery.",
+        "best_time": "September to November and March to May",
+        "altitude": "2800 to 5364 meters",
+        "population": "Information not specified",
+        "popularity": 97,
+        "history": "The Everest Region has been inhabited by the Sherpa community for centuries. The first successful ascent of Everest was made by Sir Edmund Hillary and Tenzing Norgay in 1953.",
+        "culture": "The Sherpa community has a rich Tibetan Buddhist culture, known for their climbing skills and deep connection to the mountains.",
+        "weather": "The Everest Region has a harsh mountain climate with extremely cold winters."
+      },
+      "attractions": [
+        {
+          "name": "Mount Everest",
+          "description": "The world's highest peak at 8848.86 meters, the ultimate destination for climbers and trekkers.",
+          "entry_fee": "Permit required",
+          "best_time": "Spring and Autumn",
+          "rating": 4.9,
+          "category": ["mountain", "adventure"]
+        },
+        {
+          "name": "Everest Base Camp",
+          "description": "The legendary base camp at 5364 meters, the ultimate destination for trekkers seeking the world's highest peak experience.",
+          "entry_fee": "Included in trekking permit",
+          "best_time": "Spring and Autumn",
+          "rating": 4.9,
+          "category": ["trekking", "mountain"]
+        },
+        {
+          "name": "Namche Bazaar",
+          "description": "A colorful Sherpa alpine town at 3440 meters, the main staging point for Everest expeditions with a vibrant Saturday market.",
+          "entry_fee": "Free",
+          "best_time": "Year-round except monsoon",
+          "rating": 4.7,
+          "category": ["village", "culture"]
+        },
+        {
+          "name": "Tengboche Monastery",
+          "description": "The leading Buddhist monastery of the Sherpa community at 3867 meters, with stunning views of Ama Dablam and Everest.",
+          "entry_fee": "NPR 500",
+          "best_time": "Morning 6-9 AM",
+          "rating": 4.8,
+          "category": ["monastery", "culture"]
+        },
+        {
+          "name": "Kala Patthar",
+          "description": "A famous viewpoint at 5644 meters offering the best unobstructed sunrise view of Mount Everest and surrounding peaks.",
+          "entry_fee": "Included in trekking permit",
+          "best_time": "Sunrise 5-6 AM",
+          "rating": 4.9,
+          "category": ["viewpoint", "mountain"]
+        }
+      ],
+      "hotels": [
+        {"name": "Yeti Mountain Home", "price": "NPR 3000-5000", "type": "luxury", "location": "Lukla", "rating": 4.5, "description": "Luxury lodge"},
+        {"name": "Hotel Everest View", "price": "NPR 4000-8000", "type": "luxury", "location": "Namche Bazaar", "rating": 4.6, "description": "Mountain view hotel"},
+        {"name": "Sherpa Lodge", "price": "NPR 1500-3000", "type": "mid", "location": "Namche Bazaar", "rating": 4.2, "description": "Comfortable lodge"},
+        {"name": "Tea Houses", "price": "NPR 500-1500", "type": "budget", "location": "Throughout the trek", "rating": 3.8, "description": "Basic tea houses"}
+      ],
+      "food": {
+        "must_try": ["Dal Bhat", "Momo", "Thukpa", "Tsampa", "Tibetan Bread"],
+        "price_range_per_person": "NPR 300-1200",
+        "popular_restaurants": [
+          {"name": "Everest Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Namche Bazaar"},
+          {"name": "Sherpa Kitchen", "cuisine": "Tibetan", "price_range": "NPR 300-800", "location": "Namche Bazaar"},
+          {"name": "German Bakery", "cuisine": "Bakery", "price_range": "NPR 200-600", "location": "Namche Bazaar"}
+        ],
+        "local_specialties": "Dal Bhat, Momo, Thukpa, and Tsampa"
+      },
+      "transport": {
+        "from_kathmandu": "Flight to Lukla takes 30 minutes costing NPR 8000-10000, or helicopter costing NPR 50000 or more",
+        "local": "Walking and trekking",
+        "to_attractions": "Walking along the Everest Base Camp trek route",
+        "how_to_reach": "The Everest Region is accessible by flight to Lukla from Kathmandu in 30 minutes or by helicopter."
+      },
+      "shopping": [
+        {"item": "Trekking Gear", "place": "Namche Bazaar"},
+        {"item": "Pashmina", "place": "Namche Bazaar"},
+        {"item": "Tibetan Art", "place": "Namche Bazaar"},
+        {"item": "Buddhist Art", "place": "Tengboche"}
+      ]
+    },
+    {
+      "city": "Annapurna",
+      "keywords": ["annapurna", "trekking", "himalaya", "poon hill", "base camp", "mountain", "adventure"],
+      "info": {
+        "description": "The Annapurna Region offers some of the world's best trekking routes including the famous Annapurna Circuit and Annapurna Base Camp trek, with stunning mountain views.",
+        "best_time": "September to November and March to May",
+        "altitude": "1000 to 5416 meters",
+        "population": "Information not specified",
+        "popularity": 94,
+        "history": "The Annapurna region has a rich history of mountain exploration. The Annapurna massif was first climbed in 1950 by a French expedition.",
+        "culture": "The region is home to diverse ethnic groups including Gurung, Magar, and Thakali communities.",
+        "weather": "The Annapurna region has a varied climate from subtropical valleys to alpine highlands."
+      },
+      "attractions": [
+        {
+          "name": "Annapurna Base Camp",
+          "description": "A natural mountain amphitheater at 4130 meters surrounded by massive ringed peaks including Annapurna I and Machhapuchhre.",
+          "entry_fee": "Included in trekking permit",
+          "best_time": "Spring and Autumn",
+          "rating": 4.9,
+          "category": ["trekking", "mountain"]
+        },
+        {
+          "name": "Poon Hill",
+          "description": "One of Asia's most famous sunrise viewpoints at 3210 meters with panoramic views of Annapurna South, Dhaulagiri, and Machhapuchhre.",
+          "entry_fee": "Included in trekking permit",
+          "best_time": "Sunrise 5-6 AM",
+          "rating": 4.8,
+          "category": ["viewpoint", "mountain"]
+        },
+        {
+          "name": "Annapurna Circuit",
+          "description": "One of the world's most famous trekking routes circling the Annapurna massif, passing through diverse landscapes and cultures.",
+          "entry_fee": "ACAP permit required",
+          "best_time": "September to November and March to May",
+          "rating": 4.9,
+          "category": ["trekking", "mountain"]
+        },
+        {
+          "name": "Ghandruk Village",
+          "description": "A beautiful traditional Gurung village at 2012 meters with stunning Annapurna views and rich cultural heritage.",
+          "entry_fee": "Free",
+          "best_time": "September to November and March to May",
+          "rating": 4.8,
+          "category": ["village", "culture"]
+        },
+        {
+          "name": "Machhapuchhre Base Camp",
+          "description": "A sacred base camp at 3700 meters near the iconic fish-tailed Machhapuchhre peak, which is prohibited from climbing.",
+          "entry_fee": "Included in trekking permit",
+          "best_time": "Spring and Autumn",
+          "rating": 4.8,
+          "category": ["trekking", "mountain"]
+        }
+      ],
+      "hotels": [
+        {"name": "Annapurna Eco Lodge", "price": "NPR 2500-4500", "type": "mid", "location": "Ghandruk", "rating": 4.3, "description": "Eco-friendly lodge"},
+        {"name": "Mountain View Lodge", "price": "NPR 1500-3000", "type": "mid", "location": "Ghorepani", "rating": 4.1, "description": "Mountain view lodge"},
+        {"name": "Trekker's Lodge", "price": "NPR 1000-2000", "type": "budget", "location": "Throughout the trek", "rating": 3.8, "description": "Budget lodge"},
+        {"name": "Tea Houses", "price": "NPR 500-1500", "type": "budget", "location": "Throughout the trek", "rating": 3.5, "description": "Basic tea houses"}
+      ],
+      "food": {
+        "must_try": ["Dal Bhat", "Momo", "Thukpa", "Tibetan Bread", "Sherpa Stew"],
+        "price_range_per_person": "NPR 300-1200",
+        "popular_restaurants": [
+          {"name": "Annapurna Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Ghandruk"},
+          {"name": "Poon Hill Restaurant", "cuisine": "Nepali", "price_range": "NPR 300-800", "location": "Ghorepani"},
+          {"name": "Tea House Kitchen", "cuisine": "Local", "price_range": "NPR 200-600", "location": "Throughout the trek"}
+        ],
+        "local_specialties": "Dal Bhat, Momo, Thukpa, and Sherpa stew"
+      },
+      "transport": {
+        "from_pokhara": "Bus to Besishahar or Naya Pul, then walking and trekking",
+        "local": "Walking and trekking, jeeps for road sections",
+        "to_attractions": "Walking along the Annapurna Circuit or ABC trek routes",
+        "how_to_reach": "The Annapurna Region is accessible by bus from Pokhara to Besishahar or Naya Pul, then walking and trekking."
+      },
+      "shopping": [
+        {"item": "Trekking Gear", "place": "Pokhara"},
+        {"item": "Local Crafts", "place": "Ghandruk"},
+        {"item": "Buddhist Art", "place": "Throughout the trek"}
+      ]
+    },
+    {
+      "city": "Mustang",
+      "keywords": ["mustang", "upper mustang", "lo manthang", "tibetan", "desert", "culture", "adventure"],
+      "info": {
+        "description": "Mustang is a former kingdom of Nepal with unique Tibetan Buddhist culture, ancient monasteries, and dramatic desert-like landscapes. It is a restricted area requiring special permits.",
+        "best_time": "May to October",
+        "altitude": "2720 to 3840 meters",
+        "population": "Information not specified",
+        "popularity": 78,
+        "history": "The Kingdom of Lo in Mustang was established in the 14th century and remained independent until 2008 when it became part of Nepal.",
+        "culture": "Mustang has a strong Tibetan Buddhist culture with many monasteries, chortens, and traditional Tibetan art.",
+        "weather": "Mustang is in the rain shadow of the Himalayas, making it dry with a desert-like climate."
+      },
+      "attractions": [
+        {
+          "name": "Lo Manthang",
+          "description": "A walled city at 3840 meters, the former capital of the Kingdom of Lo with a 15th-century Royal Palace and ancient monasteries.",
+          "entry_fee": "Special permit required costing NPR 50000 for 10 days",
+          "best_time": "May to October",
+          "rating": 4.8,
+          "category": ["heritage", "culture"]
+        },
+        {
+          "name": "Muktinath Temple",
+          "description": "The most important pilgrimage site at 3800 meters sacred to both Hindus and Buddhists, featuring 18 water springs and an eternal flame.",
+          "entry_fee": "NPR 3000",
+          "best_time": "May to October",
+          "rating": 4.7,
+          "category": ["temple", "religious"]
+        },
+        {
+          "name": "Kali Gandaki Gorge",
+          "description": "The world's deepest gorge between Dhaulagiri and Annapurna, the origin of the Kali Gandaki River with Saligram stones.",
+          "entry_fee": "Free",
+          "best_time": "May to October",
+          "rating": 4.6,
+          "category": ["nature", "geography"]
+        },
+        {
+          "name": "Jomsom",
+          "description": "The district headquarters at 2720 meters, the gateway to Upper Mustang with an airport, famous for apple farming and Thakali culture.",
+          "entry_fee": "Free",
+          "best_time": "May to October",
+          "rating": 4.4,
+          "category": ["village", "culture"]
+        }
+      ],
+      "hotels": [
+        {"name": "Hotel Annapurna Mustang", "price": "NPR 3500-6000", "type": "mid", "location": "Jomsom", "rating": 4.0, "description": "Mid-range hotel"},
+        {"name": "Mustang Eco Lodge", "price": "NPR 2500-4500", "type": "mid", "location": "Lo Manthang", "rating": 3.8, "description": "Eco lodge"},
+        {"name": "Trekker's Lodge", "price": "NPR 1000-2000", "type": "budget", "location": "Lo Manthang", "rating": 3.5, "description": "Budget lodge"},
+        {"name": "Tea Houses", "price": "NPR 500-1500", "type": "budget", "location": "Throughout Mustang", "rating": 3.2, "description": "Basic tea houses"}
+      ],
+      "food": {
+        "must_try": ["Dal Bhat", "Momo", "Thukpa", "Tsampa", "Apple Brandy", "Dried Apples"],
+        "price_range_per_person": "NPR 300-1200",
+        "popular_restaurants": [
+          {"name": "Mustang Kitchen", "cuisine": "Tibetan", "price_range": "NPR 300-800", "location": "Lo Manthang"},
+          {"name": "Jomsom Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Jomsom"},
+          {"name": "Tea House Kitchen", "cuisine": "Local", "price_range": "NPR 200-600", "location": "Throughout Mustang"}
+        ],
+        "local_specialties": "Apple Brandy, Dried Apples, Tsampa, and Thukpa"
+      },
+      "transport": {
+        "from_kathmandu": "Flight to Jomsom takes 30 minutes costing NPR 6000-8000, or drive via Beni",
+        "local": "Walking and trekking, jeeps",
+        "to_attractions": "Walking along the Upper Mustang trek route",
+        "how_to_reach": "Mustang is accessible by flight to Jomsom from Kathmandu in 30 minutes or by road via Beni."
+      },
+      "shopping": [
+        {"item": "Buddhist Art", "place": "Lo Manthang"},
+        {"item": "Handicrafts", "place": "Jomsom"},
+        {"item": "Tibetan Carpets", "place": "Lo Manthang"},
+        {"item": "Saligram Stones", "place": "Kali Gandaki"}
+      ]
+    },
+    {
+      "city": "Manang",
+      "keywords": ["manang", "tilicho lake", "annapurna", "trekking", "himalaya", "lake", "adventure"],
+      "info": {
+        "description": "Manang is a high-altitude Himalayan district in the Annapurna region, known for stunning landscapes, Tilicho Lake, one of the highest lakes in the world, and Tibetan Buddhist culture.",
+        "best_time": "May to October",
+        "altitude": "3540 to 4919 meters",
+        "population": "Information not specified",
+        "popularity": 82,
+        "history": "Manang has a rich history of trade between Nepal and Tibet, historically a stop on the trans-Himalayan trade route.",
+        "culture": "Manang has strong Tibetan Buddhist culture with many monasteries and chortens.",
+        "weather": "Manang has a dry Himalayan climate with cold winters and mild summers."
+      },
+      "attractions": [
+        {
+          "name": "Tilicho Lake",
+          "description": "One of the highest altitude lakes in the world at 4919 meters with turquoise waters, reached via the Annapurna Circuit.",
+          "entry_fee": "Included in trekking permit",
+          "best_time": "May to October",
+          "rating": 4.9,
+          "category": ["lake", "mountain"]
+        },
+        {
+          "name": "Braga Village",
+          "description": "A beautiful Himalayan town at 3450 meters with a 500-year-old Braga Monastery and ancient Tibetan architecture.",
+          "entry_fee": "Free",
+          "best_time": "May to October",
+          "rating": 4.7,
+          "category": ["village", "culture"]
+        },
+        {
+          "name": "Gangapurna Lake",
+          "description": "A glacial lake at 3540 meters near Manang village, perfect for day hiking with reflections of Annapurna II and III.",
+          "entry_fee": "Free",
+          "best_time": "May to October",
+          "rating": 4.7,
+          "category": ["lake", "nature"]
+        },
+        {
+          "name": "Manang Village",
+          "description": "A traditional village at 3540 meters, an important acclimatization stop on the Annapurna Circuit with stone houses and Buddhist chortens.",
+          "entry_fee": "Free",
+          "best_time": "May to October",
+          "rating": 4.6,
+          "category": ["village", "culture"]
+        },
+        {
+          "name": "Ice Lake",
+          "description": "A Himalayan freshwater lake at 4620 meters in the isolated Manang valley, a challenging full-day hike with spectacular mountain views.",
+          "entry_fee": "Free",
+          "best_time": "May to October",
+          "rating": 4.8,
+          "category": ["lake", "mountain"]
+        }
+      ],
+      "hotels": [
+        {"name": "Manang Eco Resort", "price": "NPR 2500-4500", "type": "mid", "location": "Manang Village", "rating": 4.0, "description": "Eco-friendly resort"},
+        {"name": "Hotel Manang", "price": "NPR 1800-3500", "type": "mid", "location": "Manang Village", "rating": 3.8, "description": "Comfortable hotel"},
+        {"name": "Tea Houses", "price": "NPR 500-1500", "type": "budget", "location": "Throughout Manang", "rating": 3.5, "description": "Basic tea houses"},
+        {"name": "Trekker's Lodge", "price": "NPR 1000-2000", "type": "budget", "location": "Manang Village", "rating": 3.2, "description": "Budget lodge"}
+      ],
+      "food": {
+        "must_try": ["Dal Bhat", "Momo", "Thukpa", "Tsampa", "Tibetan Bread"],
+        "price_range_per_person": "NPR 300-1200",
+        "popular_restaurants": [
+          {"name": "Manang Kitchen", "cuisine": "Tibetan", "price_range": "NPR 300-800", "location": "Manang Village"},
+          {"name": "Gangapurna Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Manang Village"},
+          {"name": "Tea House Kitchen", "cuisine": "Local", "price_range": "NPR 200-600", "location": "Throughout Manang"}
+        ],
+        "local_specialties": "Tsampa, Thukpa, and Tibetan bread"
+      },
+      "transport": {
+        "from_kathmandu": "Drive to Besishahar, then trekking or jeep to Chame and Manang",
+        "local": "Walking and trekking, jeeps",
+        "to_attractions": "Walking along the Annapurna Circuit and Tilicho Lake trek routes",
+        "how_to_reach": "Manang is accessible by road from Kathmandu via Besishahar, then trekking or jeep to Chame and Manang."
+      },
+      "shopping": [
+        {"item": "Buddhist Art", "place": "Manang Village"},
+        {"item": "Handicrafts", "place": "Manang Village"},
+        {"item": "Tibetan Carpets", "place": "Braga Village"}
+      ]
+    },
+    {
+      "city": "Janakpur",
+      "keywords": ["janakpur", "janaki temple", "sita", "ramayana", "mithila", "culture", "pilgrimage"],
+      "info": {
+        "description": "Janakpur is the birthplace of Goddess Sita and one of Nepal's most important pilgrimage sites, known for the magnificent Janaki Mandir and Mithila art.",
+        "best_time": "October to March",
+        "altitude": "74 meters (243 feet)",
+        "population": "200,000",
+        "popularity": 75,
+        "history": "Janakpur is an ancient city dating back to the Ramayana period, believed to be the birthplace of Sita and the site of her marriage to Lord Ram.",
+        "culture": "Janakpur is the center of Maithili culture and language, famous for Mithila paintings and traditional Maithili music.",
+        "weather": "Janakpur has a tropical climate with hot summers and mild winters."
+      },
+      "attractions": [
+        {
+          "name": "Janaki Mandir",
+          "description": "A magnificent temple dedicated to Goddess Sita, built in 1910 with stunning neo-classical architecture, white marble, and gold plating.",
+          "entry_fee": "Free",
+          "best_time": "Morning 7-10 AM",
+          "rating": 4.8,
+          "category": ["temple", "religious"]
+        },
+        {
+          "name": "Ram Sita Vivaha Mandap",
+          "description": "A sacred pagoda-style structure marking the exact spot where Lord Ram and Sita got married.",
+          "entry_fee": "Free",
+          "best_time": "Morning 7-10 AM",
+          "rating": 4.6,
+          "category": ["temple", "religious"]
+        },
+        {
+          "name": "Gangasagar Pond",
+          "description": "A holy pond in Janakpur with mythological importance, where devotees take holy baths during festivals.",
+          "entry_fee": "Free",
+          "best_time": "Morning 6-9 AM",
+          "rating": 4.4,
+          "category": ["pond", "religious"]
+        },
+        {
+          "name": "Mithila Art Museum",
+          "description": "A museum showcasing traditional Mithila paintings and art forms, celebrating Janakpur's rich cultural heritage.",
+          "entry_fee": "Free",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.4,
+          "category": ["museum", "art"]
+        }
+      ],
+      "hotels": [
+        {"name": "Hotel Sita Palace", "price": "NPR 2500-4500", "type": "mid", "location": "Near Janaki Mandir", "rating": 4.2, "description": "Mid-range hotel"},
+        {"name": "Hotel Janakpur Inn", "price": "NPR 1800-3500", "type": "mid", "location": "Near Bus Station", "rating": 4.0, "description": "Comfortable inn"},
+        {"name": "Janakpur Guest House", "price": "NPR 800-1500", "type": "budget", "location": "Near Janaki Mandir", "rating": 3.5, "description": "Budget guest house"},
+        {"name": "Hotel Welcome", "price": "NPR 1000-2000", "type": "budget", "location": "Near Janaki Mandir", "rating": 3.8, "description": "Budget hotel"}
+      ],
+      "food": {
+        "must_try": ["Dal Bhat", "Momo", "Maithili Cuisine", "Tarua", "Local Sweets"],
+        "price_range_per_person": "NPR 200-1000",
+        "popular_restaurants": [
+          {"name": "Maithili Kitchen", "cuisine": "Maithili", "price_range": "NPR 200-600", "location": "Near Janaki Mandir"},
+          {"name": "Sita Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Near Janaki Mandir"},
+          {"name": "Janakpur Food Corner", "cuisine": "Nepali", "price_range": "NPR 300-800", "location": "Near Bus Station"}
+        ],
+        "local_specialties": "Tarua, Maithili sweets, Dal Bhat, and Momo"
+      },
+      "transport": {
+        "from_kathmandu": "Bus takes 8-10 hours costing NPR 600-900, or flight takes 30 minutes costing NPR 5000-7000",
+        "local": "Tempo, rickshaw, and taxi",
+        "to_attractions": "Walking in Janakpur, rickshaws between sites",
+        "how_to_reach": "Janakpur is accessible by bus from Kathmandu in 8-10 hours or by flight in 30 minutes."
+      },
+      "shopping": [
+        {"item": "Mithila Paintings", "place": "Near Janaki Mandir"},
+        {"item": "Handicrafts", "place": "Janakpur Bazaar"},
+        {"item": "Traditional Art", "place": "Mithila Art Museum"},
+        {"item": "Local Handicrafts", "place": "Janakpur Bazaar"}
+      ]
+    },
+    {
+      "city": "Gorkha",
+      "keywords": ["gorkha", "durbar", "prithvi narayan shah", "history", "kingdom", "palace", "heritage"],
+      "info": {
+        "description": "Gorkha is a historic district in Gandaki Province, the birthplace of King Prithvi Narayan Shah who unified Nepal, known for Gorkha Durbar.",
+        "best_time": "September to November and March to May",
+        "altitude": "1130 meters (3700 feet)",
+        "population": "300,000",
+        "popularity": 70,
+        "history": "Gorkha is the birthplace of King Prithvi Narayan Shah, who unified Nepal in 1768. The Gorkha Durbar was the royal palace of the Shah dynasty.",
+        "culture": "Gorkha is known for its rich history and culture, famous for its Gurkha soldiers who are known worldwide for their bravery.",
+        "weather": "Gorkha has a temperate climate with warm summers and cool winters."
+      },
+      "attractions": [
+        {
+          "name": "Gorkha Durbar",
+          "description": "A historic palace complex at 1130 meters, the birthplace of the Gorkha Kingdom and the unification of Nepal by Prithvi Narayan Shah.",
+          "entry_fee": "NPR 100",
+          "best_time": "Morning 8-11 AM",
+          "rating": 4.7,
+          "category": ["palace", "heritage"]
+        },
+        {
+          "name": "Gorkha Nath Temple",
+          "description": "A temple dedicated to Guru Gorakhnath within Gorkha Durbar, showcasing Gorkha military history and artifacts.",
+          "entry_fee": "Included with Durbar",
+          "best_time": "Morning 8-11 AM",
+          "rating": 4.5,
+          "category": ["temple", "religious"]
+        },
+        {
+          "name": "Gorkha Museum",
+          "description": "A museum showcasing Gorkha military history, weapons, uniforms, and the contributions of Gurkha soldiers.",
+          "entry_fee": "NPR 50",
+          "best_time": "Morning 9 AM to 12 PM",
+          "rating": 4.4,
+          "category": ["museum", "history"]
+        }
+      ],
+      "hotels": [
+        {"name": "Gorkha Garden Hotel", "price": "NPR 2000-4000", "type": "mid", "location": "Near Durbar", "rating": 4.0, "description": "Garden hotel"},
+        {"name": "Hotel Gorkha", "price": "NPR 1500-3000", "type": "mid", "location": "Near Bus Station", "rating": 3.8, "description": "Comfortable hotel"},
+        {"name": "Gorkha Guest House", "price": "NPR 800-1500", "type": "budget", "location": "Near Durbar", "rating": 3.5, "description": "Budget guest house"},
+        {"name": "New Gorkha Hotel", "price": "NPR 1200-2500", "type": "budget", "location": "Near Bus Station", "rating": 3.2, "description": "Budget hotel"}
+      ],
+      "food": {
+        "must_try": ["Dal Bhat", "Momo", "Thakali Set", "Local Nepali Cuisine"],
+        "price_range_per_person": "NPR 200-1000",
+        "popular_restaurants": [
+          {"name": "Gorkha Kitchen", "cuisine": "Nepali", "price_range": "NPR 200-600", "location": "Near Durbar"},
+          {"name": "Durbar Cafe", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Near Durbar"},
+          {"name": "Local Restaurant", "cuisine": "Nepali", "price_range": "NPR 200-500", "location": "Near Bus Station"}
+        ],
+        "local_specialties": "Dal Bhat, Momo, and Thakali Set"
+      },
+      "transport": {
+        "from_kathmandu": "Bus takes 6-7 hours costing NPR 500-700, or taxi takes 5 hours costing NPR 8000-10000",
+        "local": "Walking and taxis",
+        "to_attractions": "Walking in Gorkha, taxis to nearby sites",
+        "how_to_reach": "Gorkha is accessible by bus from Kathmandu in 6-7 hours or by taxi in 5 hours."
+      },
+      "shopping": [
+        {"item": "Handicrafts", "place": "Gorkha Bazaar"},
+        {"item": "Local Products", "place": "Gorkha Bazaar"},
+        {"item": "Gurkha Memorabilia", "place": "Gorkha Durbar"}
+      ]
+    },
+    {
+      "city": "Syangja",
+      "keywords": ["syangja", "manakamana", "temple", "cable car", "gurung", "village", "culture"],
+      "info": {
+        "description": "Syangja is a beautiful hill district in Gandaki Province, famous for the Manakamana Temple and authentic Gurung culture in Sirubari village.",
+        "best_time": "September to November and March to May",
+        "altitude": "1000 to 2280 meters",
+        "population": "300,000",
+        "popularity": 68,
+        "history": "Syangja has been an important trading route between Nepal and Tibet. The Manakamana Temple has been a pilgrimage site for centuries.",
+        "culture": "Syangja is home to diverse ethnic groups including Gurung, Magar, and Brahmin communities.",
+        "weather": "Syangja has a moderate climate with warm summers and cool winters."
+      },
+      "attractions": [
+        {
+          "name": "Manakamana Temple",
+          "description": "A famous Hindu temple dedicated to Goddess Bhagwati at 1302 meters, accessible by cable car with panoramic Himalayan views.",
+          "entry_fee": "NPR 100",
+          "best_time": "Morning 6-10 AM",
+          "rating": 4.7,
+          "category": ["temple", "religious"]
+        },
+        {
+          "name": "Manakamana Cable Car",
+          "description": "A scenic cable car ride offering panoramic views of the Himalayas, hills, and valleys, a popular pilgrimage route.",
+          "entry_fee": "NPR 800 for round trip",
+          "best_time": "Morning 7-10 AM",
+          "rating": 4.6,
+          "category": ["cable car", "adventure"]
+        },
+        {
+          "name": "Sirubari Village",
+          "description": "The first tourism village in Nepal at 1690 meters, famous for Gurung culture, stone-paved paths, and traditional homestays.",
+          "entry_fee": "Free",
+          "best_time": "September to November and March to May",
+          "rating": 4.6,
+          "category": ["village", "culture"]
+        },
+        {
+          "name": "Panchase Hill",
+          "description": "A sacred hill at 2280 meters with 360-degree views of Annapurna, Dhaulagiri, and Machhapuchhre, with ancient pilgrimage sites.",
+          "entry_fee": "Free",
+          "best_time": "Sunrise 5-6 AM",
+          "rating": 4.5,
+          "category": ["viewpoint", "nature"]
+        }
+      ],
+      "hotels": [
+        {"name": "Manakamana View Hotel", "price": "NPR 2000-4000", "type": "mid", "location": "Near Cable Car", "rating": 4.0, "description": "View hotel"},
+        {"name": "Syangja Guest House", "price": "NPR 1200-2500", "type": "budget", "location": "Near Bus Station", "rating": 3.5, "description": "Budget guest house"},
+        {"name": "Sirubari Homestay", "price": "NPR 800-1500", "type": "budget", "location": "Sirubari Village", "rating": 4.2, "description": "Traditional homestay"},
+        {"name": "Panchase Lodge", "price": "NPR 1500-3000", "type": "budget", "location": "Near Panchase", "rating": 3.8, "description": "Lodge"}
+      ],
+      "food": {
+        "must_try": ["Dal Bhat", "Momo", "Gurung Cuisine", "Newari Food"],
+        "price_range_per_person": "NPR 200-1000",
+        "popular_restaurants": [
+          {"name": "Manakamana Cafe", "cuisine": "Nepali", "price_range": "NPR 200-600", "location": "Near Cable Car"},
+          {"name": "Gurung Kitchen", "cuisine": "Gurung", "price_range": "NPR 200-500", "location": "Sirubari Village"},
+          {"name": "Syangja Food House", "cuisine": "Multi-cuisine", "price_range": "NPR 400-1000", "location": "Near Bus Station"}
+        ],
+        "local_specialties": "Gurung cuisine, Dal Bhat, Momo, and Newari dishes"
+      },
+      "transport": {
+        "from_kathmandu": "Bus takes 5-6 hours costing NPR 400-600, or taxi takes 4 hours costing NPR 6000-8000",
+        "local": "Walking, taxis, and local buses",
+        "to_attractions": "Cable car to Manakamana Temple, walking in Sirubari",
+        "how_to_reach": "Syangja is accessible by bus from Kathmandu in 5-6 hours or by taxi in 4 hours."
+      },
+      "shopping": [
+        {"item": "Handicrafts", "place": "Sirubari Village"},
+        {"item": "Local Products", "place": "Syangja Bazaar"},
+        {"item": "Gurung Handicrafts", "place": "Sirubari Village"}
+      ]
+    }
+  ],
+  "general_faqs": [
+    {
+      "question": "What is the capital of Nepal?",
+      "answer": "Kathmandu is the capital city of Nepal. It is the largest city and the political, cultural, and economic center of the country."
+    },
+    {
+      "question": "What is the currency of Nepal?",
+      "answer": "The currency of Nepal is the Nepalese Rupee, abbreviated as NPR. Exchange rates vary, with 1 USD approximately equal to 130 NPR."
+    },
+    {
+      "question": "What is the time zone of Nepal?",
+      "answer": "Nepal operates on Nepal Time, which is UTC+5:45. This is a unique time zone, 15 minutes ahead of India."
+    },
+    {
+      "question": "What is the national language of Nepal?",
+      "answer": "The national language of Nepal is Nepali. However, Nepal is multilingual with over 120 languages spoken, including Maithili, Bhojpuri, Tharu, Tamang, Newari, and English."
+    },
+    {
+      "question": "What are the major religions in Nepal?",
+      "answer": "Hinduism is the majority religion in Nepal at approximately 81 percent, followed by Buddhism at approximately 9 percent, Islam at approximately 4 percent, and other religions."
+    },
+    {
+      "question": "Do I need a visa for Nepal?",
+      "answer": "Visa on arrival is available at Tribhuvan International Airport for most nationalities. You can also apply online in advance. Visa fees vary by duration."
+    },
+    {
+      "question": "What is the emergency number in Nepal?",
+      "answer": "The emergency numbers in Nepal are: Police at 100, Ambulance at 102, and Fire at 101. For trekking emergencies, contact the Nepal Tourism Board."
+    },
+    {
+      "question": "What is the best time to visit Nepal?",
+      "answer": "The best time to visit Nepal is during autumn from September to November and spring from March to May. These seasons offer clear skies, pleasant temperatures, and excellent mountain views."
+    },
+    {
+      "question": "What is Nepal famous for?",
+      "answer": "Nepal is famous for Mount Everest, the world's highest peak, the Himalayas, Lumbini the birthplace of Lord Buddha, rich cultural heritage, UNESCO World Heritage Sites, and world-class trekking."
+    },
+    {
+      "question": "What is the tallest mountain in Nepal?",
+      "answer": "Mount Everest, also known as Sagarmatha, at 8848.86 meters is the tallest mountain in Nepal and the world. It is located in the Everest region."
+    },
+    {
+      "question": "What are the UNESCO sites in Nepal?",
+      "answer": "UNESCO World Heritage Sites in Nepal include Kathmandu Durbar Square, Patan Durbar Square, Bhaktapur Durbar Square, Swayambhunath Stupa, Boudhanath Stupa, Pashupatinath Temple, Changu Narayan Temple, Lumbini, Chitwan National Park, and Sagarmatha National Park."
+    },
+    {
+      "question": "Is Nepal safe for tourists?",
+      "answer": "Yes, Nepal is generally safe for tourists. The people are friendly and welcoming. Practice standard safety precautions, stay aware of your surroundings, keep valuables secure, and use registered guides for trekking."
+    },
+    {
+      "question": "What is the national animal of Nepal?",
+      "answer": "The national animal of Nepal is the Cow, which is considered sacred in Hinduism and protected under Nepali law."
+    },
+    {
+      "question": "What is the national bird of Nepal?",
+      "answer": "The national bird of Nepal is the Himalayan Monal, also known as the Danphe, a colorful bird found in the Himalayan region."
+    },
+    {
+      "question": "What is the national flower of Nepal?",
+      "answer": "The national flower of Nepal is the Rhododendron, known as Laligurans in Nepali, which blooms in vibrant colors during spring."
+    },
+    {
+      "question": "What is the national flag of Nepal?",
+      "answer": "The flag of Nepal is unique as it is non-rectangular, consisting of two stacked triangles. It is crimson red with a blue border, featuring a white sun and moon."
+    }
+  ]
+}

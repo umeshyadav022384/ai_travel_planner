@@ -40,15 +40,14 @@ const BucketList = ({ place }) => {
 
           const page = contentData.query.pages[pageId];
           
-          // Set the image URL if available
+          
           if (page.thumbnail && page.thumbnail.source) {
             setImageUrl(page.thumbnail.source);
           } else {
-            // Fallback placeholder image
+            
             setImageUrl(`https://via.placeholder.com/400x300/3498db/white?text=${encodeURIComponent(place.place)}`);
           }
         } else {
-          // No Wikipedia page found, use placeholder
           setImageUrl(`https://via.placeholder.com/400x300/e74c3c/white?text=${encodeURIComponent(place.place)}`);
         }
       } catch (error) {
