@@ -20,7 +20,6 @@
   --border: #e4e1f3;
   --border-soft: rgba(26, 24, 48, 0.08);
 
-  // Aurora gradient duo — indigo/violet to emerald/teal
   --primary: #5b3df0;
   --primary-2: #7b5cf5;
   --primary-dark: #3a24b8;
@@ -97,7 +96,7 @@
   }
 }
 
-// ---------- Page shell + animated aurora backdrop ----------
+// ---------- Page shell ----------
 .generate-container {
   position: relative;
   isolation: isolate;
@@ -848,7 +847,7 @@
   }
 }
 
-// ---------- Day cards: trail-route timeline ----------
+// ---------- Day cards ----------
 .itinerary-days,
 .gemini-enhanced-content {
   position: relative;
@@ -955,12 +954,32 @@
   color: var(--ink-faint);
 }
 
+// ⭐ Day badges
+.day-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
 .day-cost-badge {
   font-family: var(--font-mono);
   font-size: 0.88rem;
   font-weight: 700;
   color: var(--accent-dark);
   background: var(--accent-soft);
+  border-radius: 999px;
+  padding: 8px 16px;
+  white-space: nowrap;
+}
+
+// ⭐ Day time badge
+.day-time-badge {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(120deg, var(--teal) 0%, var(--teal-2) 100%);
   border-radius: 999px;
   padding: 8px 16px;
   white-space: nowrap;
@@ -1029,6 +1048,10 @@
     font-size: 1.05rem;
     color: var(--ink);
     margin: 0 0 6px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   p,
@@ -1038,6 +1061,19 @@
     color: var(--ink-soft);
     margin: 0 0 10px;
   }
+}
+
+// ⭐ Duration badge inside activity
+.duration-badge {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  background: var(--primary-soft);
+  border-radius: 999px;
+  padding: 3px 10px;
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .activity-meta {
@@ -1083,13 +1119,23 @@
   padding-top: 16px;
   border-top: 1px solid var(--border-soft);
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 
   .day-total {
     font-family: var(--font-mono);
     font-weight: 700;
     font-size: 0.92rem;
     color: var(--primary-dark);
+  }
+
+  .day-time-total {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--teal);
   }
 }
 
@@ -1209,7 +1255,178 @@
   }
 }
 
-// ---------- Staggered entrance for day cards ----------
+// ============================================================
+// ⭐ TIME CONSTRAINT STYLES
+// ============================================================
+
+.time-panel {
+  .time-section {
+    margin-top: 8px;
+  }
+}
+
+.time-options {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.time-option {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  padding: 14px 18px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+
+  &:hover {
+    border-color: var(--primary-2);
+    background: var(--primary-soft);
+  }
+
+  &.active {
+    border-color: var(--primary);
+    background: var(--primary-soft);
+    box-shadow: 0 0 0 4px rgba(91, 61, 240, 0.12);
+  }
+
+  input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .option-text {
+    font-size: 0.95rem;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .hour-input {
+    width: 60px;
+    padding: 6px 10px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-align: center;
+    font-family: var(--font-mono);
+    transition: border-color 0.2s var(--ease);
+
+    &:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 4px var(--primary-soft);
+    }
+
+    &:disabled {
+      background: var(--border-soft);
+      color: var(--ink-faint);
+      cursor: not-allowed;
+    }
+  }
+
+  .hint {
+    font-size: 0.82rem;
+    color: var(--ink-faint);
+    font-weight: 500;
+  }
+
+  strong {
+    color: var(--primary-dark);
+  }
+}
+
+.time-summary {
+  margin-top: 16px;
+  padding: 14px 20px;
+  background: linear-gradient(120deg, var(--teal-soft) 0%, var(--primary-soft) 100%);
+  border: 1px solid rgba(18, 161, 134, 0.25);
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary-dark);
+  text-align: center;
+
+  strong {
+    color: var(--teal);
+    font-size: 1.05rem;
+  }
+}
+
+// ⭐ Day time info with used time
+.day-time-info {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--teal);
+  background: var(--teal-soft);
+  border: 1px solid rgba(18, 161, 134, 0.2);
+  border-radius: 8px;
+  padding: 8px 14px;
+  margin-bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  .time-used {
+    font-weight: 400;
+    color: var(--ink-soft);
+  }
+}
+
+// ⭐ Skipped items
+.skipped-notice {
+  margin-top: 16px;
+  padding: 14px 18px;
+  background: var(--accent-soft);
+  border: 1px solid rgba(255, 138, 61, 0.35);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  color: var(--accent-dark);
+
+  .skipped-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+
+  .skipped-item {
+    display: inline-block;
+    background: rgba(255, 138, 61, 0.15);
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 0.82rem;
+    font-family: var(--font-mono);
+  }
+}
+
+// ⭐ Time badge in header
+.stat-badge.time-badge {
+  background: linear-gradient(120deg, var(--teal) 0%, var(--teal-2) 100%);
+  border-color: transparent;
+  color: #fff;
+}
+
+// Loading time info
+.time-loading {
+  color: var(--teal);
+  font-weight: 600;
+  margin-top: 6px;
+}
+
+// ---------- Staggered entrance ----------
 .itinerary-days .day-card,
 .gemini-enhanced-content .day-card {
   animation: fadeUp 0.5s var(--ease) both;
@@ -1266,5 +1483,40 @@
     width: 46px;
     height: 46px;
     font-size: 1.4rem;
+  }
+
+  .time-option {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .time-option .option-text {
+    font-size: 0.88rem;
+  }
+
+  .time-option .hour-input {
+    width: 50px;
+    padding: 4px 8px;
+    font-size: 0.88rem;
+  }
+
+  .time-summary {
+    font-size: 0.85rem;
+    padding: 12px 16px;
+  }
+
+  .day-time-info {
+    font-size: 0.78rem;
+    padding: 6px 12px;
+    flex-wrap: wrap;
+  }
+
+  .day-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .day-badges {
+    gap: 6px;
   }
 }

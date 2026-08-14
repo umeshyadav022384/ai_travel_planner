@@ -124,15 +124,12 @@ def safe_extract_price(price_value, max_price=500):
     if price_value is None:
         return 0
     
-    # If it's already a number
     if isinstance(price_value, (int, float)):
         if price_value > max_price:
-            return 0  # Treat as free if price is unreasonably high
+            return 0
         return int(price_value)
     
-    # If it's a string, try to extract
     if isinstance(price_value, str):
-        # Try to extract numbers
         numbers = re.findall(r'\d+', price_value)
         if numbers:
             price = int(numbers[0])
@@ -144,11 +141,234 @@ def safe_extract_price(price_value, max_price=500):
 
 
 # ==========================================
+# ATTRACTION VALUE SCORING
+# ==========================================
+
+def calculate_attraction_score(attraction, user_preferences):
+    """
+    Calculate a value score for an attraction based on multiple factors.
+    Score range: 0 to 1 (higher is better)
+    """
+    
+    # 1. Interest Match Score (35%)
+    features = ['art', 'history', 'nature', 'food', 'adventure']
+    interest_match = 0
+    total_weight = 0
+    
+    for feature in features:
+        user_value = user_preferences.get(feature, 5)
+        attraction_value = attraction.get(feature, 5)
+        diff = abs(user_value - attraction_value) / 10.0
+        weight = user_value / 10.0
+        interest_match += (1 - diff) * weight
+        total_weight += weight
+    
+    if total_weight > 0:
+        interest_match = interest_match / total_weight
+    else:
+        interest_match = 0.5
+    
+    # 2. Rating Score (20%)
+    rating = attraction.get('rating', 3.0)
+    rating_score = rating / 5.0
+    
+    # 3. Time Efficiency Score (15%)
+    time_hours = attraction.get('time_hours', 2)
+    time_score = max(0.2, 1 - (time_hours / 6))
+    
+    # 4. Budget Efficiency Score (15%)
+    price = safe_extract_price(attraction.get('price_foreigners', 0))
+    if price == 0:
+        budget_score = 1.0
+    else:
+        budget_score = max(0.1, 1 - (price / 300))
+    
+    # 5. Uniqueness Score (10%)
+    uniqueness_score = attraction.get('uniqueness', 0.5)
+    
+    # 6. Seasonal Availability (5%)
+    availability_score = 1.0
+    
+    total_score = (
+        0.35 * interest_match +
+        0.20 * rating_score +
+        0.15 * time_score +
+        0.15 * budget_score +
+        0.10 * uniqueness_score +
+        0.05 * availability_score
+    )
+    
+    return min(1.0, max(0.0, total_score))
+
+
+# ==========================================
+# TIME-BASED SELECTION WITH MEALS
+# ==========================================
+
+def select_by_time(attractions, available_hours, user_preferences):
+    """
+    Select attractions within time limit, considering meals and travel.
+    Returns: selected, skipped, total_time, time_breakdown
+    """
+    if not attractions or available_hours <= 0:
+        return [], [], 0, {'attractions': 0, 'meals': 0, 'travel': 0}
+    
+    # Reserve time for fixed activities
+    BREAKFAST_TIME = 0.5
+    LUNCH_TIME = 0.5
+    DINNER_TIME = 0.5
+    MEAL_TIME = BREAKFAST_TIME + LUNCH_TIME + DINNER_TIME
+    TRAVEL_TIME = 0.5
+    FIXED_TIME = MEAL_TIME + TRAVEL_TIME
+    
+    available_attraction_time = available_hours - FIXED_TIME
+    
+    if available_attraction_time < 0.5:
+        BREAKFAST_TIME = 0.25
+        LUNCH_TIME = 0.25
+        DINNER_TIME = 0.25
+        MEAL_TIME = 0.75
+        TRAVEL_TIME = 0.25
+        FIXED_TIME = MEAL_TIME + TRAVEL_TIME
+        available_attraction_time = available_hours - FIXED_TIME
+        
+        if available_attraction_time < 0.5:
+            available_attraction_time = max(0.5, available_hours * 0.3)
+    
+    print(f"⏰ Time breakdown: Attractions: {available_attraction_time:.1f}h, "
+          f"Meals: {MEAL_TIME:.1f}h, Travel: {TRAVEL_TIME:.1f}h")
+    
+    scored_attractions = []
+    for attr in attractions:
+        score = calculate_attraction_score(attr, user_preferences)
+        scored_attractions.append({
+            'attraction': attr,
+            'score': score,
+            'time_hours': attr.get('time_hours', 2)
+        })
+    
+    scored_attractions.sort(key=lambda x: x['score'], reverse=True)
+    
+    selected = []
+    skipped = []
+    total_attraction_time = 0
+    
+    # ⭐ Select attractions within time limit
+    for item in scored_attractions:
+        attr_time = item['time_hours']
+        if total_attraction_time + attr_time <= available_attraction_time:
+            selected.append(item['attraction'])
+            total_attraction_time += attr_time
+        else:
+            skipped.append(item['attraction'])
+    
+    # ⭐ CRITICAL: If no attractions selected, ALL are skipped
+    if len(selected) == 0 and len(scored_attractions) > 0:
+        print(f"⚠️ No attractions fit in {available_attraction_time:.1f}h, all {len(scored_attractions)} attractions are skipped")
+        skipped = [item['attraction'] for item in scored_attractions]
+    
+    total_active_time = total_attraction_time + MEAL_TIME
+    
+    time_breakdown = {
+        'attractions': total_attraction_time,
+        'breakfast': BREAKFAST_TIME,
+        'lunch': LUNCH_TIME,
+        'dinner': DINNER_TIME,
+        'meals': MEAL_TIME,
+        'travel': TRAVEL_TIME,
+        'total': total_active_time,
+        'available': available_hours,
+        'remaining': available_hours - total_active_time,
+        'meal_breakdown': {
+            'breakfast': BREAKFAST_TIME,
+            'lunch': LUNCH_TIME,
+            'dinner': DINNER_TIME
+        }
+    }
+    
+    return selected, skipped, total_active_time, time_breakdown
+
+
+# ==========================================
+# PRIORITY-BASED SELECTION
+# ==========================================
+
+def priority_select_attractions(attractions, user_preferences, max_attractions=None):
+    if not attractions:
+        return [], []
+    
+    scored = []
+    for attr in attractions:
+        score = calculate_attraction_score(attr, user_preferences)
+        scored.append({'attraction': attr, 'score': score})
+    
+    scored.sort(key=lambda x: x['score'], reverse=True)
+    
+    if max_attractions:
+        selected = [item['attraction'] for item in scored[:max_attractions]]
+        skipped = [item['attraction'] for item in scored[max_attractions:]]
+    else:
+        selected = [item['attraction'] for item in scored]
+        skipped = []
+    
+    return selected, skipped
+
+
+# ==========================================
+# ENHANCED TSP WITH PRIORITIES
+# ==========================================
+
+def tsp_with_priorities(attractions, start_point=None):
+    if len(attractions) <= 1:
+        return attractions
+    
+    unvisited = attractions.copy()
+    
+    if start_point and start_point in unvisited:
+        route = [start_point]
+        unvisited.remove(start_point)
+    else:
+        scored = []
+        for attr in unvisited:
+            score = attr.get('priority_score', attr.get('rating', 4.0) / 5.0)
+            scored.append((score, attr))
+        scored.sort(key=lambda x: x[0], reverse=True)
+        route = [scored[0][1]]
+        unvisited.remove(scored[0][1])
+    
+    while unvisited:
+        last = route[-1]
+        lat1 = last.get('lat', 0)
+        lng1 = last.get('lng', 0)
+        
+        best_idx = 0
+        best_score = -float('inf')
+        
+        for i, attraction in enumerate(unvisited):
+            lat2 = attraction.get('lat', 0)
+            lng2 = attraction.get('lng', 0)
+            dist = haversine(lat1, lng1, lat2, lng2)
+            
+            value = attraction.get('priority_score', attraction.get('rating', 4.0) / 5.0)
+            
+            max_dist = 50
+            dist_score = 1 - (min(dist, max_dist) / max_dist)
+            combined_score = 0.4 * dist_score + 0.6 * value
+            
+            if combined_score > best_score:
+                best_score = combined_score
+                best_idx = i
+        
+        route.append(unvisited.pop(best_idx))
+    
+    return route
+
+
+# ==========================================
 # LOAD ATTRACTIONS
 # ==========================================
 
 def load_attractions():
-    """Load attractions from JSON file"""
     possible_paths = [
         os.path.join(os.path.dirname(__file__), 'datasets', 'nepal_attractions.json'),
         os.path.join(os.path.dirname(__file__), 'nepal_attractions.json'),
@@ -165,9 +385,10 @@ def load_attractions():
             for city_data in data['cities']:
                 for attraction in city_data['attractions']:
                     attraction['city'] = city_data['city']
-                    # ✅ Fix: Safely parse price_foreigners
                     price = attraction.get('price_foreigners', 0)
                     attraction['price_foreigners'] = safe_extract_price(price)
+                    if 'time_hours' not in attraction:
+                        attraction['time_hours'] = 2
                     all_attractions.append(attraction)
             
             print(f"✅ Loaded {len(all_attractions)} total attractions")
@@ -182,7 +403,6 @@ def load_attractions():
 # ==========================================
 
 def knn_recommend(destination, preferences, n_recommendations=15):
-    """Find attractions similar to user preferences using KNN"""
     all_attractions = load_attractions()
     
     if len(all_attractions) == 0:
@@ -228,7 +448,6 @@ def knn_recommend(destination, preferences, n_recommendations=15):
 # ==========================================
 
 def kmeans_cluster(attractions, n_clusters=3):
-    """Group attractions into clusters with balanced size"""
     if len(attractions) == 0:
         return {}
     
@@ -288,7 +507,6 @@ def kmeans_cluster(attractions, n_clusters=3):
 # ==========================================
 
 def knapsack_optimize(activities, daily_budget):
-    """Select activities that maximize value within budget"""
     if len(activities) == 0:
         return [], 0
     
@@ -342,7 +560,6 @@ def knapsack_optimize(activities, daily_budget):
 # ==========================================
 
 def haversine(lat1, lon1, lat2, lon2):
-    """Calculate distance between two points in km"""
     try:
         lat1, lon1, lat2, lon2 = map(float, [lat1, lon1, lat2, lon2])
     except (ValueError, TypeError):
@@ -357,7 +574,6 @@ def haversine(lat1, lon1, lat2, lon2):
     return R * c
 
 def tsp_optimize(attractions):
-    """Find optimal route to visit all attractions"""
     if len(attractions) <= 1:
         return attractions
     
@@ -402,17 +618,30 @@ def extract_price(price_str):
 # ==========================================
 
 def generate_activity_time_slots(activity_count):
-    """Generate time slots for activities placed between fixed meals."""
     slots = []
-    morning_slots = ["09:00 AM", "10:30 AM"]
-    afternoon_slots = ["01:00 PM", "02:30 PM", "04:00 PM"]
-    all_slots = morning_slots + afternoon_slots
+    base_hour = 9
+    base_minute = 0
     
-    if activity_count > len(all_slots):
-        extra_slots = ["05:30 PM", "06:30 PM"]
-        all_slots += extra_slots
+    for i in range(activity_count):
+        hour = base_hour + (i * 1)
+        minute = base_minute + (i * 30)
+        
+        if minute >= 60:
+            hour += minute // 60
+            minute = minute % 60
+        
+        if hour >= 12:
+            ampm = "PM"
+            display_hour = hour - 12 if hour > 12 else hour
+        else:
+            ampm = "AM"
+            display_hour = hour if hour > 0 else 12
+        
+        display_hour = 12 if display_hour == 0 else display_hour
+        time_str = f"{display_hour:02d}:{minute:02d} {ampm}"
+        slots.append(time_str)
     
-    return all_slots[:activity_count]
+    return slots
 
 
 # ==========================================
@@ -420,7 +649,6 @@ def generate_activity_time_slots(activity_count):
 # ==========================================
 
 def parse_time_to_minutes(time_str):
-    """Convert time string like '08:30 AM' to minutes since midnight"""
     try:
         parts = time_str.split()
         if len(parts) == 2:
@@ -441,7 +669,6 @@ def parse_time_to_minutes(time_str):
 # ==========================================
 
 def get_real_food_costs(restaurants):
-    """Extract real food costs from restaurant data"""
     if not restaurants:
         return None
     
@@ -484,7 +711,6 @@ def get_real_food_costs(restaurants):
 # ==========================================
 
 def get_real_hotel_cost(hotels, daily_budget):
-    """Extract real hotel cost from hotel data"""
     if not hotels:
         return None
     
@@ -516,9 +742,6 @@ def get_real_hotel_cost(hotels, daily_budget):
 # ==========================================
 
 def generate_trip_overview_with_gemini(destination, days, preferences, attractions_count):
-    """Generate a beautiful trip overview using Gemini with rate limit handling."""
-    
-    # Check cache first
     cache_key = f"overview_{destination}_{days}_{str(preferences)}"
     if cache_key in _description_cache:
         print(f"✅ Using cached overview for {destination}")
@@ -528,7 +751,6 @@ def generate_trip_overview_with_gemini(destination, days, preferences, attractio
         print(f"⚠️ Gemini not available for {destination} overview")
         return None
     
-    # Use the rate-limited method from gemini_integration
     try:
         overview = gemini.generate_trip_overview(destination, days, preferences, attractions_count)
         if overview:
@@ -538,30 +760,53 @@ def generate_trip_overview_with_gemini(destination, days, preferences, attractio
     except Exception as e:
         print(f"⚠️ Gemini overview error: {e}")
     
-    # Simple fallback if Gemini fails
     print(f"ℹ️ Using simple fallback overview for {destination}")
     return f"Welcome to {destination}, Nepal! Your {days}-day adventure awaits. Explore {attractions_count} amazing attractions in this beautiful country. 🌄"
 
 
 # ==========================================
-# MAIN GENERATION FUNCTION
+# ⭐ COMPLETELY UPDATED MAIN GENERATION FUNCTION
 # ==========================================
 
-def generate_itinerary(destination, preferences, days, daily_budget, restaurants=None, hotels=None):
+def generate_itinerary(destination, preferences, days, daily_budget, 
+                       restaurants=None, hotels=None, 
+                       time_mode="no_limit", available_hours=6):
+    """
+    Generate itinerary with proper time calculation and skipped attractions tracking.
+    """
     print(f"🔍 generate_itinerary CALLED!")
     print(f"Destination: {destination}, Days: {days}, Daily Budget: ${daily_budget}")
+    print(f"⏰ Time Mode: {time_mode}, Available Hours: {available_hours}")
 
+    # STEP 1: KNN RECOMMENDATION
     recommended = knn_recommend(destination, preferences, n_recommendations=15)
     if len(recommended) == 0:
         return []
 
+    # STEP 2: CALCULATE ATTRACTION SCORES
+    for attr in recommended:
+        attr['priority_score'] = calculate_attraction_score(attr, preferences)
+    
+    # STEP 3: APPLY TIME CONSTRAINT
+    hours_per_day = available_hours
+    
+    if time_mode == "total":
+        hours_per_day = available_hours / days if days > 0 else available_hours
+        print(f"⏰ Total hours: {available_hours}, Per day: {hours_per_day:.1f}h")
+    elif time_mode == "per_day":
+        print(f"⏰ Per day hours: {available_hours}h")
+    else:
+        hours_per_day = 24
+        print(f"⏰ No time limit - Full day")
+
+    # STEP 4: K-MEANS CLUSTERING
     clusters = kmeans_cluster(recommended, n_clusters=days)
     print(f"📊 K-Means created {len(clusters)} clusters")
     
     for k, v in clusters.items():
         print(f"   Cluster {k+1}: {len(v)} attractions")
 
-    # ----- Get REAL food costs from API -----
+    # STEP 5: GET COSTS FROM API
     food_costs = get_real_food_costs(restaurants)
     if food_costs:
         BREAKFAST_COST = food_costs.get('breakfast', 10)
@@ -574,7 +819,6 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
         DINNER_COST = 18
         print(f"💰 Using fallback food costs: Breakfast ${BREAKFAST_COST}, Lunch ${LUNCH_COST}, Dinner ${DINNER_COST}")
 
-    # ----- Get REAL hotel cost from API -----
     hotel_cost = get_real_hotel_cost(hotels, daily_budget)
     if hotel_cost:
         HOTEL_COST = hotel_cost
@@ -583,13 +827,13 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
         HOTEL_COST = int(daily_budget * 0.3)
         print(f"🏨 Using fallback hotel cost: ${HOTEL_COST}")
 
-    # ----- Sort restaurants by rating -----
+    # STEP 6: SORT RESTAURANTS
     sorted_restaurants = []
     if restaurants and len(restaurants) > 0:
         sorted_restaurants = sorted(restaurants, key=lambda x: x.get('rating', 0) if isinstance(x.get('rating'), (int, float)) else 0, reverse=True)
         print(f"🍽️ Found {len(sorted_restaurants)} restaurants")
 
-    # ----- Pick best hotel (closest to attractions) -----
+    # STEP 7: SELECT BEST HOTEL
     best_hotel = None
     if hotels and len(hotels) > 0 and recommended:
         centroid_lat, centroid_lng = calculate_centroid(recommended)
@@ -606,7 +850,6 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
                     dist = haversine(centroid_lat, centroid_lng, h_lat, h_lng)
                     with_distance.append((dist, h))
                 except (ValueError, TypeError):
-                    print(f"⚠️ Invalid coordinates for hotel: {h.get('name')}")
                     continue
         
         if with_distance:
@@ -614,43 +857,104 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
             best_hotel = with_distance[0][1]
             print(f"🏨 Best hotel: {best_hotel.get('name')} (distance: {with_distance[0][0]:.2f}km)")
 
-    print(f"💰 Final Food Costs - Breakfast: ${BREAKFAST_COST}, Lunch: ${LUNCH_COST}, Dinner: ${DINNER_COST}")
-    print(f"🏨 Final Hotel Cost: ${HOTEL_COST}")
-
-    # ----- GENERATE TRIP OVERVIEW (Gemini with rate limiter) -----
+    # STEP 8: GENERATE TRIP OVERVIEW
     total_attractions = sum(len(v) for v in clusters.values())
     trip_overview = generate_trip_overview_with_gemini(destination, days, preferences, total_attractions)
     
-    # ----- BUILD ITINERARY -----
+    # STEP 9: BUILD ITINERARY
     itinerary = []
     day_costs = []
     total_cost = 0
     num_restaurants = len(sorted_restaurants)
 
+    # Rotate restaurants for variety
+    if sorted_restaurants:
+        rotated_restaurants = []
+        for i in range(days):
+            start_idx = i % len(sorted_restaurants)
+            rotated = sorted_restaurants[start_idx:] + sorted_restaurants[:start_idx]
+            rotated_restaurants.append(rotated)
+
     for cluster_idx in range(days):
-        # Determine candidate activities for this day
+        # Get candidate activities
         if cluster_idx in clusters and len(clusters[cluster_idx]) > 0:
             candidate_activities = clusters[cluster_idx]
         else:
             candidate_activities = recommended[cluster_idx * 2:(cluster_idx + 1) * 2 + 1] or recommended[:3]
 
-        # Budget left after fixed costs
-        activities_budget = daily_budget - (BREAKFAST_COST + LUNCH_COST + DINNER_COST + HOTEL_COST)
+        # ==========================================
+        # ⭐ APPLY TIME CONSTRAINT WITH PROPER CALCULATION
+        # ==========================================
+        if time_mode != "no_limit":
+            selected_attractions, skipped_attractions, total_active_time, time_breakdown = select_by_time(
+                candidate_activities, 
+                hours_per_day, 
+                preferences
+            )
+            
+            # Extract meal times from breakdown
+            meal_breakdown = time_breakdown.get('meal_breakdown', {})
+            breakfast_hours = meal_breakdown.get('breakfast', 0.5)
+            lunch_hours = meal_breakdown.get('lunch', 0.5)
+            dinner_hours = meal_breakdown.get('dinner', 0.5)
+            travel_hours = time_breakdown.get('travel', 0.5)
+            
+            print(f"⏰ Day {cluster_idx+1}: "
+                  f"Attractions: {time_breakdown['attractions']:.1f}h, "
+                  f"Meals: {time_breakdown['meals']:.1f}h, "
+                  f"Travel: {time_breakdown['travel']:.1f}h, "
+                  f"Total: {time_breakdown['total']:.1f}h")
+        else:
+            # No time limit - use all attractions
+            selected_attractions = candidate_activities
+            skipped_attractions = []
+            total_active_time = sum(a.get('time_hours', 2) for a in selected_attractions)
+            
+            breakfast_hours = 1.0
+            lunch_hours = 1.0
+            dinner_hours = 1.5
+            travel_hours = 0.5
+            
+            time_breakdown = {
+                'attractions': total_active_time,
+                'meals': 3.5,
+                'travel': 0.5,
+                'total': total_active_time + 3.5,
+                'available': 24,
+                'remaining': 24 - (total_active_time + 3.5),
+                'meal_breakdown': {
+                    'breakfast': 1.0,
+                    'lunch': 1.0,
+                    'dinner': 1.5
+                }
+            }
+        
+        # Budget after fixed costs
+        fixed_cost = BREAKFAST_COST + LUNCH_COST + DINNER_COST + HOTEL_COST
+        activities_budget = daily_budget - fixed_cost
         if activities_budget < 0:
             activities_budget = 0
 
         # Use knapsack to pick best activities
-        daily_activities, activity_cost = knapsack_optimize(candidate_activities, activities_budget)
+        daily_activities, activity_cost = knapsack_optimize(selected_attractions, activities_budget)
         if not daily_activities:
-            free_activities = [a for a in candidate_activities if int(a.get('price_foreigners', 0)) == 0]
+            free_activities = [a for a in selected_attractions if int(a.get('price_foreigners', 0)) == 0]
             if free_activities:
                 daily_activities = free_activities[:2]
             else:
-                daily_activities = candidate_activities[:2]
+                daily_activities = selected_attractions[:2]
             activity_cost = sum(int(a.get('price_foreigners', 0)) for a in daily_activities)
 
-        day_cost = activity_cost + BREAKFAST_COST + LUNCH_COST + DINNER_COST + HOTEL_COST
-        optimized_route = tsp_optimize(daily_activities)
+        # Fixed costs may be 0 if no restaurants/hotels
+        actual_breakfast = BREAKFAST_COST if sorted_restaurants else 0
+        actual_lunch = LUNCH_COST if sorted_restaurants else 0
+        actual_dinner = DINNER_COST if sorted_restaurants else 0
+        actual_hotel = HOTEL_COST if hotels else 0
+        
+        day_cost = activity_cost + actual_breakfast + actual_lunch + actual_dinner + actual_hotel
+        
+        # ⭐ Use Enhanced TSP with Priorities
+        optimized_route = tsp_with_priorities(daily_activities)
 
         # Generate time slots for activities
         activity_slots = generate_activity_time_slots(len(optimized_route))
@@ -661,13 +965,18 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
         # Find restaurants nearest to today's centroid
         nearest_restaurants = []
         if sorted_restaurants and day_centroid_lat != 0:
-            nearest_restaurants = find_nearest_restaurants(sorted_restaurants, day_centroid_lat, day_centroid_lng, count=min(3, num_restaurants))
+            day_restaurants = rotated_restaurants[cluster_idx] if sorted_restaurants else sorted_restaurants
+            nearest_restaurants = find_nearest_restaurants(day_restaurants, day_centroid_lat, day_centroid_lng, count=min(3, num_restaurants))
 
-        # Build all activities with their times
+        # ==========================================
+        # BUILD ACTIVITIES WITH PROPER TIME SLOTS
+        # ==========================================
         temp_activities = []
         
         # 1. Breakfast
-        if len(nearest_restaurants) > 0:
+        breakfast_time = "08:30 AM"
+        
+        if sorted_restaurants and len(nearest_restaurants) > 0:
             breakfast_rest = nearest_restaurants[0]
             breakfast_name = breakfast_rest.get('name', destination)
             breakfast_cuisine = format_cuisine(breakfast_rest.get('cuisine', ''))
@@ -681,20 +990,23 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
             breakfast_desc = f"Start your day with a delicious breakfast in {destination}."
 
         temp_activities.append({
-            'time': "08:30 AM",
+            'time': breakfast_time,
             'title': breakfast_title,
             'description': breakfast_desc,
-            'cost': BREAKFAST_COST,
-            'duration': 1,
+            'cost': actual_breakfast,
+            'duration': 0.5,
+            'time_hours': 0.5,
             'lat': 0,
             'lng': 0,
             'rating': 4.0,
             'is_meal': True
         })
 
-        # 2. Attractions - USE DATASET DESCRIPTION
+        # 2. Attractions
         for i, activity in enumerate(optimized_route):
             slot = activity_slots[i] if i < len(activity_slots) else "Flexible"
+            time_hours = activity.get('time_hours', 1)
+            
             description = get_attraction_description(activity)
             temp_activities.append({
                 'time': slot,
@@ -702,14 +1014,18 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
                 'description': description,
                 'location': activity.get('city', destination),
                 'cost': int(activity.get('price_foreigners', 0)),
-                'duration': activity.get('time_hours', 2),
+                'duration': time_hours,
+                'time_hours': time_hours,
                 'lat': activity.get('lat', 0),
                 'lng': activity.get('lng', 0),
-                'rating': activity.get('rating', 4.0)
+                'rating': activity.get('rating', 4.0),
+                'priority_score': activity.get('priority_score', 0.5)
             })
 
         # 3. Lunch
-        if len(nearest_restaurants) > 1:
+        lunch_time = "12:30 PM"
+        
+        if sorted_restaurants and len(nearest_restaurants) > 1:
             lunch_rest = nearest_restaurants[1]
             lunch_name = lunch_rest.get('name', destination)
             lunch_cuisine = format_cuisine(lunch_rest.get('cuisine', ''))
@@ -723,11 +1039,12 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
             lunch_desc = f"Enjoy a traditional lunch in {destination}."
 
         temp_activities.append({
-            'time': "12:30 PM",
+            'time': lunch_time,
             'title': lunch_title,
             'description': lunch_desc,
-            'cost': LUNCH_COST,
-            'duration': 1,
+            'cost': actual_lunch,
+            'duration': 0.5,
+            'time_hours': 0.5,
             'lat': 0,
             'lng': 0,
             'rating': 4.0,
@@ -735,7 +1052,9 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
         })
 
         # 4. Dinner
-        if len(nearest_restaurants) > 2:
+        dinner_time = "07:00 PM"
+        
+        if sorted_restaurants and len(nearest_restaurants) > 2:
             dinner_rest = nearest_restaurants[2]
             dinner_name = dinner_rest.get('name', destination)
             dinner_cuisine = format_cuisine(dinner_rest.get('cuisine', ''))
@@ -749,18 +1068,20 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
             dinner_desc = f"Enjoy authentic dinner in {destination}."
 
         temp_activities.append({
-            'time': "07:00 PM",
+            'time': dinner_time,
             'title': dinner_title,
             'description': dinner_desc,
-            'cost': DINNER_COST,
-            'duration': 1.5,
+            'cost': actual_dinner,
+            'duration': 0.5,
+            'time_hours': 0.5,
             'lat': 0,
             'lng': 0,
             'rating': 4.0,
             'is_meal': True
         })
 
-        # 5. Hotel - ALWAYS show hotel name even if far
+        # 5. Hotel
+        hotel_time = "09:00 PM"
         if best_hotel:
             hotel_name = best_hotel.get('name', 'Recommended Hotel')
             hotel_title = f"Stay at {hotel_name}"
@@ -770,11 +1091,12 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
             hotel_desc = f"Comfortable accommodation for the night in {destination}."
 
         temp_activities.append({
-            'time': "09:00 PM",
+            'time': hotel_time,
             'title': hotel_title,
             'description': hotel_desc,
-            'cost': HOTEL_COST,
-            'duration': 8,
+            'cost': actual_hotel,
+            'duration': 0,
+            'time_hours': 0,
             'lat': 0,
             'lng': 0,
             'rating': 4.0,
@@ -786,23 +1108,69 @@ def generate_itinerary(destination, preferences, days, daily_budget, restaurants
         
         day_activities = temp_activities
 
-        itinerary.append({
+        # ⭐ Build day data with complete time info
+        day_data = {
             'day': cluster_idx + 1,
             'activities': day_activities,
             'day_cost': day_cost,
             'activity_cost': activity_cost,
-            'breakfast_cost': BREAKFAST_COST,
-            'lunch_cost': LUNCH_COST,
-            'dinner_cost': DINNER_COST,
-            'hotel_cost': HOTEL_COST,
+            'breakfast_cost': actual_breakfast,
+            'lunch_cost': actual_lunch,
+            'dinner_cost': actual_dinner,
+            'hotel_cost': actual_hotel,
             'budget_used': day_cost,
             'budget_remaining': daily_budget - day_cost,
-            'overview': trip_overview if cluster_idx == 0 else None
-        })
+            'overview': trip_overview if cluster_idx == 0 else None,
+            'time_info': {
+                'time_available': hours_per_day,
+                'time_used': time_breakdown['total'],
+                'time_remaining': time_breakdown['remaining'],
+                'attraction_time': time_breakdown['attractions'],
+                'meal_time': time_breakdown['meals'],
+                'travel_time': time_breakdown['travel'],
+                'meal_breakdown': time_breakdown.get('meal_breakdown', {})
+            }
+        }
+        
+        # ⭐ FIX: Add skipped attractions - ALWAYS add if time_mode is not no_limit
+        if time_mode != "no_limit":
+            # Get all skipped attractions from the cluster
+            all_cluster_attractions = clusters.get(cluster_idx, [])
+            
+            # If selected_attractions is empty, ALL cluster attractions are skipped
+            if len(selected_attractions) == 0 and len(all_cluster_attractions) > 0:
+                skipped_attractions = all_cluster_attractions.copy()
+                print(f"  📝 Day {cluster_idx+1}: No attractions fit, all {len(skipped_attractions)} attractions are skipped")
+            
+            # Add skipped attractions to day_data
+            if skipped_attractions:
+                day_data['skipped_attractions'] = [
+                    {
+                        'name': a.get('name', 'Unknown'), 
+                        'time_hours': a.get('time_hours', 2),
+                        'score': calculate_attraction_score(a, preferences)
+                    } 
+                    for a in skipped_attractions
+                ]
+                print(f"  📝 Day {cluster_idx+1}: {len(day_data['skipped_attractions'])} attractions skipped")
+            else:
+                day_data['skipped_attractions'] = []
+        
+        itinerary.append(day_data)
         day_costs.append(day_cost)
         total_cost += day_cost
 
-    print(f"✅ Generated itinerary for {len(itinerary)} days")
+    # ⭐ Print summary
+    print("\n📊 ATTRACTION TIME SUMMARY:")
+    for day in itinerary:
+        print(f"  Day {day['day']}:")
+        for activity in day.get('activities', []):
+            if not activity.get('is_meal') and not activity.get('is_hotel'):
+                print(f"    - {activity['title']}: {activity.get('time_hours', 'N/A')}h")
+        if day.get('skipped_attractions'):
+            print(f"    ⚠️ Skipped: {len(day.get('skipped_attractions', []))} attractions")
+
+    print(f"\n✅ Generated itinerary for {len(itinerary)} days")
     print(f"💰 Daily costs: {day_costs}")
     print(f"💰 Total cost: {total_cost}")
     return itinerary

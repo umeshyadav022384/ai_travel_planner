@@ -162,15 +162,19 @@ class GeminiIntegration:
         return None
 
     # ==========================================
-    # Enhance full itinerary
+    # ⭐ COMPLETELY UPDATED: Enhance full itinerary with time preservation
     # ==========================================
     
     def enhance_itinerary(self, itinerary_data, destination, days, preferences=None, weather_forecast=None, daily_costs=None, restaurants=None, hotels=None):
-        """Enhance itinerary with Gemini using real data"""
+        """Enhance itinerary with Gemini while preserving time_hours from original data"""
         if not self.model or not itinerary_data:
             return None
         
         self._wait_if_needed()
+        
+        # ⭐ CRITICAL: Build a time map from original itinerary BEFORE enhancement
+        original_time_map = self._build_time_map(itinerary_data)
+        print(f"📊 Built time map with {len(original_time_map)} activities")
         
         try:
             itinerary_text = self._format_itinerary_for_prompt(itinerary_data)
@@ -203,6 +207,19 @@ class GeminiIntegration:
                 for h in hotels[:5]:
                     hotel_text += f"- {h.get('name')}: {h.get('rating', 'N/A')} stars, ${h.get('price', 'N/A')}\n"
             
+            # ⭐ Include time information in the prompt
+            time_info_text = "\nORIGINAL ACTIVITY TIMES (MUST PRESERVE THESE EXACT TIMES):\n"
+            for day in itinerary_data:
+                day_num = day.get('day', 1)
+                time_info_text += f"Day {day_num}:\n"
+                for activity in day.get('activities', []):
+                    title = activity.get('title', '')
+                    time_hours = activity.get('time_hours', 1)
+                    is_meal = activity.get('is_meal', False)
+                    is_hotel = activity.get('is_hotel', False)
+                    if not is_meal and not is_hotel:
+                        time_info_text += f"  {title}: {time_hours}h\n"
+            
             prompt = f"""
 You are TravelPal Nepal. Enhance this {days}-day itinerary for {destination}.
 
@@ -214,13 +231,17 @@ You are TravelPal Nepal. Enhance this {days}-day itinerary for {destination}.
 TECHNICAL ITINERARY:
 {itinerary_text}
 
-IMPORTANT RULES:
+⭐ IMPORTANT - ORIGINAL ACTIVITY TIMES TO PRESERVE:
+{time_info_text}
+
+⭐ CRITICAL RULES:
 1. Use REAL restaurant names from the list above for meals
 2. Use REAL hotel names from the list above for hotel stays
 3. Keep the EXACT costs from the technical itinerary
-4. Add engaging descriptions
-5. Format: "🍽️ [Restaurant Name]: Try their [specific dish]"
-6. Hotel: "🏨 [Hotel Name]: Amenities include..."
+4. PRESERVE the exact time_hours for each attraction (do NOT change them to 1h)
+5. Add engaging descriptions for each activity
+6. Format: "🍽️ [Restaurant Name]: Try their [specific dish]"
+7. Hotel: "🏨 [Hotel Name]: Amenities include..."
 
 Return JSON:
 {{
@@ -233,7 +254,8 @@ Return JSON:
         {{
           "time": "09:00 AM",
           "title": "Activity Name",
-          "description": "Description with cost 💰 Free or 💰 $X"
+          "description": "Description with cost 💰 Free or 💰 $X",
+          "time_hours": 0.5
         }},
         {{
           "time": "12:00 PM",
@@ -260,7 +282,13 @@ Only valid JSON, no other text.
             if not response or not response.text:
                 return None
             
-            return self._parse_response(response.text)
+            enhanced = self._parse_response(response.text)
+            
+            # ⭐ CRITICAL: Restore time_hours from original data
+            if enhanced and 'daily_itineraries' in enhanced:
+                enhanced = self._restore_time_hours(enhanced, original_time_map)
+            
+            return enhanced
             
         except Exception as e:
             if '429' in str(e):
@@ -268,6 +296,98 @@ Only valid JSON, no other text.
             else:
                 print(f"⚠️ Gemini enhancement error: {e}")
             return None
+    
+    # ==========================================
+    # ⭐ BUILD TIME MAP FROM ORIGINAL ITINERARY
+    # ==========================================
+    
+    def _build_time_map(self, itinerary_data):
+        """Build a map of activity titles to their time_hours"""
+        time_map = {}
+        
+        for day in itinerary_data:
+            for activity in day.get('activities', []):
+                title = activity.get('title', '')
+                if title:
+                    # Clean title for matching
+                    clean_title = self._clean_title(title)
+                    time_hours = activity.get('time_hours', 1)
+                    duration = activity.get('duration', 1)
+                    is_meal = activity.get('is_meal', False)
+                    is_hotel = activity.get('is_hotel', False)
+                    
+                    time_map[clean_title] = {
+                        'time_hours': time_hours,
+                        'duration': duration,
+                        'is_meal': is_meal,
+                        'is_hotel': is_hotel,
+                        'original_title': title
+                    }
+        
+        return time_map
+    
+    def _clean_title(self, title):
+        """Clean title for matching"""
+        # Remove common prefixes
+        clean = title.lower()
+        clean = re.sub(r'^breakfast at ', '', clean)
+        clean = re.sub(r'^lunch at ', '', clean)
+        clean = re.sub(r'^dinner at ', '', clean)
+        clean = re.sub(r'^stay at ', '', clean)
+        clean = re.sub(r'^visit ', '', clean)
+        clean = re.sub(r'^explore ', '', clean)
+        return clean.strip()
+    
+    # ==========================================
+    # ⭐ RESTORE TIME_HOURS IN ENHANCED ITINERARY
+    # ==========================================
+    
+    def _restore_time_hours(self, enhanced, original_time_map):
+        """Restore time_hours from original data into enhanced itinerary"""
+        
+        if not enhanced or 'daily_itineraries' not in enhanced:
+            return enhanced
+        
+        for day in enhanced['daily_itineraries']:
+            if 'enhanced_activities' not in day:
+                continue
+            
+            for activity in day['enhanced_activities']:
+                title = activity.get('title', '')
+                clean_title = self._clean_title(title)
+                
+                # Check if this title is in our time map
+                if clean_title in original_time_map:
+                    original = original_time_map[clean_title]
+                    # Restore time_hours
+                    activity['time_hours'] = original['time_hours']
+                    activity['duration'] = original['duration']
+                    print(f"✅ Restored time for '{title}': {original['time_hours']}h")
+                
+                # Also check for meal matches
+                elif 'lunch' in clean_title or 'breakfast' in clean_title or 'dinner' in clean_title:
+                    # Find the original meal time
+                    for key, value in original_time_map.items():
+                        if value.get('is_meal') and key in clean_title:
+                            activity['time_hours'] = 0.5
+                            activity['duration'] = 0.5
+                            print(f"✅ Restored meal time for '{title}': 0.5h")
+                            break
+                
+                # Check for hotel
+                elif 'stay at' in clean_title or 'hotel' in clean_title:
+                    for key, value in original_time_map.items():
+                        if value.get('is_hotel'):
+                            activity['time_hours'] = 0
+                            activity['duration'] = 0
+                            print(f"✅ Hotel excluded from time for '{title}'")
+                            break
+        
+        return enhanced
+    
+    # ==========================================
+    # Format itinerary for prompt
+    # ==========================================
     
     def _format_itinerary_for_prompt(self, itinerary_data):
         text = ""
@@ -281,9 +401,14 @@ Only valid JSON, no other text.
                 cost = activity.get('cost', 0)
                 is_meal = activity.get('is_meal', False)
                 is_hotel = activity.get('is_hotel', False)
+                time_hours = activity.get('time_hours', 1)
                 type_label = "[MEAL]" if is_meal else "[HOTEL]" if is_hotel else "[ACTIVITY]"
-                text += f"  {time} {type_label} - {title}: {desc} (${cost})\n"
+                text += f"  {time} {type_label} - {title}: {desc} (${cost}, {time_hours}h)\n"
         return text
+    
+    # ==========================================
+    # Parse Gemini response
+    # ==========================================
     
     def _parse_response(self, response_text):
         try:

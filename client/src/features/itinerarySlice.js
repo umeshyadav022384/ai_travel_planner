@@ -19,6 +19,12 @@ const initialState = {
   dailyBudget: 0,
   weatherForecast: [],
   
+  // Time Constraint States
+  timeMode: "no_limit",
+  availableHours: 0,
+  timeDisplay: null,
+  dailyTimeInfo: [],
+  
   // Error states
   errorType: null,
   availableCities: [],
@@ -164,6 +170,10 @@ const itinerarySlice = createSlice({
       state.isError = false;
       state.message = "";
       state.geminiUsed = false;
+      state.timeMode = "no_limit";
+      state.availableHours = 0;
+      state.timeDisplay = null;
+      state.dailyTimeInfo = [];
     },
     clearItineraries: (state) => {
       state.itineraries = [];
@@ -203,6 +213,10 @@ const itinerarySlice = createSlice({
         state.totalCost = 0;
         state.dailyBudget = 0;
         state.weatherForecast = [];
+        state.timeMode = "no_limit";
+        state.availableHours = 0;
+        state.timeDisplay = null;
+        state.dailyTimeInfo = [];
       })
       .addCase(generateItinerary.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -210,7 +224,19 @@ const itinerarySlice = createSlice({
         state.isError = false;
         
         const payload = action.payload || {};
+        
+        // ⭐ CRITICAL FIX: Store the original itinerary with skipped_attractions
         state.generatedItinerary = payload.dailyActivities || null;
+        
+        // ⭐ Debug: Log skipped attractions from payload
+        if (payload.dailyActivities) {
+          payload.dailyActivities.forEach((day, idx) => {
+            if (day.skipped_attractions && day.skipped_attractions.length > 0) {
+              console.log(`📊 Day ${idx + 1} has ${day.skipped_attractions.length} skipped attractions`);
+            }
+          });
+        }
+        
         state.enhancedItinerary = payload.enhanced || null;
         state.packingList = payload.packingList || null;
         state.weatherSummary = payload.weatherSummary || null;
@@ -224,12 +250,20 @@ const itinerarySlice = createSlice({
         state.availableCities = [];
         state.message = payload.message || "Itinerary generated successfully!";
         
+        state.timeMode = payload.time_mode || "no_limit";
+        state.availableHours = payload.available_hours || 0;
+        state.timeDisplay = payload.time_display || null;
+        state.dailyTimeInfo = payload.daily_time_info || [];
+        
         console.log("✅ Redux State Updated:");
+        console.log("  generatedItinerary:", state.generatedItinerary);
         console.log("  enhancedItinerary:", state.enhancedItinerary);
         console.log("  geminiUsed:", state.geminiUsed);
         console.log("  dailyCosts:", state.dailyCosts);
         console.log("  totalCost:", state.totalCost);
         console.log("  dailyBudget:", state.dailyBudget);
+        console.log("  timeMode:", state.timeMode);
+        console.log("  availableHours:", state.availableHours);
       })
       .addCase(generateItinerary.rejected, (state, action) => {
         state.isLoading = false;
@@ -241,6 +275,10 @@ const itinerarySlice = createSlice({
         state.totalCost = 0;
         state.dailyBudget = 0;
         state.weatherForecast = [];
+        state.timeMode = "no_limit";
+        state.availableHours = 0;
+        state.timeDisplay = null;
+        state.dailyTimeInfo = [];
         
         const errorData = action.payload || {};
         state.message = errorData.message || "Failed to generate itinerary";
@@ -262,6 +300,10 @@ const itinerarySlice = createSlice({
         state.dailyCosts = [];
         state.totalCost = 0;
         state.message = "Itinerary saved successfully!";
+        state.timeMode = "no_limit";
+        state.availableHours = 0;
+        state.timeDisplay = null;
+        state.dailyTimeInfo = [];
       })
       .addCase(getItineraries.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -272,6 +314,11 @@ const itinerarySlice = createSlice({
         state.isLoading = false;
         state.currentItinerary = action.payload.itinerary || action.payload;
         state.isError = false;
+        if (state.currentItinerary) {
+          state.timeMode = state.currentItinerary.timeMode || "no_limit";
+          state.availableHours = state.currentItinerary.availableHours || 0;
+          state.timeDisplay = state.currentItinerary.timeDisplay || null;
+        }
       })
       .addCase(deleteItinerary.fulfilled, (state, action) => {
         state.itineraries = state.itineraries.filter(
@@ -308,5 +355,12 @@ export const getBudget = (state) => state.itinerary.budget;
 export const getDailyBudget = (state) => state.itinerary.dailyBudget;
 export const getWeatherForecast = (state) => state.itinerary.weatherForecast;
 export const getSavedItineraries = (state) => state.itinerary.itineraries;
+
+// Time constraint selectors
+export const getTimeMode = (state) => state.itinerary.timeMode;
+export const getAvailableHours = (state) => state.itinerary.availableHours;
+export const getTimeDisplay = (state) => state.itinerary.timeDisplay;
+export const getDailyTimeInfo = (state) => state.itinerary.dailyTimeInfo;
+export const hasTimeConstraint = (state) => state.itinerary.timeMode !== "no_limit";
 
 export default itinerarySlice.reducer;

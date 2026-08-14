@@ -117,6 +117,36 @@ chatbot_data = load_chatbot_data()
 
 
 # ==========================================
+# Time Display Helper
+# ==========================================
+
+def format_time_display(time_mode, available_hours, total_days):
+    """Format time display for response"""
+    if time_mode == "per_day":
+        return {
+            'mode': 'per_day',
+            'hours_per_day': available_hours,
+            'total_hours': available_hours * total_days,
+            'display': f"{available_hours} hours per day ({available_hours * total_days} hours total)"
+        }
+    elif time_mode == "total":
+        hours_per_day = available_hours / total_days if total_days > 0 else 0
+        return {
+            'mode': 'total',
+            'hours_per_day': round(hours_per_day, 1),
+            'total_hours': available_hours,
+            'display': f"{available_hours} hours total ({round(hours_per_day, 1)} hours per day)"
+        }
+    else:  # no_limit
+        return {
+            'mode': 'no_limit',
+            'hours_per_day': 'Full day',
+            'total_hours': 'No limit',
+            'display': "No time limit - Full day"
+        }
+
+
+# ==========================================
 # FLASK APP SETUP
 # ==========================================
 
@@ -150,7 +180,7 @@ def health_check():
 
 
 # ==========================================
-# CHAT ENDPOINT - COMPLETELY FIXED
+# CHAT ENDPOINT
 # ==========================================
 
 @app.route('/api/ml/chat', methods=['POST'])
@@ -163,24 +193,13 @@ def chat():
         
         print(f"User: {user_message}")
         
-        # ==========================================
-        # STEP 1: Use chatbot_utils.get_response()
-        # ==========================================
         response, intent_tag, confidence = get_response(user_message)
         print(f"Intent: {intent_tag}, Confidence: {confidence:.2f}")
         
-        # ==========================================
-        # STEP 2: Handle WEATHER intent
-        # ==========================================
         if intent_tag == "get_weather":
-            # Extract location using improved function
             location = extract_location(user_message)
-            
-            # If not found, try fuzzy match
             if not location:
                 location = fuzzy_city_match(user_message)
-            
-            # If still not found, try to find any city
             if not location:
                 cities = ["kathmandu", "pokhara", "lumbini", "chitwan", "bhaktapur", "lalitpur", 
                          "everest", "annapurna", "mustang", "manang", "janakpur", "gorkha", "syangja"]
@@ -195,9 +214,6 @@ def chat():
             weather_result = get_weather(location)
             return jsonify({"reply": weather_result})
         
-        # ==========================================
-        # STEP 3: Handle TRAVEL RECOMMENDATIONS
-        # ==========================================
         elif intent_tag == "get_travel_recommendations":
             location = extract_location(user_message)
             if not location:
@@ -207,11 +223,7 @@ def chat():
             travel_result = get_travel_recommendations(location)
             return jsonify({"reply": travel_result})
         
-        # ==========================================
-        # STEP 4: If response is None, use fallback
-        # ==========================================
         if response is None:
-            # Try fuzzy match as final fallback
             city_name = fuzzy_city_match(user_message)
             if city_name:
                 city_info = get_city_info(city_name)
@@ -224,9 +236,6 @@ def chat():
             reply = get_unknown_response(user_message)
             return jsonify({"reply": reply})
         
-        # ==========================================
-        # STEP 5: Return response
-        # ==========================================
         return jsonify({"reply": response})
             
     except Exception as e:
@@ -235,7 +244,7 @@ def chat():
 
 
 # ==========================================
-# GENERATE ITINERARY ENDPOINT
+# ⭐ COMPLETELY UPDATED GENERATE ITINERARY ENDPOINT
 # ==========================================
 
 @app.route('/api/ml/generate', methods=['POST'])
@@ -248,6 +257,9 @@ def generate():
         budget_type = data.get('budget_type', 'per_day')
         budget = int(data.get('budget', 500))
         use_gemini = data.get('use_gemini', True)
+        
+        time_mode = data.get('time_mode', 'no_limit')
+        available_hours = float(data.get('available_hours', 6))
 
         if budget_type == 'per_day':
             daily_budget = budget
@@ -259,6 +271,7 @@ def generate():
         print(f"Budget Type: {budget_type}")
         print(f"Daily Budget: ${daily_budget}")
         print(f"Total Budget: ${total_budget}")
+        print(f"⏰ Time Mode: {time_mode}, Available Hours: {available_hours}")
 
         restaurants = []
         hotels = []
@@ -277,12 +290,16 @@ def generate():
         except Exception as e:
             print(f"Hotel fetch failed: {e}")
 
+        # Generate itinerary with time constraints
         itinerary = generate_itinerary(
             destination, preferences, days, daily_budget,
             restaurants=restaurants,
-            hotels=hotels
+            hotels=hotels,
+            time_mode=time_mode,
+            available_hours=available_hours
         )
 
+        # Weather handling
         weather_forecast = []
         weather_summary = None
 
@@ -350,8 +367,32 @@ def generate():
             daily_costs.append(day_cost)
             total_cost += day_cost
 
+        # Extract daily time info from itinerary
+        daily_time_info = []
+        for day in itinerary:
+            time_info = day.get('time_info', {})
+            daily_time_info.append({
+                'day': day.get('day', 0),
+                'time_used': time_info.get('time_used', 0),
+                'time_available': time_info.get('time_available', 0),
+                'time_remaining': time_info.get('time_remaining', 0),
+                'attraction_time': time_info.get('attraction_time', 0),
+                'meal_time': time_info.get('meal_time', 0),
+                'travel_time': time_info.get('travel_time', 0),
+                'meal_breakdown': time_info.get('meal_breakdown', {})
+            })
+
+        time_display = format_time_display(time_mode, available_hours, days)
+
         enhanced = None
         gemini_used = False
+
+        # ⭐ CRITICAL: Store skipped attractions from original itinerary BEFORE Gemini enhancement
+        original_skipped_map = {}
+        for day_idx, day in enumerate(itinerary):
+            if day.get('skipped_attractions'):
+                original_skipped_map[day_idx] = day.get('skipped_attractions')
+                print(f"📊 Day {day_idx + 1} skipped attractions: {len(original_skipped_map[day_idx])}")
 
         if use_gemini and gemini and gemini.model:
             try:
@@ -375,6 +416,13 @@ def generate():
                     if enhanced:
                         gemini_used = True
                         print("Itinerary enhanced with Gemini")
+                        
+                        # ⭐ CRITICAL: Restore skipped attractions to enhanced itinerary
+                        if 'daily_itineraries' in enhanced:
+                            for day_idx, day in enumerate(enhanced['daily_itineraries']):
+                                if day_idx in original_skipped_map:
+                                    day['skipped_attractions'] = original_skipped_map[day_idx]
+                                    print(f"✅ Restored {len(original_skipped_map[day_idx])} skipped attractions to Day {day_idx + 1}")
                     else:
                         print("Gemini enhancement returned empty. Using technical itinerary.")
                 else:
@@ -389,11 +437,40 @@ def generate():
                 else:
                     print(f"Gemini enhancement failed: {e}")
 
+        # ⭐ CRITICAL: If Gemini enhanced, use enhanced itinerary, but preserve skipped attractions
+        final_itinerary = enhanced.get('daily_itineraries') if enhanced else itinerary
+        
+        # ⭐ Ensure skipped attractions are always present in the final response
+        if isinstance(final_itinerary, list):
+            for day_idx, day in enumerate(final_itinerary):
+                if day_idx in original_skipped_map:
+                    # If the day is a dict, add skipped_attractions
+                    if isinstance(day, dict):
+                        day['skipped_attractions'] = original_skipped_map[day_idx]
+
+        # Debug output
+        print("\n📊 FINAL ITINERARY WITH SKIPPED ATTRACTIONS:")
+        for day_idx, day in enumerate(final_itinerary):
+            if isinstance(day, dict):
+                skipped = day.get('skipped_attractions', [])
+                print(f"  Day {day_idx + 1}: {len(skipped)} skipped attractions")
+
+        # Debug attractions
+        debug_attractions = []
+        for day in itinerary:
+            for act in day.get('activities', []):
+                if not act.get('is_meal') and not act.get('is_hotel'):
+                    debug_attractions.append({
+                        'name': act.get('title', 'Unknown'),
+                        'time_hours': act.get('time_hours', 'N/A'),
+                        'duration': act.get('duration', 'N/A')
+                    })
+
         return jsonify({
             'success': True,
             'destination': destination,
             'days': days,
-            'dailyActivities': itinerary,
+            'dailyActivities': final_itinerary,
             'dailyCosts': daily_costs,
             'totalCost': total_cost,
             'budget': budget,
@@ -406,7 +483,14 @@ def generate():
             'gemini_used': gemini_used,
             'packingList': packing_result,
             'restaurants': restaurants,
-            'hotels': hotels
+            'hotels': hotels,
+            'time_mode': time_mode,
+            'available_hours': available_hours,
+            'time_display': time_display,
+            'daily_time_info': daily_time_info,
+            '_debug_time_hours': debug_attractions,
+            # ⭐ Include skipped attractions in a separate field for debugging
+            '_debug_skipped': original_skipped_map
         })
 
     except Exception as e:
