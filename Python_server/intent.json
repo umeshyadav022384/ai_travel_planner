@@ -55,7 +55,31 @@
         "weather forecast today", "will it be sunny", "is it cold today",
         "is it hot today", "weather this week", "weather tomorrow",
         "what is the weather like in", "tell me the temperature in",
-        "how is the weather in", "weather update for", "weather report for"
+        "how is the weather in", "weather update for", "weather report for",
+        "weather of kathmandu", "weather in pokhara", "temperature of lumbini",
+        "how is the weather in chitwan", "is it raining in bhaktapur",
+        "what's the temperature in lalitpur", "weather forecast for pokhara",
+        "current weather in kathmandu", "tell me the weather in lumbini",
+        "how hot is it in chitwan", "climate of pokhara",
+        "weather update for kathmandu", "temperature of bhaktapur",
+        "what is the weather like in lalitpur", "will it rain in pokhara",
+        "is it sunny in kathmandu", "weather conditions in lumbini",
+        "forecast for chitwan", "weather report for bhaktapur",
+        "what is the temperature in kathmandu", "how's the weather in pokhara",
+        "weather in kathmandu today", "temperature in lumbini today",
+        "is it going to rain in chitwan", "weather of kathmandu today",
+        "tell me the weather of pokhara", "current temperature in lumbini",
+        "weather forecast for kathmandu", "what is the weather of pokhara",
+        "how is the weather in kathmandu", "weather report for kathmandu",
+        "temperature of kathmandu", "weather conditions in pokhara",
+        "weather of nepal", "temperature in nepal", "weather in nepal today",
+        "what is the temperature in pokhara", "how is the weather in lumbini",
+        "weather update for chitwan", "weather report for bhaktapur",
+        "will it rain in kathmandu", "is it sunny in pokhara",
+        "temperature of chitwan", "weather in lalitpur",
+        "weather in mustang", "temperature of everest", "weather in annapurna",
+        "how is the weather in manang", "is it raining in gorkha",
+        "weather forecast for janakpur", "temperature in syangja"
       ],
       "responses": [
         "Getting weather information...",
@@ -79,12 +103,34 @@
         "what to see in Nepal", "travel guide suggestions", "top destinations",
         "best places for tourists", "suggest a travel itinerary",
         "what are the best places to visit", "recommend some tourist spots",
-        "where should I travel in Nepal", "best tourist destinations"
+        "where should I travel in Nepal", "best tourist destinations",
+        "what is the best place to visit in Nepal", "recommend a place to visit",
+        "suggest a travel destination", "best places to travel in Nepal",
+        "top tourist attractions in Nepal", "where to go for vacation in Nepal"
       ],
       "responses": [
         "Finding recommendations...",
         "Let me suggest some amazing places for you...",
         "Based on your interest, I recommend..."
+      ]
+    },
+    {
+      "tag": "get_hotel_recommendations",
+      "patterns": [
+        "recommend hotel in", "recommend hotels in", "best hotel in",
+        "best hotels in", "where to stay in", "stay in", "hotel in",
+        "accommodation in", "book a hotel in", "hotel recommendation in",
+        "hotel options in", "find hotel in", "places to stay in",
+        "affordable hotels in", "luxury hotel in", "guest house in",
+        "lodge in", "resort in", "budget hotel in", "cheap hotel in",
+        "where should I stay in", "recommend a hotel", "recommend some hotels",
+        "best place to stay in", "which hotel is best in", "stay options in",
+        "accommodation options in", "hotel near", "hotel around"
+      ],
+      "responses": [
+        "I can suggest some good hotel options for that city.",
+        "Let me recommend a few suitable stays for you.",
+        "I will check the best stay options for that place."
       ]
     },
     {
@@ -103,7 +149,9 @@
         "tell me everything about Nepal", "give me info about Nepal",
         "what is Nepal famous for", "Nepal general information",
         "Nepal country details", "Nepal tourism guide",
-        "Nepal travel advice", "Nepal information for tourists"
+        "Nepal travel advice", "Nepal information for tourists",
+        "what are the facts about Nepal", "introduction to Nepal",
+        "tell me about Nepal culture", "Nepal history and culture"
       ],
       "responses": [
         "Nepal is a beautiful country in South Asia, known for its majestic Himalayas, rich cultural heritage, and warm hospitality. It's home to 8 of the world's 14 highest peaks including Mount Everest!"
@@ -128,7 +176,8 @@
         "what is the capital city of nepal country", "what is the capital of nepal tell me",
         "what is the capital of nepal called", "what is nepal's capital city",
         "what is the capital of nepal and where is it located",
-        "what is the name of the capital of nepal", "capital of nepal kathmandu"
+        "what is the name of the capital of nepal", "capital of nepal kathmandu",
+        "what is nepal capital city", "what is the capital of nepal country"
       ],
       "responses": [
         "The capital of Nepal is Kathmandu! 🏛️\n\nKathmandu is the largest city and the political, cultural, and economic center of Nepal. It's home to the royal palace, government offices, and UNESCO World Heritage Sites.",
@@ -152,7 +201,9 @@
         "Can you give me tips", "What should I ask", "What can you tell me about Nepal",
         "Give me travel advice", "Help me plan my trip", "I need travel information",
         "What travel information do you have", "Can you give me travel tips",
-        "What do you know about Nepal", "Tell me something about Nepal"
+        "What do you know about Nepal", "Tell me something about Nepal",
+        "what is your purpose", "how do you work", "what can you answer",
+        "what kind of questions can I ask", "tell me about your features"
       ],
       "responses": [
         "I can help you with travel information about Nepal! Ask me about cities like Kathmandu, Pokhara, Lumbini, or Chitwan. I can tell you about attractions, hotels, food, transportation, and shopping. Just type your question!",
@@ -177,7 +228,9 @@
         "why visit Kathmandu", "Kathmandu facts",
         "Kathmandu details for tourists", "give me info about Kathmandu",
         "tell me everything about Kathmandu", "Kathmandu general information",
-        "what is Kathmandu known for", "Kathmandu city details"
+        "what is Kathmandu known for", "Kathmandu city details",
+        "what is Kathmandu famous for", "Kathmandu travel guide",
+        "facts about Kathmandu", "Kathmandu information"
       ],
       "responses": [
         "Kathmandu is the capital city of Nepal, a vibrant cultural hub with UNESCO World Heritage Sites, ancient temples, and bustling markets. It is the gateway to the Himalayas."
@@ -201,7 +254,8 @@
         "Monkey Temple Kathmandu", "Kathmandu valley attractions",
         "what are the top attractions in Kathmandu",
         "tell me about attractions in Kathmandu",
-        "Kathmandu famous places", "Kathmandu must visit places"
+        "Kathmandu famous places", "Kathmandu must visit places",
+        "what to do in Kathmandu", "Kathmandu tourist spots"
       ],
       "responses": [
         "Top attractions in Kathmandu include Swayambhunath Stupa (Monkey Temple), Pashupatinath Temple, Boudhanath Stupa, Kathmandu Durbar Square, Garden of Dreams, and the vibrant Thamel district."
@@ -223,7 +277,8 @@
         "top hotels Kathmandu", "Kathmandu stay options",
         "what are the best hotels in Kathmandu",
         "recommend hotels in Kathmandu", "Kathmandu luxury hotels",
-        "Kathmandu budget hotels", "hotels near Kathmandu airport"
+        "Kathmandu budget hotels", "hotels near Kathmandu airport",
+        "where to stay in Kathmandu for tourists"
       ],
       "responses": [
         "Best hotels in Kathmandu include Hyatt Regency, The Dwarika's Hotel, Yak & Yeti, and budget options like Thamel Guest House and Hotel Sapana Garden."
@@ -245,7 +300,8 @@
         "famous food Kathmandu", "restaurants near Kathmandu",
         "what is the best food in Kathmandu",
         "where can I eat in Kathmandu", "Kathmandu street food",
-        "Kathmandu restaurants recommendations"
+        "Kathmandu restaurants recommendations",
+        "what to eat in Kathmandu for tourists"
       ],
       "responses": [
         "Must-try food in Kathmandu includes Newari cuisine, Momo (dumplings), Dal Bhat, Samay Baji, Yomari, and Chatamari. Visit Thamel for great restaurants!"
@@ -756,6 +812,541 @@
       ],
       "responses": [
         "Best shopping in Lalitpur includes metal crafts, wood carvings, handicrafts, and Thanka paintings at Durbar Square."
+      ]
+    },
+    {
+      "tag": "everest_info",
+      "patterns": [
+        "Tell me about Everest", "Everest information",
+        "About Everest region", "Everest mountain facts",
+        "Mount Everest height", "Everest climbing history",
+        "Sagarmatha information", "Everest region overview",
+        "Everest geography", "Mount Everest details",
+        "Everest location", "Everest weather",
+        "Everest difficulty", "Everest expeditions",
+        "Everest records", "Everest facts and figures",
+        "Everest history", "What is Everest",
+        "Everest Nepal", "Mount Everest information",
+        "tell me about Mount Everest", "Everest base camp"
+      ],
+      "responses": [
+        "The Everest Region is home to the world's highest peak, Mount Everest (Sagarmatha at 8,848.86m), and offers world-class trekking with stunning mountain scenery."
+      ]
+    },
+    {
+      "tag": "everest_attractions",
+      "patterns": [
+        "What to see in Everest", "Everest region attractions",
+        "Places to visit in Everest", "Everest sightseeing",
+        "Everest Base Camp trek", "Namche Bazaar",
+        "Kala Patthar viewpoint", "Tengboche Monastery",
+        "Everest monasteries", "Khumbu region attractions",
+        "Everest valley viewpoints", "What to explore in Everest",
+        "Everest tourist spots", "Best places in Everest region",
+        "Everest trekking routes", "Sagarmatha National Park",
+        "Everest viewpoint", "Things to do in Everest",
+        "Everest cultural sites", "Sherpa villages in Everest"
+      ],
+      "responses": [
+        "Top attractions in Everest Region include Namche Bazaar, Tengboche Monastery, Kala Patthar viewpoint, and the legendary Everest Base Camp trek."
+      ]
+    },
+    {
+      "tag": "everest_hotels",
+      "patterns": [
+        "Hotels in Everest Region", "Where to stay in Everest Region",
+        "Accommodation in Everest Region", "Best hotels in Everest Region",
+        "Everest hotel recommendations", "Tea houses in Everest",
+        "Luxury hotels in Everest", "Namche Bazaar hotels",
+        "Lukla hotels", "Everest lodging",
+        "places to stay Everest", "Everest accommodation guide",
+        "where to sleep in Everest", "Everest tea houses",
+        "Everest lodges", "Everest stay options"
+      ],
+      "responses": [
+        "Best hotels in Everest Region include Yeti Mountain Home in Lukla, Hotel Everest View in Namche Bazaar, and tea houses throughout the trek."
+      ]
+    },
+    {
+      "tag": "everest_food",
+      "patterns": [
+        "Food in Everest Region", "What to eat in Everest Region",
+        "Restaurants in Everest Region", "Everest cuisine",
+        "Sherpa food", "Local food in Everest",
+        "Everest food guide", "where to eat in Everest",
+        "traditional food Everest", "best food in Everest",
+        "Everest dining", "Dal Bhat in Everest",
+        "Tibetan food Everest", "Everest local dishes",
+        "tea house food Everest", "Everest food places"
+      ],
+      "responses": [
+        "Must-try food in Everest Region includes Dal Bhat, Momo, Thukpa, Tsampa (roasted barley), and Tibetan Bread."
+      ]
+    },
+    {
+      "tag": "everest_transport",
+      "patterns": [
+        "How to reach Everest Region", "How to go to Everest Region",
+        "Transportation in Everest Region", "Flights to Lukla",
+        "Kathmandu to Everest", "Everest transport",
+        "Lukla airport", "getting around Everest",
+        "Everest transport guide", "Everest travel options",
+        "reaching Everest", "Everest helicopter",
+        "Everest trek access", "Everest road transport",
+        "Everest transportation", "Lukla flight"
+      ],
+      "responses": [
+        "Everest Region is accessible by flight to Lukla from Kathmandu (30 minutes), or helicopter (NPR 50,000+). Local transport is mostly walking/trekking."
+      ]
+    },
+    {
+      "tag": "annapurna_info",
+      "patterns": [
+        "Tell me about Annapurna", "Annapurna information",
+        "About Annapurna region", "Annapurna overview",
+        "Annapurna facts", "Annapurna geography",
+        "Annapurna culture", "Annapurna Nepal",
+        "Annapurna travel guide", "Annapurna mountain facts",
+        "Annapurna history", "Annapurna people",
+        "What is Annapurna", "Annapurna region guide",
+        "Annapurna tourist information", "Annapurna destination",
+        "Annapurna travel tips", "Annapurna region details",
+        "Annapurna Himalayan range", "Annapurna area information"
+      ],
+      "responses": [
+        "The Annapurna Region offers some of the world's best trekking including the famous Annapurna Circuit and Annapurna Base Camp trek, with stunning mountain views."
+      ]
+    },
+    {
+      "tag": "annapurna_attractions",
+      "patterns": [
+        "Annapurna Region attractions", "What to see in Annapurna Region",
+        "Annapurna Circuit trek", "Poon Hill",
+        "ABC trek", "Ghandruk village",
+        "Annapurna attractions list", "must see in Annapurna",
+        "top tourist spots Annapurna", "Annapurna viewpoints",
+        "what to explore in Annapurna", "Annapurna base camp",
+        "Machhapuchhre", "Annapurna conservation area",
+        "Annapurna passes", "Annapurna valleys"
+      ],
+      "responses": [
+        "Top attractions in Annapurna Region include Poon Hill sunrise, Annapurna Base Camp, Annapurna Circuit, Ghandruk village, and Machhapuchhre Base Camp."
+      ]
+    },
+    {
+      "tag": "annapurna_hotels",
+      "patterns": [
+        "Hotels in Annapurna Region", "Where to stay in Annapurna Region",
+        "Accommodation in Annapurna Region", "Best hotels in Annapurna Region",
+        "Annapurna hotel recommendations", "Tea houses in Annapurna",
+        "Ghandruk hotels", "Ghorepani hotels",
+        "Annapurna lodging", "places to stay Annapurna",
+        "Annapurna accommodation guide", "where to sleep in Annapurna",
+        "Annapurna tea houses", "Annapurna lodges"
+      ],
+      "responses": [
+        "Best hotels in Annapurna Region include Annapurna Eco Lodge in Ghandruk, Mountain View Lodge in Ghorepani, and tea houses throughout the trek."
+      ]
+    },
+    {
+      "tag": "annapurna_food",
+      "patterns": [
+        "Food in Annapurna Region", "What to eat in Annapurna Region",
+        "Restaurants in Annapurna Region", "Annapurna cuisine",
+        "Local food in Annapurna", "Sherpa cuisine",
+        "Annapurna food guide", "where to eat in Annapurna",
+        "traditional food Annapurna", "best food in Annapurna",
+        "Annapurna dining", "Gurung food Annapurna",
+        "tea house food Annapurna", "Annapurna local dishes"
+      ],
+      "responses": [
+        "Must-try food in Annapurna Region includes Dal Bhat, Momo, Thukpa, Tibetan Bread, and Sherpa stew."
+      ]
+    },
+    {
+      "tag": "annapurna_transport",
+      "patterns": [
+        "How to reach Annapurna", "Annapurna transportation",
+        "Getting to Annapurna", "Annapurna travel options",
+        "Bus to Annapurna", "Flights to Annapurna",
+        "Annapurna access", "Pokhara to Annapurna",
+        "Kathmandu to Annapurna", "Annapurna circuit transport",
+        "Annapurna base camp access", "Annapurna road transport",
+        "Jeep to Annapurna", "Annapurna travel guide transport",
+        "How to go to Annapurna", "Annapurna trek transport",
+        "Annapurna by bus", "Annapurna by flight",
+        "Annapurna region accessibility", "Reaching Annapurna"
+      ],
+      "responses": [
+        "Annapurna Region is accessible by bus from Pokhara to Besishahar or Naya Pul, then walking/trekking. Jeep transport is available for road sections."
+      ]
+    },
+    {
+      "tag": "mustang_info",
+      "patterns": [
+        "Tell me about Mustang", "Mustang information",
+        "About Mustang region", "Mustang overview",
+        "Mustang geography", "Mustang culture",
+        "Mustang Nepal", "Mustang travel guide",
+        "Mustang altitude", "Mustang history",
+        "Mustang people", "Mustang climate",
+        "What is Mustang", "Mustang destination",
+        "Mustang travel information", "Mustang facts",
+        "Mustang region details", "Mustang Himalayan region",
+        "Mustang tourist information", "Mustang travel tips"
+      ],
+      "responses": [
+        "Mustang is a former kingdom of Nepal with unique Tibetan Buddhist culture, ancient monasteries, and dramatic desert-like landscapes. It's a restricted area requiring special permits."
+      ]
+    },
+    {
+      "tag": "mustang_attractions",
+      "patterns": [
+        "What to see in Mustang", "Mustang attractions",
+        "Places to visit in Mustang", "Lo Manthang",
+        "Upper Mustang attractions", "Muktinath Temple",
+        "Kali Gandaki Gorge", "Mustang monasteries",
+        "Mustang caves", "Mustang royal palace",
+        "Mustang sightseeing", "Tibetan culture Mustang",
+        "Mustang desert landscapes", "Jomsom valley",
+        "Mustang trekking routes", "Things to do in Mustang",
+        "Mustang tourist spots", "Mustang cultural sites",
+        "Mustang heritage sites", "What to explore in Mustang"
+      ],
+      "responses": [
+        "Top attractions in Mustang include Lo Manthang (walled city), Muktinath Temple, Kali Gandaki Gorge (world's deepest gorge), and Jomsom."
+      ]
+    },
+    {
+      "tag": "mustang_hotels",
+      "patterns": [
+        "Hotels in Mustang", "Where to stay in Mustang",
+        "Accommodation in Mustang", "Best hotels in Mustang",
+        "Mustang hotel recommendations", "Lodging in Mustang",
+        "Places to stay in Mustang", "Hotels in Lo Manthang",
+        "Hotels in Jomsom", "Mustang tea houses",
+        "Mustang lodging", "Mustang accommodation guide",
+        "where to sleep in Mustang", "Mustang guest houses"
+      ],
+      "responses": [
+        "Best hotels in Mustang include Hotel Annapurna Mustang in Jomsom, Mustang Eco Lodge in Lo Manthang, and tea houses throughout the region."
+      ]
+    },
+    {
+      "tag": "mustang_food",
+      "patterns": [
+        "Food in Mustang", "What to eat in Mustang",
+        "Restaurants in Mustang", "Mustang cuisine",
+        "Mustang food guide", "Tibetan food in Mustang",
+        "Local food in Mustang", "where to eat in Mustang",
+        "traditional food Mustang", "best food in Mustang",
+        "Mustang dining", "Apple brandy Mustang",
+        "Thakali food Mustang", "Mustang local dishes"
+      ],
+      "responses": [
+        "Must-try food in Mustang includes Dal Bhat, Momo, Thukpa, Tsampa, Apple Brandy, and Dried Apples."
+      ]
+    },
+    {
+      "tag": "mustang_transport",
+      "patterns": [
+        "How to reach Mustang", "How to go to Mustang",
+        "Transportation in Mustang", "Flights to Mustang",
+        "Jomsom airport", "Kathmandu to Mustang",
+        "Mustang travel", "getting around Mustang",
+        "Mustang transport guide", "Mustang travel options",
+        "reaching Mustang", "Mustang road transport",
+        "Mustang jeep transport", "Mustang trek access"
+      ],
+      "responses": [
+        "Mustang is accessible by flight to Jomsom from Kathmandu (30 minutes), or by road via Beni. Local transport includes walking/trekking and jeeps."
+      ]
+    },
+    {
+      "tag": "manang_info",
+      "patterns": [
+        "Tell me about Manang", "Manang information",
+        "About Manang valley", "Manang region overview",
+        "Manang geography", "Manang culture",
+        "Manang Nepal", "Manang travel guide",
+        "Manang altitude", "Manang history",
+        "Manang people", "Manang climate",
+        "What is Manang", "Manang destination",
+        "Manang travel information", "Manang facts",
+        "Manang region details", "Manang Himalayan region",
+        "Manang tourist information", "Manang travel tips"
+      ],
+      "responses": [
+        "Manang is a high-altitude Himalayan district in the Annapurna region, known for stunning landscapes, Tilicho Lake (one of the highest lakes in the world), and Tibetan Buddhist culture."
+      ]
+    },
+    {
+      "tag": "manang_attractions",
+      "patterns": [
+        "What to see in Manang", "Manang attractions",
+        "Places to visit in Manang", "Tilicho Lake",
+        "Braga Monastery", "Gangapurna Lake",
+        "Manang valley viewpoints", "Manang village",
+        "Ice Lake", "Manang trekking routes",
+        "Manang sightseeing", "Annapurna Circuit Manang",
+        "Manang monasteries", "Manang Himalayan views",
+        "Things to do in Manang", "Manang tourist spots",
+        "Manang nature spots", "Manang cultural sites",
+        "What to explore in Manang", "Manang glacier lakes"
+      ],
+      "responses": [
+        "Top attractions in Manang include Tilicho Lake (4,919m), Braga Monastery, Gangapurna Lake, Manang Village, and Ice Lake."
+      ]
+    },
+    {
+      "tag": "manang_hotels",
+      "patterns": [
+        "Hotels in Manang", "Where to stay in Manang",
+        "Accommodation in Manang", "Best hotels in Manang",
+        "Manang hotel recommendations", "Tea houses in Manang",
+        "Lodging in Manang", "Manang lodging",
+        "Manang accommodation guide", "where to sleep in Manang",
+        "Manang guest houses", "Manang stay options"
+      ],
+      "responses": [
+        "Best hotels in Manang include Manang Eco Resort, Hotel Manang, and tea houses throughout the Annapurna Circuit."
+      ]
+    },
+    {
+      "tag": "manang_food",
+      "patterns": [
+        "Food in Manang", "What to eat in Manang",
+        "Restaurants in Manang", "Manang cuisine",
+        "Tibetan food in Manang", "Local food in Manang",
+        "where to eat in Manang", "traditional food Manang",
+        "best food in Manang", "Manang dining",
+        "tea house food Manang", "Manang local dishes"
+      ],
+      "responses": [
+        "Must-try food in Manang includes Dal Bhat, Momo, Thukpa, Tsampa, and Tibetan Bread."
+      ]
+    },
+    {
+      "tag": "manang_transport",
+      "patterns": [
+        "How to reach Manang", "How to go to Manang",
+        "Transportation in Manang", "Kathmandu to Manang",
+        "Manang travel", "getting around Manang",
+        "Manang transport guide", "Manang travel options",
+        "reaching Manang", "Manang jeep transport",
+        "Manang trek access", "Besishahar to Manang"
+      ],
+      "responses": [
+        "Manang is accessible by road from Kathmandu via Besishahar, then trekking or jeep to Chame and Manang."
+      ]
+    },
+    {
+      "tag": "janakpur_info",
+      "patterns": [
+        "Tell me about Janakpur", "Janakpur information",
+        "Janaki Temple", "Janakpur travel",
+        "Mithila art", "About Janakpur",
+        "Janakpur overview", "learn about Janakpur",
+        "Janakpur Nepal", "Janakpur destination",
+        "Janakpur culture", "why visit Janakpur",
+        "Sita birthplace", "Janakpur tourism",
+        "Janakpur city guide"
+      ],
+      "responses": [
+        "Janakpur is the birthplace of Goddess Sita and one of Nepal's most important pilgrimage sites, known for the magnificent Janaki Mandir and Mithila art."
+      ]
+    },
+    {
+      "tag": "janakpur_attractions",
+      "patterns": [
+        "Janakpur attractions", "What to see in Janakpur",
+        "Janaki Mandir", "Ram Sita Vivaha Mandap",
+        "Mithila Art Museum", "Janakpur sightseeing",
+        "Gangasagar Pond", "must see in Janakpur",
+        "top tourist spots Janakpur", "Janakpur temples",
+        "what to explore in Janakpur", "Janakpur heritage"
+      ],
+      "responses": [
+        "Top attractions in Janakpur include Janaki Mandir, Ram Sita Vivaha Mandap, Gangasagar Pond, and Mithila Art Museum."
+      ]
+    },
+    {
+      "tag": "janakpur_hotels",
+      "patterns": [
+        "Hotels in Janakpur", "Where to stay in Janakpur",
+        "Accommodation in Janakpur", "Best hotels in Janakpur",
+        "Janakpur hotel recommendations", "Hotels near Janaki Mandir",
+        "Janakpur lodging", "places to stay Janakpur",
+        "Janakpur accommodation guide", "where to sleep in Janakpur"
+      ],
+      "responses": [
+        "Best hotels in Janakpur include Hotel Sita Palace, Hotel Janakpur Inn, and budget options like Janakpur Guest House and Hotel Welcome."
+      ]
+    },
+    {
+      "tag": "janakpur_food",
+      "patterns": [
+        "Food in Janakpur", "What to eat in Janakpur",
+        "Restaurants in Janakpur", "Janakpur cuisine",
+        "Maithili food", "Local food in Janakpur",
+        "where to eat in Janakpur", "traditional food Janakpur",
+        "best food in Janakpur", "Janakpur dining",
+        "Tarua Janakpur", "Maithili sweets"
+      ],
+      "responses": [
+        "Must-try food in Janakpur includes Dal Bhat, Momo, Maithili cuisine, Tarua (fried vegetables), and local sweets."
+      ]
+    },
+    {
+      "tag": "janakpur_transport",
+      "patterns": [
+        "How to reach Janakpur", "How to go to Janakpur",
+        "Transportation in Janakpur", "Flights to Janakpur",
+        "Kathmandu to Janakpur", "getting around Janakpur",
+        "Janakpur transport guide", "bus to Janakpur",
+        "Janakpur travel options", "reaching Janakpur",
+        "Janakpur local transport", "Janakpur transportation"
+      ],
+      "responses": [
+        "Janakpur is accessible by flight from Kathmandu (30 minutes) or by bus (8-10 hours). Local transport includes tempo, rickshaw, and taxi."
+      ]
+    },
+    {
+      "tag": "gorkha_info",
+      "patterns": [
+        "Tell me about Gorkha", "Gorkha information",
+        "Gorkha Durbar", "Gorkha travel",
+        "Gorkha kingdom", "About Gorkha",
+        "Gorkha overview", "learn about Gorkha",
+        "Gorkha Nepal", "Gorkha history",
+        "Prithvi Narayan Shah", "why visit Gorkha",
+        "Gorkha tourism", "Gorkha palace"
+      ],
+      "responses": [
+        "Gorkha is the birthplace of King Prithvi Narayan Shah who unified Nepal. It's known for Gorkha Durbar, a historic palace with stunning views of the Himalayas."
+      ]
+    },
+    {
+      "tag": "gorkha_attractions",
+      "patterns": [
+        "Gorkha attractions", "What to see in Gorkha",
+        "Gorkha Durbar", "Gorkha Nath Temple",
+        "Gorkha Museum", "Gorkha sightseeing",
+        "must see in Gorkha", "top tourist spots Gorkha",
+        "what to explore in Gorkha", "Gorkha palace",
+        "Gorkha history museum", "Gorkha viewpoint"
+      ],
+      "responses": [
+        "Top attractions in Gorkha include Gorkha Durbar, Gorkha Nath Temple, and Gorkha Museum showcasing military history."
+      ]
+    },
+    {
+      "tag": "gorkha_hotels",
+      "patterns": [
+        "Hotels in Gorkha", "Where to stay in Gorkha",
+        "Accommodation in Gorkha", "Best hotels in Gorkha",
+        "Gorkha hotel recommendations", "Gorkha lodging",
+        "places to stay Gorkha", "Gorkha accommodation guide"
+      ],
+      "responses": [
+        "Best hotels in Gorkha include Gorkha Garden Hotel, Hotel Gorkha, and budget options like Gorkha Guest House and New Gorkha Hotel."
+      ]
+    },
+    {
+      "tag": "gorkha_food",
+      "patterns": [
+        "Food in Gorkha", "What to eat in Gorkha",
+        "Restaurants in Gorkha", "Gorkha cuisine",
+        "Local food in Gorkha", "where to eat in Gorkha",
+        "traditional food Gorkha", "best food in Gorkha",
+        "Gorkha dining", "Thakali Set Gorkha"
+      ],
+      "responses": [
+        "Must-try food in Gorkha includes Dal Bhat, Momo, local Nepali dishes, and Thakali Set."
+      ]
+    },
+    {
+      "tag": "gorkha_transport",
+      "patterns": [
+        "How to reach Gorkha", "How to go to Gorkha",
+        "Transportation in Gorkha", "Kathmandu to Gorkha",
+        "getting around Gorkha", "Gorkha travel options",
+        "bus to Gorkha", "reaching Gorkha",
+        "Gorkha local transport", "Gorkha transportation"
+      ],
+      "responses": [
+        "Gorkha is accessible by bus from Kathmandu (6-7 hours) or taxi (5 hours). Local transport includes walking and taxis."
+      ]
+    },
+    {
+      "tag": "syangja_info",
+      "patterns": [
+        "Tell me about Syangja", "Syangja information",
+        "Manakamana Temple", "Syangja travel",
+        "Sirubari village", "About Syangja",
+        "Syangja overview", "learn about Syangja",
+        "Syangja Nepal", "Syangja destination",
+        "Gurung culture", "why visit Syangja"
+      ],
+      "responses": [
+        "Syangja is a beautiful hill district in Gandaki Province, famous for the Manakamana Temple and authentic Gurung culture in Sirubari village."
+      ]
+    },
+    {
+      "tag": "syangja_attractions",
+      "patterns": [
+        "What to see in Syangja", "Syangja attractions",
+        "Places to visit in Syangja", "Manakamana Temple",
+        "Sirubari Village", "Panchase Hill",
+        "Syangja sightseeing", "Manakamana cable car",
+        "Syangja viewpoints", "Gurung village Syangja",
+        "Syangja tourist spots", "Syangja nature spots",
+        "Things to do in Syangja", "Syangja cultural sites",
+        "What to explore in Syangja", "Syangja heritage",
+        "Syangja hills", "Syangja monastery",
+        "Syangja temple tour", "Syangja scenic views"
+      ],
+      "responses": [
+        "Top attractions in Syangja include Manakamana Temple (with cable car), Sirubari Village, and Panchase Hill."
+      ]
+    },
+    {
+      "tag": "syangja_hotels",
+      "patterns": [
+        "Hotels in Syangja", "Where to stay in Syangja",
+        "Accommodation in Syangja", "Best hotels in Syangja",
+        "Syangja hotel recommendations", "Sirubari homestays",
+        "Syangja lodging", "places to stay Syangja",
+        "Manakamana View Hotel", "Syangja accommodation"
+      ],
+      "responses": [
+        "Best hotels in Syangja include Manakamana View Hotel, Syangja Guest House, Sirubari Homestay, and Panchase Lodge."
+      ]
+    },
+    {
+      "tag": "syangja_food",
+      "patterns": [
+        "Food in Syangja", "What to eat in Syangja",
+        "Restaurants in Syangja", "Syangja cuisine",
+        "Gurung food", "Local food in Syangja",
+        "where to eat in Syangja", "traditional food Syangja",
+        "best food in Syangja", "Syangja dining"
+      ],
+      "responses": [
+        "Must-try food in Syangja includes Dal Bhat, Momo, Gurung cuisine, and local Newari dishes."
+      ]
+    },
+    {
+      "tag": "syangja_transport",
+      "patterns": [
+        "How to reach Syangja", "How to go to Syangja",
+        "Transportation in Syangja", "Kathmandu to Syangja",
+        "getting around Syangja", "Syangja travel options",
+        "bus to Syangja", "reaching Syangja",
+        "Syangja local transport"
+      ],
+      "responses": [
+        "Syangja is accessible by bus from Kathmandu or Pokhara (5-6 hours) or taxi. Local transport includes walking, taxis, and local buses."
       ]
     }
   ]

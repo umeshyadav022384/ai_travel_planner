@@ -309,7 +309,7 @@ def detect_query_type(user_message):
     # ==========================================
     # STEP 1: Check for HOTEL related keywords
     # ==========================================
-    hotel_keywords = ['hotel', 'stay', 'accommodation', 'lodge', 'resort', 'guest house']
+    hotel_keywords = ['hotel', 'stay', 'accommodation', 'lodge', 'resort', 'guest house', 'recommend hotel', 'recommend hotels', 'best hotel', 'where to stay', 'stay in', 'book a hotel', 'hotel recommendation', 'hotel options', 'room', 'rooms']
     if any(word in user_lower for word in hotel_keywords):
         return 'hotels'
     
@@ -327,7 +327,10 @@ def detect_query_type(user_message):
         'attraction', 'attractions', 'sight', 'sights', 'tourist', 
         'monument', 'temple', 'temples', 'stupas', 'stupa', 'palace',
         'durbar square', 'things to do', 'what to see', 
-        'top places', 'must see', 'famous place'
+        'top places', 'must see', 'famous place', 'best place', 'best places',
+        'must visit place', 'must visit', 'popular place', 'place to visit',
+        'where should i go', 'recommend place', 'recommend best place',
+        'best tourist spot', 'best spots', 'best attraction'
     ]
     if any(keyword in user_lower for keyword in attraction_keywords):
         return 'attractions'
@@ -506,7 +509,7 @@ def get_unknown_response(user_message):
             city_mentioned = city.title()
             break
     
-    response = "I don't have information about that in my dataset yet.\n\n"
+    response = "I do not have answer in dataset.\n\n"
     
     if city_mentioned:
         response += f"I can help you with {city_mentioned}:\n"
@@ -538,9 +541,9 @@ def get_unknown_response(user_message):
 
 def get_city_info(city_name):
     if not city_data or 'cities' not in city_data:
-        return None
+        load_chatbot_resources()
     
-    for city in city_data['cities']:
+    for city in city_data.get('cities', []):
         if city.get('city', '').lower() == city_name.lower():
             return city
     return None
@@ -867,6 +870,8 @@ def get_response(user_message):
     """
     MAIN FUNCTION: Get response for user message
     """
+    if chat_model is None or tokenizer is None or not classes:
+        load_chatbot_resources()
     
     # Fix common typos
     fixed_message = user_message.lower()
@@ -899,7 +904,7 @@ def get_response(user_message):
     # STEP 2: Check if it's a WEATHER query
     # ==========================================
     weather_keywords = ['weather', 'temperature', 'rain', 'rainy', 'forecast', 'humidity', 'climate']
-    hotel_keywords = ['hotel', 'stay', 'accommodation', 'lodge', 'resort', 'guest house']
+    hotel_keywords = ['hotel', 'stay', 'accommodation', 'lodge', 'resort', 'guest house', 'recommend hotel', 'recommend hotels', 'best hotel', 'where to stay', 'stay in', 'book a hotel', 'hotel recommendation', 'hotel options']
     attraction_keywords = ['attraction', 'sight', 'tourist', 'monument', 'temple', 'stupas', 'palace']
     food_keywords = ['food', 'eat', 'restaurant', 'cuisine', 'dish', 'meal']
     
@@ -915,6 +920,16 @@ def get_response(user_message):
         if city_name:
             print(f"Weather request for: {city_name}")
             return None, "get_weather", 0.95
+        else:
+            return get_unknown_response(user_message), "unknown", 0.5
+
+    if is_hotel and not is_weather and not is_attraction and not is_food:
+        city_name = extract_city_from_query(user_message)
+        if not city_name:
+            city_name = fuzzy_city_match(user_message)
+        if city_name:
+            print(f"Hotel recommendation request for: {city_name}")
+            return None, "get_hotel_recommendations", 0.95
         else:
             return get_unknown_response(user_message), "unknown", 0.5
     
@@ -937,9 +952,11 @@ def get_response(user_message):
             
             response = get_city_response_by_type(city_info, query_type, user_message)
             if response:
+                if query_type == 'hotels':
+                    return None, "get_hotel_recommendations", 0.95
                 return response, f"{city_name}_{query_type}", 0.95
             else:
-                return None, "get_weather", 0.95
+                return get_unknown_response(user_message), "unknown", 0.5
         else:
             # City found but no data - return unknown
             return get_unknown_response(user_message), "unknown", 0.5
@@ -969,7 +986,7 @@ def get_response(user_message):
         return get_unknown_response(user_message), "unknown", confidence
     
     # Handle special intents
-    if predicted_tag == "get_weather" or predicted_tag == "get_travel_recommendations":
+    if predicted_tag in ["get_weather", "get_travel_recommendations", "get_hotel_recommendations"]:
         return None, predicted_tag, confidence
     
     # Try to extract city from intent

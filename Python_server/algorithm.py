@@ -119,25 +119,47 @@ def find_nearest_restaurants(restaurants, target_lat, target_lng, count=1):
 # HELPER: Safely extract price (with cap)
 # ==========================================
 
-def safe_extract_price(price_value, max_price=500):
-    """Safely extract price with a maximum cap"""
+NPR_TO_USD_RATE = 130.0
+
+
+def normalize_price_to_usd(price_value):
+    """Convert Nepali prices to USD when the dataset stores NPR values."""
     if price_value is None:
         return 0
-    
+
     if isinstance(price_value, (int, float)):
-        if price_value > max_price:
-            return 0
-        return int(price_value)
-    
-    if isinstance(price_value, str):
+        value = float(price_value)
+    elif isinstance(price_value, str):
         numbers = re.findall(r'\d+', price_value)
-        if numbers:
-            price = int(numbers[0])
-            if price > max_price:
-                return 0
-            return price
-    
-    return 0
+        if not numbers:
+            return 0
+        value = float(numbers[0])
+    else:
+        return 0
+
+    if value <= 0:
+        return 0
+
+    # Dataset prices are stored in NPR, while UI budget is in USD.
+    # Convert only larger values that are clearly NPR, leave smaller costs alone.
+    if value > 1000:
+        value = value / NPR_TO_USD_RATE
+
+    return round(value, 2)
+
+
+def safe_extract_price(price_value, max_price=500):
+    """Safely extract price with a maximum cap."""
+    if price_value is None:
+        return 0
+
+    converted = normalize_price_to_usd(price_value)
+    if converted <= 0:
+        return 0
+
+    if converted > max_price:
+        return 0
+    return int(converted)
 
 
 # ==========================================

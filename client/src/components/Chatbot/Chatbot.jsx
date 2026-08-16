@@ -142,6 +142,7 @@ const Chatbot = () => {
               <span className="status-text">Online</span>
             </div>
           </div>
+          <div className="header-badge">AI Travel Assistant</div>
         </div>
 
         {/* Chat Window */}

@@ -758,6 +758,12 @@ const Generate = () => {
     
     console.log(`📊 Day ${idx + 1} data:`, day);
     console.log(`📊 Day ${idx + 1} skippedAttractions:`, day.skipped_attractions);
+
+    const rawTitle = typeof day.title === 'string' ? day.title.trim() : '';
+    const hasDuplicateDayPrefix = /^Day\s+\d+\s*[:-]/i.test(rawTitle);
+    const displayTitle = hasDuplicateDayPrefix
+      ? rawTitle.replace(/^Day\s+\d+\s*[:-]\s*/i, '')
+      : rawTitle;
     
     let activities = day.activities || day.enhanced_activities || [];
     
@@ -783,8 +789,8 @@ const Generate = () => {
         <div className="day-header">
           <div className="day-title">
             <span className="day-number">Day {day.day || idx + 1}</span>
-            {day.title && (
-              <span className="day-title-text">{day.title}</span>
+            {displayTitle && (
+              <span className="day-title-text">{displayTitle}</span>
             )}
             {day.date && (
               <span className="day-date">
@@ -896,16 +902,21 @@ const Generate = () => {
     if (!generatedItinerary || dailyCosts.length === 0) return null;
 
     const totalBudget = budgetType === "per_day" ? budget * totalDays : budget;
+    const summaryItems = [
+      `Budget Type: ${budgetType === "per_day" ? "Per Day" : "Total"}`,
+      `Daily Budget: $${dailyBudget}`,
+      `Total Budget: $${totalBudget}`,
+      `Total Cost: $${totalCost}`,
+      `Remaining: $${totalBudget - totalCost}`,
+    ];
 
     return (
       <div className="cost-summary">
         <h4>💰 Budget Summary</h4>
         <div className="cost-stats">
-          <span>Budget Type: {budgetType === "per_day" ? "Per Day" : "Total"}</span>
-          <span>Daily Budget: ${dailyBudget}</span>
-          <span>Total Budget: ${totalBudget}</span>
-          <span>Total Cost: ${totalCost}</span>
-          <span>Remaining: ${totalBudget - totalCost}</span>
+          {summaryItems.map((item, idx) => (
+            <span key={idx}>{item}</span>
+          ))}
         </div>
         <div className="daily-cost-breakdown">
           {dailyCosts.map((cost, idx) => (

@@ -214,6 +214,28 @@ def chat():
             weather_result = get_weather(location)
             return jsonify({"reply": weather_result})
         
+        elif intent_tag == "get_hotel_recommendations":
+            location = extract_location(user_message)
+            if not location:
+                location = fuzzy_city_match(user_message)
+            if not location:
+                return jsonify({"reply": "Please specify a city for hotel suggestions. For example: 'best hotel in Kathmandu'."})
+            hotels = search_hotels(location)
+            if hotels:
+                top_hotels = hotels[:5]
+                reply_lines = [f"Recommended hotels in {location.title()}:"]
+                for index, hotel in enumerate(top_hotels, 1):
+                    name = hotel.get('name', 'Hotel')
+                    rating = hotel.get('rating', 'N/A')
+                    price = hotel.get('price', 'Price not available')
+                    address = hotel.get('address', 'Address not available')
+                    reply_lines.append(f"{index}. {name} - Rating: {rating}/5, Price: {price}, Location: {address}")
+                return jsonify({"reply": "\n".join(reply_lines)})
+            city_info = get_city_info(location)
+            if city_info:
+                return jsonify({"reply": format_hotels(city_info, user_message)})
+            return jsonify({"reply": "I do not have answer in dataset."})
+        
         elif intent_tag == "get_travel_recommendations":
             location = extract_location(user_message)
             if not location:
@@ -257,6 +279,7 @@ def generate():
         budget_type = data.get('budget_type', 'per_day')
         budget = int(data.get('budget', 500))
         use_gemini = data.get('use_gemini', True)
+        weather_data = data.get('weatherData') or {}
         
         time_mode = data.get('time_mode', 'no_limit')
         available_hours = float(data.get('available_hours', 6))
@@ -304,40 +327,58 @@ def generate():
         weather_summary = None
 
         try:
-            weather_result = get_weather(destination)
-            print(f"Weather result: {weather_result}")
+            if weather_data and isinstance(weather_data, dict):
+                weather_days = weather_data.get('days', []) or []
+                if weather_days:
+                    for day in weather_days:
+                        weather_forecast.append({
+                            'temp': day.get('tempmax', day.get('temp', 25)),
+                            'rain': day.get('precip', day.get('rain', 0)),
+                            'condition': str(day.get('conditions', 'sunny')).lower(),
+                            'wind': day.get('windspeed', 10),
+                            'date': day.get('datetime', '')
+                        })
+                    weather_summary = {
+                        'hasRain': any(float(d.get('precip', 0) or 0) > 30 for d in weather_days),
+                        'maxTemp': max(float(d.get('tempmax', d.get('temp', 25)) or 25) for d in weather_days),
+                        'minTemp': min(float(d.get('tempmin', d.get('temp', 25)) or 25) for d in weather_days)
+                    }
+            
+            if not weather_forecast:
+                weather_result = get_weather(destination)
+                print(f"Weather result: {weather_result}")
 
-            if weather_result and "Sorry" not in weather_result:
-                import re
-                temp_match = re.search(r'Temperature: ([\d.]+)°C', weather_result)
-                condition_match = re.search(r'Condition: (.+)', weather_result)
+                if weather_result and "Sorry" not in weather_result:
+                    import re
+                    temp_match = re.search(r'Temperature: ([\d.]+)°C', weather_result)
+                    condition_match = re.search(r'Condition: (.+)', weather_result)
 
-                temp = round(float(temp_match.group(1))) if temp_match else 25
-                condition = condition_match.group(1).lower() if condition_match else 'sunny'
+                    temp = round(float(temp_match.group(1))) if temp_match else 25
+                    condition = condition_match.group(1).lower() if condition_match else 'sunny'
 
-                for i in range(days):
-                    weather_forecast.append({
-                        'temp': temp + i,
-                        'rain': 0,
-                        'condition': condition,
-                        'wind': 10,
-                        'date': f'2024-01-{i+1:02d}'
-                    })
-                weather_summary = {
-                    'hasRain': False,
-                    'maxTemp': temp + days - 1,
-                    'minTemp': temp
-                }
-            else:
-                for i in range(days):
-                    weather_forecast.append({
-                        'temp': 25 + i,
-                        'rain': 0,
-                        'condition': 'sunny',
-                        'wind': 10,
-                        'date': f'2024-01-{i+1:02d}'
-                    })
-                weather_summary = {'hasRain': False, 'maxTemp': 25 + days, 'minTemp': 25}
+                    for i in range(days):
+                        weather_forecast.append({
+                            'temp': temp + i,
+                            'rain': 0,
+                            'condition': condition,
+                            'wind': 10,
+                            'date': f'2024-01-{i+1:02d}'
+                        })
+                    weather_summary = {
+                        'hasRain': False,
+                        'maxTemp': temp + days - 1,
+                        'minTemp': temp
+                    }
+                else:
+                    for i in range(days):
+                        weather_forecast.append({
+                            'temp': 25 + i,
+                            'rain': 0,
+                            'condition': 'sunny',
+                            'wind': 10,
+                            'date': f'2024-01-{i+1:02d}'
+                        })
+                    weather_summary = {'hasRain': False, 'maxTemp': 25 + days, 'minTemp': 25}
         except Exception as e:
             print(f"Weather fetch failed: {e}")
             for i in range(days):
@@ -355,7 +396,7 @@ def generate():
             packing_result = PackingAlgorithm.generate_packing_list(
                 weather_forecast=weather_forecast,
                 destination=destination,
-                activities=[]
+                activities=data.get('activities', [])
             )
         except Exception as e:
             print(f"Packing list generation failed: {e}")

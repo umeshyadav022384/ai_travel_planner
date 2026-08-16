@@ -17,7 +17,7 @@ const loadNepalDataset = () => {
     const jsonData = JSON.parse(data);
     return jsonData.cities || [];
   } catch (error) {
-    console.error('❌ Error loading Nepal dataset:', error.message);
+    console.error(' Error loading Nepal dataset:', error.message);
     return [];
   }
 };
@@ -50,7 +50,7 @@ const getWeather = async (destination, startDate, endDate) => {
     const response = await axios.get(url);
     return response.data;
   } catch (error) {
-    console.error('❌ Weather API error:', error.message);
+    console.error(' Weather API error:', error.message);
     return null;
   }
 };
@@ -68,7 +68,7 @@ const getPackingList = async (weatherData, destination, activities, preferences)
     console.log("✅ Packing list received from Python");
     return response.data;
   } catch (error) {
-    console.error("❌ Packing ML server error:", error.message);
+    console.error("Packing ML server error:", error.message);
     return {
       packingList: {
         essentials: ["📱 Phone", "💳 ID/Cards"],
@@ -200,7 +200,8 @@ const generateItinerary = async (req, res) => {
         destination: validation.city, // Use validated city name
         preferences,
         days,
-        budget: budget || 500
+        budget: budget || 500,
+        weatherData: weatherData || { days: [] }
       });
       
       console.log("✅ ML Response received");
