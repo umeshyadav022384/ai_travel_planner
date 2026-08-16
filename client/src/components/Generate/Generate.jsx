@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -51,24 +51,295 @@ const Generate = () => {
   const [totalDays, setTotalDays] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
+  // ⭐ Refs for date inputs
+  const startDateRef = useRef(null);
+  const endDateRef = useRef(null);
+  
+  // ⭐ Flag to prevent duplicate toast messages
+  const toastShownRef = useRef(false);
+
+  // ⭐ Get today's date in Nepal Timezone (UTC+5:45)
+  const getTodayStr = () => {
+    const now = new Date();
+    // Get Nepal time (UTC+5:45)
+    const nepalOffset = 5 * 60 + 45; // 5 hours 45 minutes in minutes
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const nepalTime = new Date(utc + nepalOffset * 60000);
+    
+    const year = nepalTime.getFullYear();
+    const month = String(nepalTime.getMonth() + 1).padStart(2, '0');
+    const day = String(nepalTime.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
+  // ⭐ Check if a date is in the past (Nepal Timezone)
+  const isPastDate = (dateStr) => {
+    if (!dateStr) return true;
+    
+    // Parse the date string
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return true;
+    
+    const year = parseInt(parts[0]);
+    const month = parseInt(parts[1]) - 1;
+    const day = parseInt(parts[2]);
+    
+    // Create date in Nepal timezone
+    const enteredDate = new Date(Date.UTC(year, month, day));
+    
+    // Get today in Nepal timezone
+    const now = new Date();
+    const nepalOffset = 5 * 60 + 45;
+    const utc = now.getTime() + now.getTimezoneOffset() * 60000;
+    const nepalTime = new Date(utc + nepalOffset * 60000);
+    const todayDate = new Date(Date.UTC(
+      nepalTime.getFullYear(),
+      nepalTime.getMonth(),
+      nepalTime.getDate()
+    ));
+    
+    return enteredDate.getTime() < todayDate.getTime();
+  };
+
+  // ⭐ Check if date is valid format
+  const isValidDateFormat = (dateStr) => {
+    if (!dateStr) return false;
+    return /^\d{4}-\d{2}-\d{2}$/.test(dateStr);
+  };
+
+  // ⭐ Get Nepal timezone date for display
+  const getNepalDate = (dateStr) => {
+    if (!dateStr) return null;
+    const parts = dateStr.split('-');
+    if (parts.length !== 3) return null;
+    const year = parseInt(parts[0]);
+    const month = parseInt(parts[1]) - 1;
+    const day = parseInt(parts[2]);
+    return new Date(Date.UTC(year, month, day));
+  };
+
   // -------- Effects --------
   useEffect(() => {
     if (formData.startDate) {
-      const start = new Date(formData.startDate);
-      const minEnd = new Date(start);
-      minEnd.setDate(minEnd.getDate() + 1);
-      setMinEndDate(minEnd.toISOString().split("T")[0]);
+      const start = getNepalDate(formData.startDate);
+      if (start) {
+        const minEnd = new Date(start);
+        minEnd.setDate(minEnd.getDate() + 1);
+        const year = minEnd.getUTCFullYear();
+        const month = String(minEnd.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(minEnd.getUTCDate()).padStart(2, '0');
+        setMinEndDate(`${year}-${month}-${day}`);
+      }
 
       if (formData.endDate) {
-        const end = new Date(formData.endDate);
-        const diffTime = Math.abs(end - start);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        setTotalDays(diffDays + 1);
+        const end = getNepalDate(formData.endDate);
+        if (end) {
+          const start = getNepalDate(formData.startDate);
+          if (start) {
+            const diffTime = Math.abs(end - start);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            setTotalDays(diffDays + 1);
+          }
+        }
       }
     }
   }, [formData.startDate, formData.endDate]);
 
-  // -------- Handlers --------
+  // -------- Date Handlers --------
+
+  // ⭐ Handle date change - REJECT PAST DATES IMMEDIATELY
+  const handleDateChange = (e) => {
+    const { name, value } = e.target;
+    
+    // If empty, allow it
+    if (!value || value === "") {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      toastShownRef.current = false;
+      return;
+    }
+    
+    // Check if it's a complete date (YYYY-MM-DD)
+    if (!isValidDateFormat(value)) {
+      // Partial date - allow typing (user is still typing)
+      setFormData((prev) => ({ ...prev, [name]: value }));
+      toastShownRef.current = false;
+      return;
+    }
+    
+    // ⭐ CRITICAL: Check if date is in the past
+    if (isPastDate(value)) {
+      // Past date detected - REJECT IT!
+      // Only show toast if not already shown
+      if (!toastShownRef.current) {
+        toast.error("❌ Cannot select a date in the past. Please choose today or a future date.");
+        toastShownRef.current = true;
+      }
+      
+      // Get the previous valid date for this field
+      const currentValue = formData[name];
+      
+      // If current value is invalid or empty, set to today
+      if (!currentValue || isPastDate(currentValue) || !isValidDateFormat(currentValue)) {
+        const today = getTodayStr();
+        setFormData((prev) => ({ ...prev, [name]: today }));
+        // Update input
+        if (name === 'startDate' && startDateRef.current) {
+          startDateRef.current.value = today;
+        } else if (name === 'endDate' && endDateRef.current) {
+          endDateRef.current.value = today;
+        }
+      } else {
+        // Revert to previous valid date
+        if (name === 'startDate' && startDateRef.current) {
+          startDateRef.current.value = currentValue;
+        } else if (name === 'endDate' && endDateRef.current) {
+          endDateRef.current.value = currentValue;
+        }
+      }
+      return;
+    }
+    
+    // Valid future date - update
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    toastShownRef.current = false;
+  };
+
+  // ⭐ Handle date blur - FINAL VALIDATION
+  const handleDateBlur = (e) => {
+    const { name, value } = e.target;
+    const today = getTodayStr();
+    
+    // If empty, set to today
+    if (!value || value === "") {
+      setFormData((prev) => ({ ...prev, [name]: today }));
+      if (name === 'startDate' && startDateRef.current) {
+        startDateRef.current.value = today;
+      } else if (name === 'endDate' && endDateRef.current) {
+        endDateRef.current.value = today;
+      }
+      // Only show toast if not already shown
+      if (!toastShownRef.current) {
+        toast.info("📅 Date set to today.");
+        toastShownRef.current = true;
+      }
+      
+      // Update end date if start date was set
+      if (name === "startDate" && formData.endDate) {
+        const startDate = getNepalDate(today);
+        const endDate = getNepalDate(formData.endDate);
+        if (startDate && endDate && endDate <= startDate) {
+          const newEndDate = new Date(startDate);
+          newEndDate.setDate(newEndDate.getDate() + 1);
+          const year = newEndDate.getUTCFullYear();
+          const month = String(newEndDate.getUTCMonth() + 1).padStart(2, '0');
+          const day = String(newEndDate.getUTCDate()).padStart(2, '0');
+          const newEndDateStr = `${year}-${month}-${day}`;
+          setFormData((prev) => ({ ...prev, endDate: newEndDateStr }));
+          if (endDateRef.current) {
+            endDateRef.current.value = newEndDateStr;
+          }
+          toast.info("📅 End date adjusted to be after start date.");
+        }
+      }
+      toastShownRef.current = false;
+      return;
+    }
+    
+    // Check format
+    if (!isValidDateFormat(value)) {
+      // Invalid format - set to today
+      setFormData((prev) => ({ ...prev, [name]: today }));
+      if (name === 'startDate' && startDateRef.current) {
+        startDateRef.current.value = today;
+      } else if (name === 'endDate' && endDateRef.current) {
+        endDateRef.current.value = today;
+      }
+      // Only show toast if not already shown
+      if (!toastShownRef.current) {
+        toast.warning("⚠️ Invalid date format. Using today's date.");
+        toastShownRef.current = true;
+      }
+      toastShownRef.current = false;
+      return;
+    }
+    
+    // ⭐ Check if date is in the past
+    if (isPastDate(value)) {
+      // Past date - REJECT and set to today
+      setFormData((prev) => ({ ...prev, [name]: today }));
+      if (name === 'startDate' && startDateRef.current) {
+        startDateRef.current.value = today;
+      } else if (name === 'endDate' && endDateRef.current) {
+        endDateRef.current.value = today;
+      }
+      // Only show toast if not already shown
+      if (!toastShownRef.current) {
+        toast.error("❌ Cannot select a date in the past. Using today's date.");
+        toastShownRef.current = true;
+      }
+      
+      // Update end date if needed
+      if (name === "startDate" && formData.endDate) {
+        const startDate = getNepalDate(today);
+        const endDate = getNepalDate(formData.endDate);
+        if (startDate && endDate && endDate <= startDate) {
+          const newEndDate = new Date(startDate);
+          newEndDate.setDate(newEndDate.getDate() + 1);
+          const year = newEndDate.getUTCFullYear();
+          const month = String(newEndDate.getUTCMonth() + 1).padStart(2, '0');
+          const day = String(newEndDate.getUTCDate()).padStart(2, '0');
+          const newEndDateStr = `${year}-${month}-${day}`;
+          setFormData((prev) => ({ ...prev, endDate: newEndDateStr }));
+          if (endDateRef.current) {
+            endDateRef.current.value = newEndDateStr;
+          }
+          toast.info("📅 End date adjusted to be after start date.");
+        }
+      }
+      toastShownRef.current = false;
+      return;
+    }
+    
+    // Valid future date - keep it
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    toastShownRef.current = false;
+    
+    // Check if start date is after end date
+    if (name === "startDate" && formData.endDate) {
+      const startDate = getNepalDate(value);
+      const endDate = getNepalDate(formData.endDate);
+      if (startDate && endDate && endDate <= startDate) {
+        const newEndDate = new Date(startDate);
+        newEndDate.setDate(newEndDate.getDate() + 1);
+        const year = newEndDate.getUTCFullYear();
+        const month = String(newEndDate.getUTCMonth() + 1).padStart(2, '0');
+        const day = String(newEndDate.getUTCDate()).padStart(2, '0');
+        const newEndDateStr = `${year}-${month}-${day}`;
+        setFormData((prev) => ({ ...prev, endDate: newEndDateStr }));
+        if (endDateRef.current) {
+          endDateRef.current.value = newEndDateStr;
+        }
+        toast.info("📅 End date adjusted to be after start date.");
+      }
+    }
+  };
+
+  // ⭐ Handle date keydown (prevent invalid characters)
+  const handleDateKeyDown = (e) => {
+    const allowedKeys = [
+      'Backspace', 'Delete', 'Tab', 'ArrowLeft', 'ArrowRight', 
+      'ArrowUp', 'ArrowDown', 'Home', 'End', 'Enter'
+    ];
+    
+    if (allowedKeys.includes(e.key)) return;
+    
+    // Allow numbers and hyphen
+    if (!/^[0-9-]$/.test(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  // -------- Other Handlers --------
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -103,6 +374,7 @@ const Generate = () => {
     setTimeMode("per_day");
     setAvailableHours(6);
     setShowResult(false);
+    toastShownRef.current = false;
     toast.info("Form cleared");
   };
 
@@ -215,8 +487,28 @@ const Generate = () => {
       return;
     }
 
+    // ⭐ Validate start date before submission
+    const today = getTodayStr();
+    if (!formData.startDate || isPastDate(formData.startDate)) {
+      setFormData((prev) => ({ ...prev, startDate: today }));
+      if (startDateRef.current) {
+        startDateRef.current.value = today;
+      }
+      toast.error("❌ Start date cannot be in the past. Using today's date.");
+      return;
+    }
+
     if (!formData.startDate) {
       toast.error("📅 Please select a start date");
+      return;
+    }
+
+    if (!formData.endDate || isPastDate(formData.endDate)) {
+      setFormData((prev) => ({ ...prev, endDate: today }));
+      if (endDateRef.current) {
+        endDateRef.current.value = today;
+      }
+      toast.error("❌ End date cannot be in the past. Using today's date.");
       return;
     }
 
@@ -225,8 +517,13 @@ const Generate = () => {
       return;
     }
 
-    const start = new Date(formData.startDate);
-    const end = new Date(formData.endDate);
+    const start = getNepalDate(formData.startDate);
+    const end = getNepalDate(formData.endDate);
+
+    if (!start || !end) {
+      toast.error("⚠️ Invalid date format");
+      return;
+    }
 
     if (end <= start) {
       toast.error("⚠️ End date must be after start date");
@@ -279,7 +576,6 @@ const Generate = () => {
         setShowResult(true);
         const payload = result.payload;
 
-        // ⭐ DEBUG: Log skipped attractions
         console.log("📦 PAYLOAD:", payload);
         if (payload.dailyActivities) {
           payload.dailyActivities.forEach((day, idx) => {
@@ -460,14 +756,11 @@ const Generate = () => {
   const renderDayCard = (day, idx, isEnhanced = false) => {
     if (!day) return null;
     
-    // ⭐ DEBUG: Log the day object to see what's in it
     console.log(`📊 Day ${idx + 1} data:`, day);
     console.log(`📊 Day ${idx + 1} skippedAttractions:`, day.skipped_attractions);
     
-    // Get activities
     let activities = day.activities || day.enhanced_activities || [];
     
-    // If still empty, try to find any array in the day object
     if (activities.length === 0) {
       for (const key in day) {
         if (Array.isArray(day[key]) && day[key].length > 0) {
@@ -479,14 +772,10 @@ const Generate = () => {
       }
     }
     
-    // Calculate total time
     const dayTotalTime = calculateDayTotalTime(activities);
     const dayCost = day.day_cost || day.day_total_cost || 0;
-    
-    // ⭐ Get skipped attractions - try multiple possible field names
     const skippedAttractions = day.skipped_attractions || day.skipped || [];
     
-    // ⭐ DEBUG: Log what we found
     console.log(`✅ Day ${idx + 1} - Skipped found:`, skippedAttractions.length);
     
     return (
@@ -548,15 +837,12 @@ const Generate = () => {
         </div>
 
         <div className="day-footer">
-          <span className="day-total">
-            Total: ${activities.reduce((sum, a) => sum + (a.cost || 0), 0)}
-          </span>
+          
           <span className="day-time-total">
             ⏱️ Total: {formatTimeDisplay(dayTotalTime)}
           </span>
         </div>
         
-        {/* ⭐ SKIPPED ATTRACTIONS - Render them here! */}
         {renderSkippedAttractions(skippedAttractions)}
         
         {day.day_summary && (
@@ -640,7 +926,6 @@ const Generate = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="trip-form" noValidate>
-          {/* ... rest of the form (same as before) ... */}
           <fieldset className="form-panel">
             <legend>Trip essentials</legend>
             <div className="form-grid">
@@ -662,30 +947,40 @@ const Generate = () => {
               </div>
 
               <div className="input-group">
-                <label htmlFor="startDate">Start Date <span aria-hidden="true">*</span></label>
+                <label htmlFor="startDate">
+                  Start Date <span aria-hidden="true">*</span>
+                </label>
                 <div className="field-shell">
                   <input
+                    ref={startDateRef}
                     id="startDate"
                     type="date"
                     name="startDate"
                     value={formData.startDate}
-                    onChange={handleChange}
-                    min={new Date().toISOString().split("T")[0]}
+                    onChange={handleDateChange}
+                    onBlur={handleDateBlur}
+                    onKeyDown={handleDateKeyDown}
+                    min={getTodayStr()}
                     aria-required="true"
                   />
                 </div>
               </div>
 
               <div className="input-group">
-                <label htmlFor="endDate">End Date <span aria-hidden="true">*</span></label>
+                <label htmlFor="endDate">
+                  End Date <span aria-hidden="true">*</span>
+                </label>
                 <div className="field-shell">
                   <input
+                    ref={endDateRef}
                     id="endDate"
                     type="date"
                     name="endDate"
                     value={formData.endDate}
-                    onChange={handleChange}
-                    min={minEndDate || new Date().toISOString().split("T")[0]}
+                    onChange={handleDateChange}
+                    onBlur={handleDateBlur}
+                    onKeyDown={handleDateKeyDown}
+                    min={minEndDate || getTodayStr()}
                     disabled={!formData.startDate}
                     aria-required="true"
                   />
@@ -947,16 +1242,20 @@ const Generate = () => {
               <div className="hero-pill">Live itinerary preview</div>
               <h2><span aria-hidden="true">🗺️</span> {formData.destination} itinerary</h2>
               <p>
-                {new Date(formData.startDate).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })} —{" "}
-                {new Date(formData.endDate).toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
+                {formData.startDate && formData.endDate && (
+                  <>
+                    {new Date(formData.startDate + 'T00:00:00').toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })} —{" "}
+                    {new Date(formData.endDate + 'T00:00:00').toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </>
+                )}
               </p>
             </div>
             <div className="header-stats">

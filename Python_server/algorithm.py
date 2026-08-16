@@ -170,6 +170,10 @@ def calculate_attraction_score(attraction, user_preferences):
     
     # 2. Rating Score (20%)
     rating = attraction.get('rating', 3.0)
+    try:
+        rating = float(rating)
+    except (ValueError, TypeError):
+        rating = 3.0
     rating_score = rating / 5.0
     
     # 3. Time Efficiency Score (15%)
@@ -330,7 +334,12 @@ def tsp_with_priorities(attractions, start_point=None):
     else:
         scored = []
         for attr in unvisited:
-            score = attr.get('priority_score', attr.get('rating', 4.0) / 5.0)
+            rating = attr.get('rating', 4.0)
+            try:
+                rating = float(rating)
+            except (ValueError, TypeError):
+                rating = 4.0
+            score = attr.get('priority_score', rating / 5.0)
             scored.append((score, attr))
         scored.sort(key=lambda x: x[0], reverse=True)
         route = [scored[0][1]]
@@ -349,7 +358,12 @@ def tsp_with_priorities(attractions, start_point=None):
             lng2 = attraction.get('lng', 0)
             dist = haversine(lat1, lng1, lat2, lng2)
             
-            value = attraction.get('priority_score', attraction.get('rating', 4.0) / 5.0)
+            rating = attraction.get('rating', 4.0)
+            try:
+                rating = float(rating)
+            except (ValueError, TypeError):
+                rating = 4.0
+            value = attraction.get('priority_score', rating / 5.0)
             
             max_dist = 50
             dist_score = 1 - (min(dist, max_dist) / max_dist)
@@ -462,7 +476,7 @@ def kmeans_cluster(attractions, n_clusters=3):
     
     if len(attractions) < n_clusters * 2:
         clusters = {}
-        sorted_attractions = sorted(attractions, key=lambda x: x.get('rating', 0), reverse=True)
+        sorted_attractions = sorted(attractions, key=lambda x: float(x.get('rating', 0)) if isinstance(x.get('rating'), (int, float, str)) and str(x.get('rating', '0')).replace('.', '').isdigit() else 0, reverse=True)
         for i, attr in enumerate(sorted_attractions):
             cluster_idx = i % n_clusters
             if cluster_idx not in clusters:
@@ -687,15 +701,15 @@ def get_real_food_costs(restaurants):
                 continue
         
         if price_range == '$':
-            costs.append({'breakfast': 6, 'lunch': 10, 'dinner': 14})
+            costs.append({'breakfast': 2, 'lunch': 3, 'dinner': 4})
         elif price_range == '$$':
-            costs.append({'breakfast': 10, 'lunch': 15, 'dinner': 20})
+            costs.append({'breakfast': 3, 'lunch': 4, 'dinner': 5})
         elif price_range == '$$$':
-            costs.append({'breakfast': 15, 'lunch': 25, 'dinner': 35})
+            costs.append({'breakfast': 3, 'lunch': 4, 'dinner': 5})
         elif price_range == '$$$$':
-            costs.append({'breakfast': 25, 'lunch': 40, 'dinner': 55})
+            costs.append({'breakfast': 2, 'lunch': 4, 'dinner': 5})
         else:
-            costs.append({'breakfast': 8, 'lunch': 12, 'dinner': 18})
+            costs.append({'breakfast': 3, 'lunch': 4, 'dinner': 5})
     
     if costs:
         avg_breakfast = sum(c['breakfast'] for c in costs) // len(costs)
@@ -707,34 +721,84 @@ def get_real_food_costs(restaurants):
 
 
 # ==========================================
-# GET REAL HOTEL COST FROM API
+# ⭐ FIXED: GET BEST HOTEL WITH EXACT PRICE FROM API
 # ==========================================
 
-def get_real_hotel_cost(hotels, daily_budget):
+def get_best_hotel_with_exact_price(hotels, attractions, daily_budget=None):
+    """
+    Select the best hotel based on location and use its EXACT price from API.
+    Daily budget is only used as a fallback if no hotel data exists.
+    """
     if not hotels:
         return None
     
-    costs = []
+    # Calculate centroid of attractions
+    centroid_lat, centroid_lng = calculate_centroid(attractions)
+    
+    # Find hotels with valid coordinates
+    hotels_with_location = []
     for h in hotels:
-        price = extract_price(h.get('price', '0'))
-        if price > 0:
-            costs.append(price)
+        h_lat = h.get('latitude', 0) or h.get('lat', 0)
+        h_lng = h.get('longitude', 0) or h.get('lng', 0)
+        if h_lat and h_lng:
+            try:
+                h_lat = float(h_lat)
+                h_lng = float(h_lng)
+                dist = haversine(centroid_lat, centroid_lng, h_lat, h_lng)
+                
+                # ⭐ Extract EXACT price from hotel data
+                price = extract_price(h.get('price', '0'))
+                
+                # ⭐ FIX: Convert rating to float, default to 0 if invalid
+                rating = h.get('rating', 0)
+                try:
+                    rating = float(rating)
+                except (ValueError, TypeError):
+                    rating = 0
+                
+                hotels_with_location.append({
+                    'hotel': h,
+                    'distance': dist,
+                    'price': price,
+                    'name': h.get('name', 'Unknown Hotel'),
+                    'rating': rating  # ⭐ Now stored as float
+                })
+            except (ValueError, TypeError):
+                continue
     
-    if costs:
-        min_hotel = int(daily_budget * 0.25)
-        max_hotel = int(daily_budget * 0.5)
-        filtered = [c for c in costs if min_hotel <= c <= max_hotel]
-        if filtered:
-            return sum(filtered) // len(filtered)
+    if not hotels_with_location:
+        return None
+    
+    # ⭐ FIX: Sort by rating (higher is better) then distance (closer is better)
+    # Now rating is a float, so -rating works
+    hotels_with_location.sort(key=lambda x: (-x['rating'], x['distance']))
+    
+    # Select the best hotel
+    best = hotels_with_location[0]
+    hotel = best['hotel']
+    
+    # ⭐ Use EXACT price from API
+    exact_price = best['price']
+    
+    # Only use budget fallback if price is 0 or invalid
+    if exact_price <= 0:
+        if daily_budget:
+            exact_price = min(int(daily_budget * 0.3), 100)
         else:
-            avg_cost = sum(costs) // len(costs)
-            if avg_cost > max_hotel:
-                return max_hotel
-            if avg_cost < min_hotel:
-                return min_hotel
-            return avg_cost
+            exact_price = 49  # Default fallback
     
-    return None
+    print(f"🏨 Best hotel: {best['name']}")
+    print(f"   📍 Distance: {best['distance']:.2f}km")
+    print(f"   ⭐ Rating: {best['rating']}")
+    print(f"   💰 Price: ${exact_price} (from API)")
+    
+    return {
+        'hotel': hotel,
+        'name': best['name'],
+        'cost': exact_price,  # ⭐ EXACT price from API
+        'distance': best['distance'],
+        'rating': best['rating']
+    }
 
 
 # ==========================================
@@ -773,6 +837,7 @@ def generate_itinerary(destination, preferences, days, daily_budget,
                        time_mode="no_limit", available_hours=6):
     """
     Generate itinerary with proper time calculation and skipped attractions tracking.
+    Hotel prices are used EXACTLY as provided by the API.
     """
     print(f"🔍 generate_itinerary CALLED!")
     print(f"Destination: {destination}, Days: {days}, Daily Budget: ${daily_budget}")
@@ -806,56 +871,37 @@ def generate_itinerary(destination, preferences, days, daily_budget,
     for k, v in clusters.items():
         print(f"   Cluster {k+1}: {len(v)} attractions")
 
-    # STEP 5: GET COSTS FROM API
+    # STEP 5: GET FOOD COSTS FROM API (EXACT PRICES)
     food_costs = get_real_food_costs(restaurants)
     if food_costs:
         BREAKFAST_COST = food_costs.get('breakfast', 10)
         LUNCH_COST = food_costs.get('lunch', 15)
         DINNER_COST = food_costs.get('dinner', 20)
-        print(f"💰 Real food costs from API: Breakfast ${BREAKFAST_COST}, Lunch ${LUNCH_COST}, Dinner ${DINNER_COST}")
+        print(f"💰 Exact food costs from API: Breakfast ${BREAKFAST_COST}, Lunch ${LUNCH_COST}, Dinner ${DINNER_COST}")
     else:
         BREAKFAST_COST = 8
         LUNCH_COST = 12
         DINNER_COST = 18
         print(f"💰 Using fallback food costs: Breakfast ${BREAKFAST_COST}, Lunch ${LUNCH_COST}, Dinner ${DINNER_COST}")
 
-    hotel_cost = get_real_hotel_cost(hotels, daily_budget)
-    if hotel_cost:
-        HOTEL_COST = hotel_cost
-        print(f"🏨 Real hotel cost from API: ${HOTEL_COST}")
+    # ⭐ STEP 6: GET HOTEL WITH EXACT PRICE FROM API
+    hotel_info = get_best_hotel_with_exact_price(hotels, recommended, daily_budget)
+    
+    if hotel_info:
+        HOTEL_COST = hotel_info['cost']  # ⭐ Exact price from API
+        BEST_HOTEL = hotel_info['hotel']
+        print(f"🏨 Hotel: {hotel_info['name']} - ${HOTEL_COST} (exact from API)")
     else:
-        HOTEL_COST = int(daily_budget * 0.3)
+        # ⭐ Fallback: Only use if NO hotel data exists
+        HOTEL_COST = min(int(daily_budget * 0.3), 100)
+        BEST_HOTEL = None
         print(f"🏨 Using fallback hotel cost: ${HOTEL_COST}")
 
-    # STEP 6: SORT RESTAURANTS
+    # STEP 7: SORT RESTAURANTS
     sorted_restaurants = []
     if restaurants and len(restaurants) > 0:
-        sorted_restaurants = sorted(restaurants, key=lambda x: x.get('rating', 0) if isinstance(x.get('rating'), (int, float)) else 0, reverse=True)
+        sorted_restaurants = sorted(restaurants, key=lambda x: float(x.get('rating', 0)) if isinstance(x.get('rating'), (int, float, str)) and str(x.get('rating', '0')).replace('.', '').isdigit() else 0, reverse=True)
         print(f"🍽️ Found {len(sorted_restaurants)} restaurants")
-
-    # STEP 7: SELECT BEST HOTEL
-    best_hotel = None
-    if hotels and len(hotels) > 0 and recommended:
-        centroid_lat, centroid_lng = calculate_centroid(recommended)
-        print(f"📍 Attraction centroid: {centroid_lat}, {centroid_lng}")
-        
-        with_distance = []
-        for h in hotels:
-            h_lat = h.get('latitude', 0) or h.get('lat', 0)
-            h_lng = h.get('longitude', 0) or h.get('lng', 0)
-            if h_lat and h_lng:
-                try:
-                    h_lat = float(h_lat)
-                    h_lng = float(h_lng)
-                    dist = haversine(centroid_lat, centroid_lng, h_lat, h_lng)
-                    with_distance.append((dist, h))
-                except (ValueError, TypeError):
-                    continue
-        
-        if with_distance:
-            with_distance.sort(key=lambda x: x[0])
-            best_hotel = with_distance[0][1]
-            print(f"🏨 Best hotel: {best_hotel.get('name')} (distance: {with_distance[0][0]:.2f}km)")
 
     # STEP 8: GENERATE TRIP OVERVIEW
     total_attractions = sum(len(v) for v in clusters.values())
@@ -949,6 +995,7 @@ def generate_itinerary(destination, preferences, days, daily_budget,
         actual_breakfast = BREAKFAST_COST if sorted_restaurants else 0
         actual_lunch = LUNCH_COST if sorted_restaurants else 0
         actual_dinner = DINNER_COST if sorted_restaurants else 0
+        # ⭐ Use EXACT hotel cost from API (or fallback)
         actual_hotel = HOTEL_COST if hotels else 0
         
         day_cost = activity_cost + actual_breakfast + actual_lunch + actual_dinner + actual_hotel
@@ -1018,7 +1065,7 @@ def generate_itinerary(destination, preferences, days, daily_budget,
                 'time_hours': time_hours,
                 'lat': activity.get('lat', 0),
                 'lng': activity.get('lng', 0),
-                'rating': activity.get('rating', 4.0),
+                'rating': float(activity.get('rating', 4.0)) if isinstance(activity.get('rating'), (int, float, str)) and str(activity.get('rating', '0')).replace('.', '').isdigit() else 4.0,
                 'priority_score': activity.get('priority_score', 0.5)
             })
 
@@ -1080,10 +1127,10 @@ def generate_itinerary(destination, preferences, days, daily_budget,
             'is_meal': True
         })
 
-        # 5. Hotel
+        # 5. Hotel (⭐ Uses EXACT price from API)
         hotel_time = "09:00 PM"
-        if best_hotel:
-            hotel_name = best_hotel.get('name', 'Recommended Hotel')
+        if BEST_HOTEL:
+            hotel_name = BEST_HOTEL.get('name', 'Recommended Hotel')
             hotel_title = f"Stay at {hotel_name}"
             hotel_desc = f"Comfortable accommodation at {hotel_name}."
         else:
@@ -1094,7 +1141,7 @@ def generate_itinerary(destination, preferences, days, daily_budget,
             'time': hotel_time,
             'title': hotel_title,
             'description': hotel_desc,
-            'cost': actual_hotel,
+            'cost': actual_hotel,  # ⭐ EXACT price from API
             'duration': 0,
             'time_hours': 0,
             'lat': 0,
@@ -1117,7 +1164,7 @@ def generate_itinerary(destination, preferences, days, daily_budget,
             'breakfast_cost': actual_breakfast,
             'lunch_cost': actual_lunch,
             'dinner_cost': actual_dinner,
-            'hotel_cost': actual_hotel,
+            'hotel_cost': actual_hotel,  # ⭐ EXACT price from API
             'budget_used': day_cost,
             'budget_remaining': daily_budget - day_cost,
             'overview': trip_overview if cluster_idx == 0 else None,
@@ -1132,17 +1179,14 @@ def generate_itinerary(destination, preferences, days, daily_budget,
             }
         }
         
-        # ⭐ FIX: Add skipped attractions - ALWAYS add if time_mode is not no_limit
+        # ⭐ Add skipped attractions if time_mode is not no_limit
         if time_mode != "no_limit":
-            # Get all skipped attractions from the cluster
             all_cluster_attractions = clusters.get(cluster_idx, [])
             
-            # If selected_attractions is empty, ALL cluster attractions are skipped
             if len(selected_attractions) == 0 and len(all_cluster_attractions) > 0:
                 skipped_attractions = all_cluster_attractions.copy()
                 print(f"  📝 Day {cluster_idx+1}: No attractions fit, all {len(skipped_attractions)} attractions are skipped")
             
-            # Add skipped attractions to day_data
             if skipped_attractions:
                 day_data['skipped_attractions'] = [
                     {
